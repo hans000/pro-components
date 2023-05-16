@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-skeleton@2.1.2...@ant-design/pro-skeleton@2.1.3) (2023-05-08)
+
+**Note:** Version bump only for package @ant-design/pro-skeleton
+
+## [2.1.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-skeleton@2.1.1...@ant-design/pro-skeleton@2.1.2) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-skeleton
+
+## [2.1.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-skeleton@2.1.0...@ant-design/pro-skeleton@2.1.1) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-skeleton
+
+# [2.1.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-skeleton@2.0.8...@ant-design/pro-skeleton@2.1.0) (2023-03-09)
+
+### Bug Fixes
+
+- **layout:** fix menu item icon style error ([#6745](https://github.com/ant-design/pro-components/issues/6745)) ([87f9656](https://github.com/ant-design/pro-components/commit/87f965682e81d9ce166d140dd418a37a6020abcf))
+
 ## [2.0.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-skeleton@2.0.7...@ant-design/pro-skeleton@2.0.8) (2023-02-08)
 
 **Note:** Version bump only for package @ant-design/pro-skeleton

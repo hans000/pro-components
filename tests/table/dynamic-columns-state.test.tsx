@@ -1,6 +1,5 @@
 import { ProTable } from '@ant-design/pro-components';
-import { render } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act, render } from '@testing-library/react';
 import { waitTime } from '../util';
 
 const valueEnum = {
@@ -34,7 +33,10 @@ for (let i = 0; i < 5; i += 1) {
     createdAt: Date.now() - Math.floor(Math.random() * 2000),
     money: Math.floor(Math.random() * 2000) * i,
     progress: Math.ceil(Math.random() * 100) + 1,
-    memo: i % 2 === 1 ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴' : '简短备注文案',
+    memo:
+      i % 2 === 1
+        ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴'
+        : '简短备注文案',
     statusText: '这是一段很随意的文字',
   });
 }
@@ -82,7 +84,9 @@ describe('Dynamic Persistence', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
 
@@ -146,8 +150,8 @@ describe('Dynamic Persistence', () => {
     });
     await waitTime(100);
 
-    expect(window.sessionStorage.getItem('table_dynamic_status_running')).toMatch(
-      '{"index":{"show":true},"statusText":{"show":true}}',
-    );
+    expect(
+      window.sessionStorage.getItem('table_dynamic_status_running'),
+    ).toMatch('{"index":{"show":true},"statusText":{"show":true}}');
   });
 });

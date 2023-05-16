@@ -1,10 +1,10 @@
 import { Input, InputNumber } from 'antd';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import React from 'react';
 import type { ProFieldFC } from '../../index';
 
 // 兼容代码-----------
-import 'antd/es/input-number/style';
+import 'antd/lib/input-number/style';
 import { useIntl } from '@ant-design/pro-provider';
 //----------------------
 
@@ -70,7 +70,11 @@ const FieldDigitRange: ProFieldFC<FieldDigitRangeProps> = (
       if (Array.isArray(valuePair)) {
         //   仅在两个值均为数字时才做比较并转换
         const [value0, value1] = valuePair;
-        if (typeof value0 === 'number' && typeof value1 === 'number' && value0 > value1) {
+        if (
+          typeof value0 === 'number' &&
+          typeof value1 === 'number' &&
+          value0 > value1
+        ) {
           setValuePair([value1, value0]);
         } else if (value0 === undefined && value1 === undefined) {
           // 当两个值均为undefined时将值变为undefined，方便required处理
@@ -94,7 +98,11 @@ const FieldDigitRange: ProFieldFC<FieldDigitRangeProps> = (
       <Input.Group compact onBlur={handleGroupBlur}>
         <InputNumber<number>
           {...fieldProps}
-          placeholder={Array.isArray(placeholderValue) ? placeholderValue[0] : placeholderValue}
+          placeholder={
+            Array.isArray(placeholderValue)
+              ? placeholderValue[0]
+              : placeholderValue
+          }
           id={id ?? `${id}-0`}
           style={{ width: `calc((100% - ${separatorWidth}px) / 2)` }}
           value={valuePair?.[0]}
@@ -115,9 +123,16 @@ const FieldDigitRange: ProFieldFC<FieldDigitRangeProps> = (
         />
         <InputNumber<number>
           {...fieldProps}
-          placeholder={Array.isArray(placeholderValue) ? placeholderValue[1] : placeholderValue}
+          placeholder={
+            Array.isArray(placeholderValue)
+              ? placeholderValue[1]
+              : placeholderValue
+          }
           id={id ?? `${id}-1`}
-          style={{ width: `calc((100% - ${separatorWidth}px) / 2)`, borderInlineStart: 0 }}
+          style={{
+            width: `calc((100% - ${separatorWidth}px) / 2)`,
+            borderInlineStart: 0,
+          }}
           value={valuePair?.[1]}
           defaultValue={defaultValue?.[1]}
           onChange={(changedValue) => handleChange(1, changedValue)}

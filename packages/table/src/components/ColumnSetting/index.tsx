@@ -8,8 +8,8 @@ import { ProProvider, useIntl } from '@ant-design/pro-provider';
 import { runFunction, useRefFunction } from '@ant-design/pro-utils';
 import type { TableColumnType } from 'antd';
 import { Checkbox, ConfigProvider, Popover, Space, Tooltip, Tree } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import type { DataNode } from 'antd/es/tree';
+import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import type { DataNode } from 'antd/lib/tree';
 import classNames from 'classnames';
 import omit from 'omit.js';
 import React, { useContext, useEffect, useMemo, useRef } from 'react';
@@ -125,7 +125,8 @@ const CheckboxList: React.FC<{
 }) => {
   const { hashId } = useContext(ProProvider);
 
-  const { columnsMap, setColumnsMap, sortKeyColumns, setSortKeyColumns } = useContext(TableContext);
+  const { columnsMap, setColumnsMap, sortKeyColumns, setSortKeyColumns } =
+    useContext(TableContext);
   const show = list && list.length > 0;
   const treeDataConfig = useMemo(() => {
     if (!show) return {};
@@ -154,7 +155,9 @@ const CheckboxList: React.FC<{
           selectable: false,
           disabled: config.disable === true,
           disableCheckbox:
-            typeof config.disable === 'boolean' ? config.disable : config.disable?.checkbox,
+            typeof config.disable === 'boolean'
+              ? config.disable
+              : config.disable?.checkbox,
           isLeaf: parentConfig ? true : undefined,
         };
         if (children) {
@@ -178,29 +181,37 @@ const CheckboxList: React.FC<{
   }, [columnsMap, list, show]);
 
   /** 移动到指定的位置 */
-  const move = useRefFunction((id: React.Key, targetId: React.Key, dropPosition: number) => {
-    const newMap = { ...columnsMap };
-    const newColumns = [...sortKeyColumns];
-    const findIndex = newColumns.findIndex((columnKey) => columnKey === id);
-    const targetIndex = newColumns.findIndex((columnKey) => columnKey === targetId);
-    const isDownWard = dropPosition > findIndex;
-    if (findIndex < 0) return;
-    const targetItem = newColumns[findIndex];
-    newColumns.splice(findIndex, 1);
+  const move = useRefFunction(
+    (id: React.Key, targetId: React.Key, dropPosition: number) => {
+      const newMap = { ...columnsMap };
+      const newColumns = [...sortKeyColumns];
+      const findIndex = newColumns.findIndex((columnKey) => columnKey === id);
+      const targetIndex = newColumns.findIndex(
+        (columnKey) => columnKey === targetId,
+      );
+      const isDownWard = dropPosition > findIndex;
+      if (findIndex < 0) return;
+      const targetItem = newColumns[findIndex];
+      newColumns.splice(findIndex, 1);
 
-    if (dropPosition === 0) {
-      newColumns.unshift(targetItem);
-    } else {
-      newColumns.splice(isDownWard ? targetIndex : targetIndex + 1, 0, targetItem);
-    }
-    // 重新生成排序数组
-    newColumns.forEach((key, order) => {
-      newMap[key] = { ...(newMap[key] || {}), order };
-    });
-    // 更新数组
-    setColumnsMap(newMap);
-    setSortKeyColumns(newColumns);
-  });
+      if (dropPosition === 0) {
+        newColumns.unshift(targetItem);
+      } else {
+        newColumns.splice(
+          isDownWard ? targetIndex : targetIndex + 1,
+          0,
+          targetItem,
+        );
+      }
+      // 重新生成排序数组
+      newColumns.forEach((key, order) => {
+        newMap[key] = { ...(newMap[key] || {}), order };
+      });
+      // 更新数组
+      setColumnsMap(newMap);
+      setSortKeyColumns(newColumns);
+    },
+  );
 
   /** 选中反选功能 */
   const onCheckTree = useRefFunction((e) => {
@@ -211,7 +222,9 @@ const CheckboxList: React.FC<{
       newSetting.show = e.checked;
       // 如果含有子节点，也要选中
       if (treeDataConfig.map?.get(key)?.children) {
-        treeDataConfig.map.get(key)?.children?.forEach((item) => loopSetShow(item.key));
+        treeDataConfig.map
+          .get(key)
+          ?.children?.forEach((item) => loopSetShow(item.key));
       }
       newColumnMap[key] = newSetting;
     };
@@ -225,13 +238,18 @@ const CheckboxList: React.FC<{
   const listDom = (
     <Tree
       itemHeight={24}
-      draggable={draggable && !!treeDataConfig.list?.length && treeDataConfig.list?.length > 1}
+      draggable={
+        draggable &&
+        !!treeDataConfig.list?.length &&
+        treeDataConfig.list?.length > 1
+      }
       checkable={checkable}
       onDrop={(info) => {
         const dropKey = info.node.key;
         const dragKey = info.dragNode.key;
         const { dropPosition, dropToGap } = info;
-        const position = dropPosition === -1 || !dropToGap ? dropPosition + 1 : dropPosition;
+        const position =
+          dropPosition === -1 || !dropToGap ? dropPosition + 1 : dropPosition;
         move(dragKey, dropKey, position);
       }}
       blockNode
@@ -252,13 +270,18 @@ const CheckboxList: React.FC<{
       }}
       height={listHeight}
       treeData={treeDataConfig.list?.map(
-        ({ disabled /* 不透传 disabled，使子节点禁用时也可以拖动调整顺序 */, ...config }) => config,
+        ({
+          disabled /* 不透传 disabled，使子节点禁用时也可以拖动调整顺序 */,
+          ...config
+        }) => config,
       )}
     />
   );
   return (
     <>
-      {showTitle && <span className={`${className}-list-title ${hashId}`}>{listTitle}</span>}
+      {showTitle && (
+        <span className={`${className}-list-title ${hashId}`}>{listTitle}</span>
+      )}
       {listDom}
     </>
   );
@@ -402,10 +425,13 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
   });
 
   // 未选中的 key 列表
-  const unCheckedKeys = Object.values(columnsMap).filter((value) => !value || value.show === false);
+  const unCheckedKeys = Object.values(columnsMap).filter(
+    (value) => !value || value.show === false,
+  );
 
   // 是否已经选中
-  const indeterminate = unCheckedKeys.length > 0 && unCheckedKeys.length !== localColumns.length;
+  const indeterminate =
+    unCheckedKeys.length > 0 && unCheckedKeys.length !== localColumns.length;
 
   const intl = useIntl();
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
@@ -413,12 +439,15 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
   const { wrapSSR, hashId } = useStyle(className);
   return wrapSSR(
     <Popover
-      arrowPointAtCenter
+      arrow={false}
       title={
         <div className={`${className}-title ${hashId}`}>
           <Checkbox
             indeterminate={indeterminate}
-            checked={unCheckedKeys.length === 0 && unCheckedKeys.length !== localColumns.length}
+            checked={
+              unCheckedKeys.length === 0 &&
+              unCheckedKeys.length !== localColumns.length
+            }
             onChange={(e) => {
               checkedAll(e);
             }}
@@ -426,7 +455,10 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
             {intl.getMessage('tableToolBar.columnDisplay', '列展示')}
           </Checkbox>
           {checkedReset ? (
-            <a onClick={clearClick} className={`${className}-action-rest-button`}>
+            <a
+              onClick={clearClick}
+              className={`${className}-action-rest-button ${hashId}`}
+            >
               {intl.getMessage('tableToolBar.reset', '重置')}
             </a>
           ) : null}
@@ -451,7 +483,9 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
       }
     >
       {props.children || (
-        <Tooltip title={intl.getMessage('tableToolBar.columnSetting', '列设置')}>
+        <Tooltip
+          title={intl.getMessage('tableToolBar.columnSetting', '列设置')}
+        >
           <SettingOutlined />
         </Tooltip>
       )}

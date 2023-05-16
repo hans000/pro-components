@@ -7,20 +7,29 @@ import { InlineErrorFormItem } from './components/InlineErrorFormItem';
 import { LabelIconTip } from './components/LabelIconTip';
 import type { ProFormInstanceType } from './components/ProFormContext';
 import { ProFormContext } from './components/ProFormContext';
-import { conversionMomentValue, convertMoment, dateFormatterMap } from './conversionMomentValue';
+import {
+  conversionMomentValue,
+  convertMoment,
+  dateFormatterMap,
+} from './conversionMomentValue';
 import { dateArrayFormatter } from './dateArrayFormatter';
 import { genCopyable } from './genCopyable';
 import { getFieldPropsOrFormItemProps } from './getFieldPropsOrFormItemProps';
 /** Hooks */
 import { useDebounceFn } from './hooks/useDebounceFn';
 import { useDebounceValue } from './hooks/useDebounceValue';
-import { useDeepCompareEffect, useDeepCompareEffectDebounce } from './hooks/useDeepCompareEffect';
+import {
+  useDeepCompareEffect,
+  useDeepCompareEffectDebounce,
+} from './hooks/useDeepCompareEffect';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
 import type { ProRequestData } from './hooks/useFetchData';
 import { useFetchData } from './hooks/useFetchData';
 import { useLatest } from './hooks/useLatest';
 import { usePrevious } from './hooks/usePrevious';
 import { useRefFunction } from './hooks/useRefFunction';
+import { useReactiveRef } from './hooks/useReactiveRef';
+import { useRefCallback } from './hooks/useRefCallback';
 import { isBrowser } from './isBrowser';
 import { isDeepEqualReact } from './isDeepEqualReact';
 import { isDropdownValueType } from './isDropdownValueType';
@@ -52,8 +61,15 @@ import type {
   UseEditableType,
   UseEditableUtilType,
 } from './useEditableArray';
-import { editableRowByKey, recordKeyToString, useEditableArray } from './useEditableArray';
-import type { UseEditableMapType, UseEditableMapUtilType } from './useEditableMap';
+import {
+  editableRowByKey,
+  recordKeyToString,
+  useEditableArray,
+} from './useEditableArray';
+import type {
+  UseEditableMapType,
+  UseEditableMapUtilType,
+} from './useEditableMap';
 import { useEditableMap } from './useEditableMap';
 import { useMountMergeState } from './useMountMergeState';
 import { compareVersions } from './compareVersions';
@@ -127,4 +143,6 @@ export {
   resetComponent,
   operationUnit,
   lighten,
+  useReactiveRef,
+  useRefCallback,
 };

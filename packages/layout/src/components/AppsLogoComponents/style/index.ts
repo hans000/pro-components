@@ -7,7 +7,9 @@ export interface AppsLogoComponentsToken extends ProAliasToken {
   componentCls: string;
 }
 
-const genAppsLogoComponentsStyle: GenerateStyle<AppsLogoComponentsToken> = (token) => {
+const genAppsLogoComponentsStyle: GenerateStyle<AppsLogoComponentsToken> = (
+  token,
+) => {
   return {
     [token.componentCls]: {
       '&-icon': {
@@ -48,10 +50,6 @@ const genAppsLogoComponentsStyle: GenerateStyle<AppsLogoComponentsToken> = (toke
       '&-popover': {
         [`${token.antCls}-popover-arrow`]: {
           display: 'none',
-        },
-        '*': {
-          boxSizing: 'border-box',
-          fontFamily: token.fontFamily,
         },
       },
       '&-simple': genAppsLogoComponentsSimpleListStyle(token),

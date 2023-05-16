@@ -3,7 +3,7 @@ import { ProProvider } from '@ant-design/pro-provider';
 import { menuOverlayCompatible } from '@ant-design/pro-utils';
 import { Dropdown, Space, Tabs } from 'antd';
 import classNames from 'classnames';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import React, { useContext } from 'react';
 
 export type ListToolBarMenuItem = {
@@ -15,6 +15,7 @@ export type ListToolBarMenuItem = {
 export type ListToolBarHeaderMenuProps = {
   type?: 'inline' | 'dropdown' | 'tab';
   activeKey?: React.Key;
+  defaultActiveKey?: React.Key;
   items?: ListToolBarMenuItem[];
   onChange?: (activeKey?: React.Key) => void;
   prefixCls?: string;
@@ -22,12 +23,21 @@ export type ListToolBarHeaderMenuProps = {
 
 const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
   const { hashId } = useContext(ProProvider);
-  const { items = [], type = 'inline', prefixCls, activeKey: propActiveKey } = props;
+  const {
+    items = [],
+    type = 'inline',
+    prefixCls,
+    activeKey: propActiveKey,
+    defaultActiveKey,
+  } = props;
 
-  const [activeKey, setActiveKey] = useMergedState<React.Key>(propActiveKey as React.Key, {
-    value: propActiveKey,
-    onChange: props.onChange,
-  });
+  const [activeKey, setActiveKey] = useMergedState<React.Key>(
+    propActiveKey || (defaultActiveKey as React.Key),
+    {
+      value: propActiveKey,
+      onChange: props.onChange,
+    },
+  );
 
   if (items.length < 1) {
     return null;
@@ -40,7 +50,13 @@ const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
 
   if (type === 'inline') {
     return (
-      <div className={classNames(`${prefixCls}-menu`, `${prefixCls}-inline-menu`, hashId)}>
+      <div
+        className={classNames(
+          `${prefixCls}-menu`,
+          `${prefixCls}-inline-menu`,
+          hashId,
+        )}
+      >
         {items.map((item, index) => (
           <div
             key={item.key || index}
@@ -49,7 +65,9 @@ const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
             }}
             className={classNames(
               `${prefixCls}-inline-menu-item`,
-              activeItem.key === item.key ? `${prefixCls}-inline-menu-item-active` : undefined,
+              activeItem.key === item.key
+                ? `${prefixCls}-inline-menu-item-active`
+                : undefined,
               hashId,
             )}
           >
@@ -72,7 +90,9 @@ const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
         onTabClick={(key) => setActiveKey(key)}
       >
         {items?.map((item, index) => {
-          return <Tabs.TabPane {...item} key={item.key || index} tab={item.label} />;
+          return (
+            <Tabs.TabPane {...item} key={item.key || index} tab={item.label} />
+          );
         })}
       </Tabs>
     );
@@ -90,7 +110,9 @@ const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
   });
 
   return (
-    <div className={classNames(`${prefixCls}-menu`, `${prefixCls}-dropdownmenu`)}>
+    <div
+      className={classNames(`${prefixCls}-menu`, `${prefixCls}-dropdownmenu`)}
+    >
       <Dropdown trigger={['click']} {...dropdownProps}>
         <Space className={`${prefixCls}-dropdownmenu-label`}>
           {activeItem.label}

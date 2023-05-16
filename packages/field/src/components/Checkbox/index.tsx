@@ -1,6 +1,6 @@
 ﻿import { useStyle } from '@ant-design/pro-utils';
 import { Checkbox, ConfigProvider, Space, Spin } from 'antd';
-import type { CheckboxGroupProps } from 'antd/es/checkbox';
+import type { CheckboxGroupProps } from 'antd/lib/checkbox';
 import classNames from 'classnames';
 import React, { useContext, useImperativeHandle, useRef } from 'react';
 import type { ProFieldFC } from '../../index';
@@ -10,8 +10,9 @@ export type GroupProps = {
   layout?: 'horizontal' | 'vertical';
   options?: CheckboxGroupProps['options'];
 } & FieldSelectProps;
+
 // 兼容代码-----------
-import 'antd/es/checkbox/style';
+import 'antd/lib/checkbox/style';
 //----------------------
 /**
  * 多选组件
@@ -36,9 +37,10 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
             display: 'inline-block',
           },
           //ant design 5
-          [`${token.antCls}-checkbox-wrapper+${token.antCls}-checkbox-wrapper`]: {
-            'margin-inline-start': '0  !important',
-          },
+          [`${token.antCls}-checkbox-wrapper+${token.antCls}-checkbox-wrapper`]:
+            {
+              'margin-inline-start': '0  !important',
+            },
           //ant design 4
           [`${token.antCls}-checkbox-group-item`]: {
             display: 'flex',
@@ -65,10 +67,15 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
         }, {})
       : undefined;
 
-    const dom = proFieldParsingText(rest.text, ObjToMap(rest.valueEnum || optionsValueEnum));
+    const dom = proFieldParsingText(
+      rest.text,
+      ObjToMap(rest.valueEnum || optionsValueEnum),
+    );
 
     if (render) {
-      return render(rest.text, { mode, ...rest.fieldProps }, <>{dom}</>) || null;
+      return (
+        render(rest.text, { mode, ...rest.fieldProps }, <>{dom}</>) || null
+      );
     }
     return <Space>{dom}</Space>;
   }
@@ -77,12 +84,18 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
     const dom = wrapSSR(
       <Checkbox.Group
         {...rest.fieldProps}
-        className={classNames(rest.fieldProps?.className, hashId, `${layoutClassName}-${layout}`)}
+        className={classNames(
+          rest.fieldProps?.className,
+          hashId,
+          `${layoutClassName}-${layout}`,
+        )}
         options={options}
       />,
     );
     if (renderFormItem) {
-      return renderFormItem(rest.text, { mode, ...rest.fieldProps }, dom) || null;
+      return (
+        renderFormItem(rest.text, { mode, ...rest.fieldProps }, dom) || null
+      );
     }
     return dom;
   }

@@ -16,12 +16,16 @@ describe('ModalForm', () => {
         <ProFormText name="name" />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(fn).toBeCalledWith(true);
   });
 
@@ -48,7 +52,9 @@ describe('ModalForm', () => {
         <ProFormText name="name" />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
@@ -59,7 +65,9 @@ describe('ModalForm', () => {
     await act(async () => {
       (await wrapper.findByText('取 消'))?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(fn).toBeCalledWith(false);
   });
 
@@ -82,14 +90,18 @@ describe('ModalForm', () => {
         />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     expect(await wrapper.queryByDisplayValue('1234')).toBeFalsy();
 
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(await wrapper.findByDisplayValue('1234')).toBeTruthy();
   });
 
@@ -139,7 +151,9 @@ describe('ModalForm', () => {
         />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     expect(await wrapper.queryByDisplayValue('1234')).toBeFalsy();
 
@@ -163,7 +177,9 @@ describe('ModalForm', () => {
         </ModalForm>,
       );
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     expect(await wrapper.findByDisplayValue('1234')).toBeTruthy();
 
@@ -196,16 +212,26 @@ describe('ModalForm', () => {
   it('📦 modal close button will simulate onOpenChange', async () => {
     const fn = jest.fn();
     const wrapper = render(
-      <ModalForm visible trigger={<Button id="new">新建</Button>} onOpenChange={(open) => fn(open)}>
+      <ModalForm
+        visible
+        trigger={<Button id="new">新建</Button>}
+        onOpenChange={(open) => fn(open)}
+      >
         <ProFormText name="name" />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     act(() => {
-      wrapper.baseElement.querySelector<HTMLDivElement>('button.ant-modal-close')?.click();
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('button.ant-modal-close')
+        ?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(fn).toBeCalledWith(false);
     expect(fn).toBeCalledTimes(2);
   });
@@ -230,11 +256,17 @@ describe('ModalForm', () => {
   it('📦 reset button will simulate onOpenChange', async () => {
     const fn = jest.fn();
     const wrapper = render(
-      <ModalForm visible trigger={<Button id="new">新建</Button>} onOpenChange={(open) => fn(open)}>
+      <ModalForm
+        visible
+        trigger={<Button id="new">新建</Button>}
+        onOpenChange={(open) => fn(open)}
+      >
         <ProFormText name="name" />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     await act(async () => {
       (await wrapper.findByText('取 消'))?.click();
@@ -256,12 +288,18 @@ describe('ModalForm', () => {
         <ProFormText name="name" />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     act(() => {
-      wrapper.baseElement.querySelector<HTMLDivElement>('button.ant-modal-close')?.click();
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('button.ant-modal-close')
+        ?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(fn).toBeCalledWith(false);
   });
 
@@ -283,16 +321,24 @@ describe('ModalForm', () => {
       (await wrapper.findByText('确 认'))?.click();
     });
 
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     expect(fn).toBeCalledWith(false);
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
   });
 
   it('📦 form onFinish is null, no close modal', async () => {
     const fn = jest.fn();
     const wrapper = render(
-      <ModalForm visible trigger={<Button id="new">新建</Button>} onOpenChange={(open) => fn(open)}>
+      <ModalForm
+        visible
+        trigger={<Button id="new">新建</Button>}
+        onOpenChange={(open) => fn(open)}
+      >
         <ProFormText name="name" />
       </ModalForm>,
     );
@@ -302,13 +348,19 @@ describe('ModalForm', () => {
       (await wrapper.findByText('确 认'))?.click();
     });
 
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(fn).toBeCalledTimes(1);
   });
 
   it('📦 ModalForm support submitter is false', async () => {
     const wrapper = render(
-      <ModalForm visible trigger={<Button id="new">新建</Button>} submitter={false}>
+      <ModalForm
+        visible
+        trigger={<Button id="new">新建</Button>}
+        submitter={false}
+      >
         <ProFormText name="name" />
       </ModalForm>,
     );
@@ -317,7 +369,9 @@ describe('ModalForm', () => {
       (await wrapper.findByText('新 建'))?.click();
     });
 
-    expect(wrapper.baseElement.querySelector<HTMLDivElement>('.ant-modal-footer')).toBeFalsy();
+    expect(
+      wrapper.baseElement.querySelector<HTMLDivElement>('.ant-modal-footer'),
+    ).toBeFalsy();
   });
 
   it('📦 ModalForm close no rerender from', async () => {
@@ -336,13 +390,17 @@ describe('ModalForm', () => {
         />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
     });
 
-    await waitTime(300);
+    await waitFor(async () => {
+      await waitTime(300);
+    });
 
     act(() => {
       fireEvent.change(wrapper.baseElement.querySelector('.ant-input#test')!, {
@@ -351,18 +409,28 @@ describe('ModalForm', () => {
         },
       });
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(await wrapper.findByDisplayValue('test')).toBeTruthy();
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     act(() => {
-      wrapper.baseElement.querySelector<HTMLDivElement>('button.ant-modal-close')?.click();
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('button.ant-modal-close')
+        ?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     expect(await wrapper.findByDisplayValue('test')).toBeTruthy();
   });
@@ -387,12 +455,16 @@ describe('ModalForm', () => {
         />
       </ModalForm>,
     );
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
     });
 
-    await waitTime(300);
+    await waitFor(async () => {
+      await waitTime(300);
+    });
     act(() => {
       fireEvent.change(wrapper.container.querySelector('.ant-input#test')!, {
         target: {
@@ -401,20 +473,30 @@ describe('ModalForm', () => {
       });
     });
 
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     expect(await wrapper.findByDisplayValue('1111')).toBeTruthy();
 
-    await waitTime(100);
-
-    act(() => {
-      wrapper.baseElement.querySelector<HTMLDivElement>('button.ant-modal-close')?.click();
+    await waitFor(async () => {
+      await waitTime(100);
     });
 
-    await waitTime(100);
+    act(() => {
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('button.ant-modal-close')
+        ?.click();
+    });
+
+    await waitFor(async () => {
+      await waitTime(100);
+    });
     await act(async () => {
       (await wrapper.findByText('新 建'))?.click();
     });
-    await waitTime(100);
+    await waitFor(async () => {
+      await waitTime(100);
+    });
 
     expect(await wrapper.findByDisplayValue('1234')).toBeTruthy();
   });
@@ -446,7 +528,8 @@ describe('ModalForm', () => {
     });
 
     expect(
-      (html.queryAllByText('取 消').at(0)?.parentElement as HTMLButtonElement).disabled,
+      (html.queryAllByText('取 消').at(0)?.parentElement as HTMLButtonElement)
+        .disabled,
     ).toEqual(true);
 
     await act(async () => {
@@ -460,7 +543,8 @@ describe('ModalForm', () => {
     });
 
     expect(
-      (html.queryAllByText('取 消').at(0)?.parentElement as HTMLButtonElement)?.disabled,
+      (html.queryAllByText('取 消').at(0)?.parentElement as HTMLButtonElement)
+        ?.disabled,
     ).toEqual(false);
 
     await act(async () => {
@@ -487,26 +571,37 @@ describe('ModalForm', () => {
         }}
       />,
     );
-    await waitTime(500);
+
+    await waitFor(async () => {
+      await waitTime(500);
+    });
 
     await act(async () => {
       (await wrapper.findByText('确 认'))?.click();
     });
 
-    await waitTime(500);
+    await waitFor(async () => {
+      await waitTime(500);
+    });
 
     expect(
-      wrapper.baseElement.querySelector<HTMLButtonElement>('button.ant-btn-default')?.disabled,
+      wrapper.baseElement.querySelector<HTMLButtonElement>(
+        'button.ant-btn-default',
+      )?.disabled,
     ).toEqual(false);
 
     act(() => {
-      wrapper.baseElement.querySelector<HTMLDivElement>('button.ant-modal-close')?.click();
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('button.ant-modal-close')
+        ?.click();
     });
 
-    await waitTime(500);
+    await waitFor(async () => {
+      await waitTime(500);
+    });
 
     expect(fn).toBeCalled();
-    await waitTime(100);
+
     act(() => {
       wrapper.unmount();
     });
@@ -554,9 +649,15 @@ describe('ModalForm', () => {
     await act(async () => {
       (await html.findByText('新 建'))?.click();
     });
-    await waitTime(200);
 
-    expect(ref.current).toBeTruthy();
+    await waitFor(
+      () => {
+        expect(ref.current).toBeTruthy();
+      },
+      {
+        timeout: 1000,
+      },
+    );
 
     html.unmount();
   });

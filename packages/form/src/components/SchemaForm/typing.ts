@@ -6,7 +6,7 @@ import type {
   SearchTransformKeyFn,
 } from '@ant-design/pro-utils';
 import type { FormInstance, FormProps } from 'antd';
-import type { NamePath } from 'antd/es/form/interface';
+import type { NamePath } from 'antd/lib/form/interface';
 import type { CommonFormProps } from '../../BaseForm';
 import type { ProFormGridConfig } from '../../typing';
 import type {
@@ -59,7 +59,12 @@ export type ProFormPropsType<T, ValueType = 'text'> =
 /** ProForm 的特色 layout */
 export type ProFormLayoutType = ProFormPropsType<any>['layoutType'];
 
-export type FormFieldType = 'group' | 'formList' | 'formSet' | 'divider' | 'dependency';
+export type FormFieldType =
+  | 'group'
+  | 'formList'
+  | 'formSet'
+  | 'divider'
+  | 'dependency';
 
 export type ProFormColumnsType<T = any, ValueType = 'text'> = ProSchema<
   T,
@@ -150,7 +155,10 @@ export type ProFormRenderValueTypeHelpers<T, ValueType> = {
   genItems: (items: ProFormColumnsType<T, ValueType>[]) => React.ReactNode[];
 } & Pick<FormSchema<T, ValueType>, 'action'>;
 
-export type ItemType<T, ValueType> = Omit<ProFormRenderValueTypeItem<T, ValueType>, 'key'> & {
+export type ItemType<T, ValueType> = Omit<
+  ProFormRenderValueTypeItem<T, ValueType>,
+  'key'
+> & {
   key?: React.Key | React.Key[];
 };
 

@@ -2,6 +2,82 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.7...@ant-design/pro-utils@2.9.0) (2023-05-15)
+
+### Features
+
+- **form:** rewirte light date form ([#7052](https://github.com/ant-design/pro-components/issues/7052)) ([1cf4bfa](https://github.com/ant-design/pro-components/commit/1cf4bfa39858f03e1aadeb290d40ba8b82cdf170))
+
+## [2.8.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.6...@ant-design/pro-utils@2.8.7) (2023-05-08)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+## [2.8.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.5...@ant-design/pro-utils@2.8.6) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+## [2.8.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.4...@ant-design/pro-utils@2.8.5) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+## [2.8.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.3...@ant-design/pro-utils@2.8.4) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+## [2.8.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.2...@ant-design/pro-utils@2.8.3) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+## [2.8.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.1...@ant-design/pro-utils@2.8.2) (2023-04-25)
+
+### Bug Fixes
+
+- **provide:** unuse process.env.NODE_ENV === 'TEST' ([0d9cba1](https://github.com/ant-design/pro-components/commit/0d9cba1a7fe74a87c6daf93a36f768801059f42d))
+
+## [2.8.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.8.0...@ant-design/pro-utils@2.8.1) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+# [2.8.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.7.2...@ant-design/pro-utils@2.8.0) (2023-04-25)
+
+### Bug Fixes
+
+- **form:** 兼容 antd@4 ProFormTimePicker format 异常问题 ([#6863](https://github.com/ant-design/pro-components/issues/6863)) ([76131bb](https://github.com/ant-design/pro-components/commit/76131bb38a3426a2ded4d92cfc12c94e40fc685c)), closes [#6862](https://github.com/ant-design/pro-components/issues/6862)
+- **form:** 修复 SchemaFormRef 的问题 ([#6943](https://github.com/ant-design/pro-components/issues/6943)) ([445c8ac](https://github.com/ant-design/pro-components/commit/445c8acfe3677d3d03a2a9c12d2a9542d50d10c0))
+- **table:** new fetch function ([#6923](https://github.com/ant-design/pro-components/issues/6923)) ([275e9c1](https://github.com/ant-design/pro-components/commit/275e9c108ec939f13dbea002b5d287a074fce42e))
+
+### Features
+
+- **form:** add some DateRangePicker components ([#6850](https://github.com/ant-design/pro-components/issues/6850)) ([26cbe28](https://github.com/ant-design/pro-components/commit/26cbe28b4408847a965983049b020b9f4399eddb))
+- **layout:** ProHelp support more feature ([#6970](https://github.com/ant-design/pro-components/issues/6970)) ([b445d0b](https://github.com/ant-design/pro-components/commit/b445d0bb350389ac96f6e711a4fc6a86ace56fb9))
+
+## [2.7.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.7.1...@ant-design/pro-utils@2.7.2) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-utils
+
+## [2.7.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.7.0...@ant-design/pro-utils@2.7.1) (2023-03-14)
+
+### Bug Fixes
+
+- **compoments:** remove .ant-pro dom ([403319f](https://github.com/ant-design/pro-components/commit/403319f2b80489d04101f51d65c3cb4dcbe4595d))
+
+# [2.7.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.6.0...@ant-design/pro-utils@2.7.0) (2023-03-09)
+
+### Bug Fixes
+
+- **layout:** fix menu item icon style error ([#6745](https://github.com/ant-design/pro-components/issues/6745)) ([87f9656](https://github.com/ant-design/pro-components/commit/87f965682e81d9ce166d140dd418a37a6020abcf))
+
+# [2.6.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.5.9...@ant-design/pro-utils@2.6.0) (2023-03-08)
+
+### Bug Fixes
+
+- **form:** 修复 label 属性没有传值的问题 ([#6728](https://github.com/ant-design/pro-components/issues/6728)) ([99a7d53](https://github.com/ant-design/pro-components/commit/99a7d53ef42898f7206f93f58d10fcca841d417d))
+
+### Features
+
+- **components:** support antd@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
+- **layout:** add ProHelp components ([#6654](https://github.com/ant-design/pro-components/issues/6654)) ([b1a175c](https://github.com/ant-design/pro-components/commit/b1a175c9ecbdf24a26f1cf34e10a92da05ab2b9c)), closes [#6671](https://github.com/ant-design/pro-components/issues/6671) [#6676](https://github.com/ant-design/pro-components/issues/6676)
+
 ## [2.5.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-utils@2.5.8...@ant-design/pro-utils@2.5.9) (2023-02-28)
 
 ### Bug Fixes

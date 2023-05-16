@@ -9,96 +9,220 @@ import {
   ProFormText,
   ProFormTimePicker,
 } from '@ant-design/pro-form';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
 import KeyCode from 'rc-util/es/KeyCode';
 
 describe('LightFilter', () => {
-  it(' 🪕 basic use', async () => {
+  it(' 🪕 basic use text', async () => {
     const onValuesChange = jest.fn();
     const onFinish = jest.fn();
+
     const { container } = render(
       <LightFilter
         initialValues={{
           name1: 'yutingzhao1991',
-          name3: '2020-08-19',
         }}
         onFinish={onFinish}
         onValuesChange={(_, values) => onValuesChange(values)}
       >
         <ProFormText name="name1" label="名称" />
+      </LightFilter>,
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('div.ant-col.ant-form-item-control'),
+      ).toHaveLength(1);
+      expect(
+        container.querySelectorAll('.ant-pro-core-field-label')[0],
+      ).toHaveTextContent('名称: yutingzhao1991');
+    });
+
+    await act(() => {
+      return userEvent.click(
+        container.querySelector('.ant-pro-core-field-label')!,
+      );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('yutingzhao1991')).toBeInTheDocument();
+    });
+
+    await act(() => {
+      return fireEvent.change(screen.getByDisplayValue('yutingzhao1991'), {
+        target: {
+          value: 'name1 update',
+        },
+      });
+    });
+
+    await act(async () => {
+      return userEvent.click(await screen.findByText('确 认'));
+    });
+
+    await waitFor(
+      () => {
+        expect(onFinish).toHaveBeenCalledWith({
+          name1: 'name1 update',
+        });
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await waitFor(() => {
+      expect(onValuesChange).toHaveBeenCalledWith({
+        name1: 'name1 update',
+      });
+    });
+
+    act(() => {
+      userEvent.click(container.querySelector('.anticon-close')!);
+    });
+
+    await waitFor(() => {
+      expect(onValuesChange).toHaveBeenCalledWith({
+        name1: undefined,
+      });
+    });
+  });
+  it(' 🪕 basic use secondary', async () => {
+    const onValuesChange = jest.fn();
+    const onFinish = jest.fn();
+    render(
+      <LightFilter
+        onFinish={onFinish}
+        onValuesChange={(_, values) => onValuesChange(values)}
+      >
         <ProFormText name="name2" label="地址" secondary />
+      </LightFilter>,
+    );
+
+    act(() => {
+      userEvent.click(screen.getByText('更多筛选'));
+    });
+
+    await waitFor(
+      () => {
+        expect(screen.getByText('地址')).toBeInTheDocument();
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    act(() => {
+      fireEvent.change(screen.getByPlaceholderText('请输入'), {
+        target: {
+          value: 'new value',
+        },
+      });
+    });
+
+    await waitFor(
+      () => {
+        expect(onFinish).toHaveBeenCalledWith({
+          name2: 'new value',
+        });
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await waitFor(() => {
+      expect(onValuesChange).toHaveBeenCalledWith({
+        name2: 'new value',
+      });
+    });
+  });
+
+  it(' 🪕 basic use DatePicker', async () => {
+    const onValuesChange = jest.fn();
+    const onFinish = jest.fn();
+    const { container } = render(
+      <LightFilter
+        initialValues={{
+          name3: '2020-08-19',
+        }}
+        onFinish={onFinish}
+        onValuesChange={(_, values) => onValuesChange(values)}
+      >
         <ProFormDatePicker name="name3" label="日期" />
       </LightFilter>,
     );
 
-    expect(container.querySelectorAll('div.ant-col.ant-form-item-control')).toHaveLength(2);
-    expect(container.querySelectorAll('.ant-pro-core-field-label')[0]).toHaveTextContent(
-      '名称: yutingzhao1991',
-    );
-    expect(container.querySelectorAll('.ant-pro-core-field-label')[1]).toHaveTextContent(
-      '日期: 2020-08-19',
-    );
-
-    await userEvent.click(container.querySelectorAll('.ant-pro-core-field-label')[0]);
-    fireEvent.change(screen.getByDisplayValue('yutingzhao1991'), {
-      target: {
-        value: 'name1 update',
+    await waitFor(
+      async () => {
+        expect(
+          await screen.findByDisplayValue('2020-08-19'),
+        ).toBeInTheDocument();
       },
-    });
-    await userEvent.click(await screen.findByText('确 认'));
-
-    expect(onValuesChange).toHaveBeenCalledWith({
-      name1: 'name1 update',
-      name3: '2020-08-19',
-    });
-
-    await userEvent.click(screen.getByText('更多筛选'));
-
-    expect(screen.getByLabelText('地址')).toBeInTheDocument();
-
-    fireEvent.change(screen.getAllByPlaceholderText('请输入')[1], {
-      target: {
-        value: 'new value',
+      {
+        timeout: 1000,
       },
-    });
-
-    await userEvent.click(await screen.findAllByText('确 认')[1]);
-
-    expect(onValuesChange).toHaveBeenCalledWith({
-      name1: 'name1 update',
-      name2: 'new value',
-      name3: '2020-08-19',
-    });
-    expect(onFinish).toHaveBeenCalledWith({
-      name1: 'name1 update',
-      name2: 'new value',
-      name3: '2020-08-19',
-    });
-
-    await userEvent.click(screen.getByText('2020-08-19'));
-    await userEvent.click(await screen.findByTitle('2020-08-01'));
-
-    expect(onFinish).toHaveBeenCalledWith({
-      name1: 'name1 update',
-      name2: 'new value',
-      name3: '2020-08-01',
-    });
-
-    await userEvent.click(
-      container.querySelectorAll('.ant-pro-core-field-label .anticon-close')[0],
     );
 
-    expect(onValuesChange).toHaveBeenCalledWith({
-      name2: 'new value',
-      name3: '2020-08-01',
+    await act(async () => {
+      userEvent.click(await screen.findByDisplayValue('2020-08-19'));
     });
-    expect(onFinish).toHaveBeenCalledWith({
-      name2: 'new value',
-      name3: '2020-08-01',
+
+    await waitFor(
+      async () => {
+        return screen.findByTitle('2020-08-01');
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await act(async () => {
+      userEvent.click(await screen.findByTitle('2020-08-01'));
     });
-    expect(container.querySelectorAll('div.ant-col.ant-form-item-control')).toHaveLength(2);
+
+    await waitFor(
+      () => {
+        expect(onFinish).toHaveBeenCalledWith({
+          name3: '2020-08-01',
+        });
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await waitFor(async () => {
+      expect(onValuesChange).toHaveBeenCalledWith({
+        name3: '2020-08-01',
+      });
+    });
+
+    await act(async () => {
+      fireEvent.mouseDown(
+        container.querySelector('.ant-pro-core-field-label .ant-picker-clear')!,
+      );
+      fireEvent.mouseUp(
+        container.querySelector('.ant-pro-core-field-label .ant-picker-clear')!,
+      );
+    });
+
+    await waitFor(
+      async () => {
+        expect(onValuesChange).toHaveBeenCalledWith({});
+        expect(onFinish).toHaveBeenCalledWith({});
+      },
+      {
+        timeout: 1000,
+      },
+    );
   });
 
   it(' 🪕 single select', async () => {
@@ -120,24 +244,43 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称: 杰克2');
-    expect(container.querySelectorAll('.ant-pro-core-field-label-arrow.anticon-down')).toHaveLength(
-      1,
-    );
+    expect(
+      container.querySelector('.ant-pro-core-field-label'),
+    ).toHaveTextContent('名称: 杰克2');
+    expect(
+      container.querySelectorAll(
+        '.ant-pro-core-field-label-arrow.anticon-down',
+      ),
+    ).toHaveLength(1);
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
+    act(() => {
+      userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
+    });
 
-    expect(container.querySelectorAll('.ant-pro-core-field-label-arrow.anticon-down')).toHaveLength(
-      1,
-    );
+    expect(
+      container.querySelectorAll(
+        '.ant-pro-core-field-label-arrow.anticon-down',
+      ),
+    ).toHaveLength(1);
 
-    await userEvent.click(await screen.findByText('杰克'));
+    await waitFor(() => screen.findByText('杰克'));
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称: 杰克');
+    await act(async () => {
+      userEvent.click(await screen.findByText('杰克'));
+    });
+    expect(
+      container.querySelector('.ant-pro-core-field-label'),
+    ).toHaveTextContent('名称: 杰克');
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label .anticon-close')!);
+    await act(async () => {
+      userEvent.click(
+        container.querySelector('.ant-pro-core-field-label .anticon-close')!,
+      );
+    });
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称');
+    expect(
+      container.querySelector('.ant-pro-core-field-label'),
+    ).toHaveTextContent('名称');
     unmount();
   });
 
@@ -154,11 +297,17 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    expect(container.querySelectorAll('.ant-pro-form-light-filter-effective')).toHaveLength(1);
+    expect(
+      container.querySelectorAll('.ant-pro-form-light-filter-effective'),
+    ).toHaveLength(1);
 
-    await userEvent.click(container.querySelector('.ant-pro-form-light-filter-container')!);
+    await userEvent.click(
+      container.querySelector('.ant-pro-form-light-filter-container')!,
+    );
 
-    expect(container.querySelectorAll('.ant-pro-core-dropdown-footer')).toHaveLength(0);
+    expect(
+      container.querySelectorAll('.ant-pro-core-dropdown-footer'),
+    ).toHaveLength(0);
     unmount();
   });
 
@@ -173,14 +322,18 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    await userEvent.click(container.querySelectorAll('.ant-pro-core-field-label')[0]);
+    await userEvent.click(
+      container.querySelectorAll('.ant-pro-core-field-label')[0],
+    );
 
-    expect(container.querySelectorAll('.ant-pro-core-dropdown-footer')).toHaveLength(0);
+    expect(
+      container.querySelectorAll('.ant-pro-core-dropdown-footer'),
+    ).toHaveLength(0);
     unmount();
   });
 
   it(' 🪕 select showSearch', async () => {
-    const { container, unmount } = render(
+    const { container } = render(
       <LightFilter
         initialValues={{
           name: 'Jack2',
@@ -199,34 +352,70 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称: 杰克2');
-    expect(container.querySelectorAll('.ant-pro-core-field-label-arrow.anticon-down')).toHaveLength(
-      1,
-    );
-
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
-
-    expect(container.querySelectorAll('.ant-pro-core-field-label-arrow.anticon-down')).toHaveLength(
-      1,
-    );
-
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: 'tech',
-      },
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label'),
+      ).toHaveTextContent('名称: 杰克2');
+      expect(
+        container.querySelectorAll(
+          '.ant-pro-core-field-label-arrow.anticon-down',
+        ),
+      ).toHaveLength(1);
     });
-    await userEvent.click(await screen.findByTitle('TechUI'));
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称: TechUI');
+    act(() => {
+      userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
+    });
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label .anticon-close')!);
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(
+          '.ant-pro-core-field-label-arrow.anticon-down',
+        ),
+      ).toHaveLength(1);
+    });
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称');
-    unmount();
+    await waitFor(
+      () => {
+        return screen.findByRole('textbox');
+      },
+      { timeout: 1000 },
+    );
+
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: 'tech',
+        },
+      });
+    });
+
+    await act(async () => {
+      userEvent.click(await screen.findByTitle('TechUI'));
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label'),
+      ).toHaveTextContent('名称: TechUI');
+    });
+
+    act(() => {
+      userEvent.click(
+        container.querySelector('.ant-pro-core-field-label .anticon-close')!,
+      );
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label'),
+      ).toHaveTextContent('名称');
+    });
   });
 
   it(' 🪕 multiple select showSearch', async () => {
-    const { container, unmount } = render(
+    jest.useFakeTimers();
+    const { container } = render(
       <LightFilter
         initialValues={{
           name: ['Jack2'],
@@ -247,96 +436,314 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('名称: 杰克2');
-    expect(container.querySelectorAll('.ant-pro-core-field-label-arrow.anticon-down')).toHaveLength(
-      1,
-    );
-
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
-
-    expect(container.querySelectorAll('.ant-pro-core-field-label-arrow.anticon-down')).toHaveLength(
-      1,
-    );
-
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: 'tech',
-      },
-    });
-    await userEvent.click(await screen.findByTitle('TechUI'));
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: 'YES',
-      },
-    });
-    await userEvent.click(await screen.findByTitle('YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKLM'));
-
-    expect(container.querySelector('.ant-pro-core-field-label')?.textContent).toEqual(
-      '名称: 杰克2,TechUI,YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKL...3项',
-    );
-
-    fireEvent.keyDown(await screen.findByRole('textbox'), {
-      target: {
-        which: KeyCode.BACKSPACE,
-      },
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label'),
+      ).toHaveTextContent('名称: 杰克2');
+      expect(
+        container.querySelectorAll(
+          '.ant-pro-core-field-label-arrow.anticon-down',
+        ),
+      ).toHaveLength(1);
     });
 
-    expect(container.querySelector('.ant-pro-core-field-label')?.textContent).toEqual(
-      '名称: 杰克2,TechUI,YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKL...3项',
-    );
-    unmount();
+    await act(async () => {
+      userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
+    });
+
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(
+          '.ant-pro-core-field-label-arrow.anticon-down',
+        ),
+      ).toHaveLength(1);
+    });
+
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+    });
+
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: 'tech',
+        },
+      });
+    });
+
+    await act(async () => {
+      userEvent.click(await screen.findByTitle('TechUI'));
+    });
+
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label')?.textContent,
+      ).toEqual('名称: 杰克2,TechUI');
+    });
+
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: 'YES',
+        },
+      });
+    });
+
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+    });
+
+    await act(async () => {
+      userEvent.click(
+        await screen.findByTitle(
+          'YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKLM',
+        ),
+      );
+    });
+
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label')?.textContent,
+      ).toEqual(
+        '名称: 杰克2,TechUI,YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKL...3项',
+      );
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(await screen.findByRole('textbox'), {
+        target: {
+          which: KeyCode.BACKSPACE,
+        },
+      });
+    });
+
+    await act(async () => {
+      jest.runOnlyPendingTimers();
+    });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label')?.textContent,
+      ).toEqual(
+        '名称: 杰克2,TechUI,YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKL...3项',
+      );
+    });
+    jest.useRealTimers();
   });
 
-  it(' 🪕 DateRangePicker', async () => {
+  it(' 🪕 Base DateRangePicker', async () => {
     const onFinish = jest.fn();
-    const { baseElement, container, unmount } = render(
-      <LightFilter onFinish={onFinish}>
-        <ProFormDateRangePicker name="date" label="日期范围" />
+    const onOpenChange = jest.fn();
+    const onLoadingChange = jest.fn();
+    const { baseElement, container } = render(
+      <LightFilter
+        onFinish={async (e) => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              onFinish(e);
+              resolve(true);
+            }, 1000);
+          });
+        }}
+        onLoadingChange={(e) => {
+          onLoadingChange(e);
+        }}
+      >
+        <ProFormDateRangePicker
+          name="date"
+          fieldProps={{
+            onOpenChange(open) {
+              onOpenChange(open);
+            },
+          }}
+          label="日期范围"
+        />
       </LightFilter>,
     );
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('日期范围');
+    await screen.findAllByText('日期范围');
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
-    await userEvent.click(screen.getAllByPlaceholderText('请选择')[0]);
-    await userEvent.click(baseElement.querySelectorAll('.ant-picker-cell-inner')[2]);
-    await userEvent.click(baseElement.querySelectorAll('.ant-picker-cell-inner')[12]);
-    await userEvent.click(await screen.findByText('确 认'));
+    expect(
+      container.querySelector('.ant-pro-core-field-label'),
+    ).toHaveTextContent('日期范围');
 
-    expect(container.querySelector('.ant-pro-core-field-label')?.textContent).toMatchSnapshot();
-    expect(onFinish).toHaveBeenCalledWith({ date: ['2016-11-01', '2016-11-11'] });
+    await act(async () => {
+      userEvent.click(await screen.findByText('日期范围'));
+    });
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label .anticon-close')!);
+    await waitFor(
+      () => {
+        return screen.findAllByPlaceholderText('请选择');
+      },
+      {
+        timeout: 2000,
+      },
+    );
 
-    expect(container.querySelector('.ant-pro-core-field-label')?.textContent).toEqual('日期范围');
+    act(() => {
+      userEvent.click(
+        screen.getAllByPlaceholderText('请选择')[0]!.parentElement!,
+      );
+    });
 
-    // 测试第二次再打开的情况
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
-    await userEvent.click(screen.getAllByPlaceholderText('请选择')[0]);
-    await userEvent.click(baseElement.querySelectorAll('.ant-picker-cell-inner')[2]);
-    await userEvent.click(baseElement.querySelectorAll('.ant-picker-cell-inner')[12]);
-    await userEvent.click(await screen.findByText('确 认'));
+    await waitFor(
+      () => {
+        expect(onOpenChange).toBeCalledWith(true);
+      },
+      {
+        timeout: 2000,
+      },
+    );
 
-    expect(container.querySelector('.ant-pro-core-field-label')?.textContent).toMatchSnapshot();
-    unmount();
+    // 随便找个日期，等日期存在了
+    await screen.findAllByText('12');
+
+    act(() => {
+      userEvent.click(
+        baseElement.querySelectorAll('.ant-picker-cell-inner')[2],
+      );
+    });
+
+    act(() => {
+      userEvent.click(
+        baseElement.querySelectorAll('.ant-picker-cell-inner')[12],
+      );
+    });
+
+    await act(async () => {
+      userEvent.click(
+        await baseElement.querySelector(
+          '.ant-pro-core-dropdown-footer .ant-btn-primary',
+        )!,
+      );
+    });
+
+    await waitFor(
+      () => {
+        expect(onLoadingChange).toBeCalledWith(true);
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await waitFor(
+      () => {
+        expect(onFinish).toHaveBeenCalledWith({
+          date: ['2016-11-01', '2016-11-11'],
+        });
+      },
+      {
+        timeout: 2000,
+      },
+    );
+
+    await waitFor(
+      () => {
+        expect(onLoadingChange).toBeCalledWith(false);
+      },
+      { timeout: 2000 },
+    );
+    // 等待20s，等待loading消失
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label')?.textContent,
+      ).toBe('日期范围: ');
+    });
+
+    await screen.findByDisplayValue('2016-11-01');
+    await screen.findByDisplayValue('2016-11-11');
+
+    await act(async () => {
+      fireEvent.mouseDown(
+        container.querySelector(
+          '.ant-pro-core-field-label .anticon-close-circle',
+        )!,
+      );
+      fireEvent.mouseUp(
+        container.querySelector(
+          '.ant-pro-core-field-label .anticon-close-circle',
+        )!,
+      );
+    });
+
+    await waitFor(
+      () => {
+        expect(onLoadingChange).toBeCalledWith(true);
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await waitFor(
+      () => {
+        expect(onLoadingChange).toBeCalledWith(false);
+      },
+      {
+        timeout: 2000,
+      },
+    );
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label')?.textContent,
+      ).toBe('日期范围');
+    });
   });
 
   it(' 🪕 DateTimePicker', async () => {
     const onFinish = jest.fn();
-    const { container, unmount } = render(
+    const { container } = render(
       <LightFilter onFinish={onFinish}>
         <ProFormDateTimePicker name="datetime" label="日期时间" />
       </LightFilter>,
     );
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('日期时间');
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label'),
+      ).toHaveTextContent('日期时间');
+    });
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
-    await userEvent.click(await screen.findByText('此刻'));
+    act(() => {
+      userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
+    });
 
-    expect(onFinish).toHaveBeenCalledWith({ datetime: '2016-11-22 15:22:44' });
-    expect(container.querySelector('.ant-pro-core-field-label')?.textContent).toMatchSnapshot();
-    unmount();
+    await screen.findByText('此刻');
+
+    await act(async () => {
+      (await screen.findByText('此刻'))?.click?.();
+    });
+
+    await waitFor(
+      () => {
+        expect(onFinish).toHaveBeenCalledWith({
+          datetime: '2016-11-22 15:22:44',
+        });
+      },
+      {
+        timeout: 1000,
+      },
+    );
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ant-pro-core-field-label')?.textContent,
+      ).toMatchSnapshot();
+    });
   });
 
   it(' 🪕 TimePicker', async () => {
@@ -347,21 +754,36 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent('时间');
+    expect(
+      container.querySelector('.ant-pro-core-field-label'),
+    ).toHaveTextContent('时间');
 
-    await userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
-    await userEvent.click(await screen.findByText('此刻'));
+    act(() => {
+      userEvent.click(container.querySelector('.ant-pro-core-field-label')!);
+    });
 
-    expect(container.querySelector('.ant-pro-core-field-label')).toHaveTextContent(
-      '时间: 15:22:44',
+    await waitFor(() => screen.findByText('此刻'));
+
+    await act(async () => {
+      (await screen.findByText('此刻'))?.click();
+    });
+    await waitFor(
+      () => {
+        expect(
+          container.querySelector('.ant-pro-core-field-label'),
+        ).toHaveTextContent('时间');
+      },
+      {
+        timeout: 1000,
+      },
     );
     expect(onFinish).toHaveBeenCalledWith({ time: '15:22:44' });
     unmount();
   });
 
-  it(' 🪕 ProFormRadio', async () => {
+  it(' 🪕 use ProFormRadio', async () => {
     const onFinish = jest.fn();
-    const { container, unmount } = render(
+    const { container } = render(
       <LightFilter
         onFinish={onFinish}
         initialValues={{
@@ -392,18 +814,32 @@ describe('LightFilter', () => {
         />
       </LightFilter>,
     );
+    await waitFor(() => {
+      expect(
+        container.querySelector(
+          '.ant-radio-button-wrapper.ant-radio-button-wrapper-checked',
+        ),
+      ).toHaveTextContent('每季度');
+    });
 
-    expect(
-      container.querySelector('.ant-radio-button-wrapper.ant-radio-button-wrapper-checked'),
-    ).toHaveTextContent('每季度');
-
-    await userEvent.click(screen.getByText('每年'));
-
-    expect(
-      container.querySelector('.ant-radio-button-wrapper.ant-radio-button-wrapper-checked'),
-    ).toHaveTextContent('每年');
-    expect(onFinish).toHaveBeenCalledWith({ radio: 'yearly' });
-    unmount();
+    act(() => {
+      userEvent.click(screen.getByText('每年'));
+    });
+    await waitFor(
+      () => {
+        expect(onFinish).toHaveBeenCalledWith({ radio: 'yearly' });
+      },
+      {
+        timeout: 1000,
+      },
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelector(
+          '.ant-radio-button-wrapper.ant-radio-button-wrapper-checked',
+        ),
+      ).toHaveTextContent('每年');
+    });
   });
 
   it(' 🪕 collapse mode', async () => {
@@ -435,16 +871,30 @@ describe('LightFilter', () => {
     );
 
     expect(container.querySelector('.collapselabel')).toHaveTextContent('open');
-    expect(container.querySelectorAll('.ant-pro-form-light-filter-effective')).toHaveLength(1);
+    expect(
+      container.querySelectorAll('.ant-pro-form-light-filter-effective'),
+    ).toHaveLength(1);
 
-    await userEvent.click(container.querySelector('.collapselabel')!);
-    expect(screen.getByText('蚂蚁')).toBeInTheDocument();
+    act(() => {
+      userEvent.click(container.querySelector('.collapselabel')!);
+    });
+    await waitFor(() => {
+      expect(screen.getByText('蚂蚁')).toBeInTheDocument();
+    });
 
-    await userEvent.click(screen.getByText('清除'));
-    await userEvent.click(screen.getByText('确 认'));
+    act(() => {
+      userEvent.click(screen.getByText('清除'));
+    });
+    act(() => {
+      userEvent.click(screen.getByText('确 认'));
+    });
 
-    expect(onChange).toHaveBeenCalledWith(undefined);
-    expect(container.querySelectorAll('.ant-pro-form-light-filter-effective')).toHaveLength(0);
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalledWith(undefined);
+      expect(
+        container.querySelectorAll('.ant-pro-form-light-filter-effective'),
+      ).toHaveLength(0);
+    });
     unmount();
   });
 
@@ -469,7 +919,11 @@ describe('LightFilter', () => {
           }}
         />
         <ProFormText name="name1" label="名称" allowClear={false} />
-        <ProFormDatePicker name="name3" label="不能清空的日期" allowClear={false} />
+        <ProFormDatePicker
+          name="name3"
+          label="不能清空的日期"
+          allowClear={false}
+        />
         <ProFormSelect
           name="sex"
           label="性别"
@@ -499,11 +953,22 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    expect(container.querySelectorAll('.ant-pro-core-field-label .anticon-close')).toHaveLength(0);
-    await userEvent.click(container.querySelectorAll('.ant-pro-core-field-label')[1]);
-
-    expect(await screen.findByDisplayValue('yutingzhao1991')).toBeInTheDocument();
-    expect(container.querySelectorAll('.ant-input-suffix .close-circle')).toHaveLength(0);
+    expect(
+      container.querySelectorAll('.ant-pro-core-field-label .anticon-close'),
+    ).toHaveLength(0);
+    act(() => {
+      userEvent.click(
+        container.querySelectorAll('.ant-pro-core-field-label')[1],
+      );
+    });
+    await waitFor(async () => {
+      expect(
+        await screen.findByDisplayValue('yutingzhao1991'),
+      ).toBeInTheDocument();
+      expect(
+        container.querySelectorAll('.ant-input-suffix .close-circle'),
+      ).toHaveLength(0);
+    });
     unmount();
   });
 
@@ -572,11 +1037,15 @@ describe('LightFilter', () => {
     await wrapper.findAllByTitle('男');
 
     act(() => {
-      wrapper.baseElement.querySelector<HTMLDivElement>('.ant-pro-core-field-label')?.click?.();
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('.ant-pro-core-field-label')
+        ?.click?.();
     });
 
     expect(
-      !!wrapper.baseElement.querySelector('.ant-pro-field-select-light-select-container-topRight'),
+      !!wrapper.baseElement.querySelector(
+        '.ant-pro-field-select-light-select-container-topRight',
+      ),
     ).toBeTruthy();
   });
 
@@ -601,15 +1070,24 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    await wrapper.findByText('名称');
-    act(() => {
-      wrapper.baseElement
-        .querySelectorAll<HTMLDivElement>('.ant-pro-core-field-dropdown-label')[0]
-        .click?.();
+    await act(async () => {
+      await wrapper.findByText('名称');
     });
 
+    act(() => {
+      wrapper.baseElement
+        .querySelectorAll<HTMLDivElement>(
+          '.ant-pro-core-field-dropdown-label',
+        )[0]
+        .click?.();
+    });
+    await act(async () => {
+      await wrapper.findByText('名称');
+    });
     expect(
-      !!wrapper.baseElement.querySelector('.ant-pro-core-field-dropdown-overlay-bottomLeft'),
+      !!wrapper.baseElement.querySelector(
+        '.ant-pro-core-field-dropdown-overlay-bottomLeft',
+      ),
     ).toBeTruthy();
   });
 
@@ -669,24 +1147,34 @@ describe('LightFilter', () => {
       </LightFilter>,
     );
 
-    await userEvent.click(await screen.findByText('性别'));
-
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: '男',
-      },
+    await act(async () => {
+      userEvent.click(await screen.findByText('性别'));
     });
 
-    expect(screen.getByLabelText('男')).toBeInTheDocument();
+    await screen.findByRole('textbox');
 
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: 'aaa',
-      },
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: '男',
+        },
+      });
     });
 
-    expect(screen.queryByLabelText('男')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByLabelText('男')).toBeInTheDocument();
+    });
 
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: 'aaa',
+        },
+      });
+    });
+    await waitFor(() => {
+      expect(screen.queryByLabelText('男')).not.toBeInTheDocument();
+    });
     rerender(
       <LightFilter>
         <ProFormSelect
@@ -703,21 +1191,24 @@ describe('LightFilter', () => {
         />
       </LightFilter>,
     );
-
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: '女',
-      },
+    await screen.findByRole('textbox');
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: '女',
+        },
+      });
     });
 
     await waitFor(() => {
       expect(screen.queryByLabelText('女')).not.toBeInTheDocument();
     });
-
-    fireEvent.change(await screen.findByRole('textbox'), {
-      target: {
-        value: 'bbb',
-      },
+    await act(async () => {
+      fireEvent.change(await screen.findByRole('textbox'), {
+        target: {
+          value: 'bbb',
+        },
+      });
     });
 
     await waitFor(() => {

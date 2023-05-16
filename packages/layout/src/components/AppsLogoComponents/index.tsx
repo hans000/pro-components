@@ -34,7 +34,10 @@ export const defaultRenderLogo = (
  */
 export const AppsLogoComponents: React.FC<{
   appList?: AppListProps;
-  itemClick?: (item: AppItemProps, popoverRef?: React.RefObject<HTMLSpanElement>) => void;
+  itemClick?: (
+    item: AppItemProps,
+    popoverRef?: React.RefObject<HTMLSpanElement>,
+  ) => void;
   prefixCls?: string;
 }> = (props) => {
   const { appList, prefixCls = 'ant-pro', itemClick } = props;
@@ -75,8 +78,9 @@ export const AppsLogoComponents: React.FC<{
 
   if (!props?.appList?.length) return null;
 
-  const popoverOpenProps = openVisibleCompatible(undefined, (openChange: boolean) =>
-    setOpen(openChange),
+  const popoverOpenProps = openVisibleCompatible(
+    undefined,
+    (openChange: boolean) => setOpen(openChange),
   );
 
   return wrapSSR(
@@ -92,7 +96,7 @@ export const AppsLogoComponents: React.FC<{
         placement="bottomRight"
         trigger={['click']}
         zIndex={9999}
-        arrowPointAtCenter
+        arrow={false}
         {...popoverOpenProps}
         overlayClassName={`${baseClassName}-popover ${hashId}`}
         content={popoverContent}

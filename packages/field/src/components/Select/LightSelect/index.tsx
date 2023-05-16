@@ -2,8 +2,9 @@ import { SearchOutlined } from '@ant-design/icons';
 import { FieldLabel, useStyle } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Input, Select } from 'antd';
+
 import classNames from 'classnames';
-import toArray from 'rc-util/es/Children/toArray';
+import toArray from 'rc-util/lib/Children/toArray';
 import React, { useContext, useMemo, useState } from 'react';
 import type { ProFieldLightProps } from '../../../index';
 
@@ -33,10 +34,10 @@ const getValueOrLabel = (
   return valueMap[v?.value] || v.label;
 };
 
-const LightSelect: React.ForwardRefRenderFunction<any, SelectProps<any> & LightSelectProps> = (
-  props,
-  ref,
-) => {
+const LightSelect: React.ForwardRefRenderFunction<
+  any,
+  SelectProps<any> & LightSelectProps
+> = (props, ref) => {
   const {
     label,
     prefixCls: customizePrefixCls,
@@ -62,7 +63,8 @@ const LightSelect: React.ForwardRefRenderFunction<any, SelectProps<any> & LightS
     ...restProps
   } = props;
   const { placeholder = label } = props;
-  const { label: labelPropsName = 'label', value: valuePropsName = 'value' } = fieldNames || {};
+  const { label: labelPropsName = 'label', value: valuePropsName = 'value' } =
+    fieldNames || {};
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('pro-field-select-light-select');
   const [open, setOpen] = useState<boolean>(false);
@@ -160,7 +162,7 @@ const LightSelect: React.ForwardRefRenderFunction<any, SelectProps<any> & LightS
                     value={keyword}
                     allowClear={allowClear}
                     onChange={(e) => {
-                      setKeyword(e.target.value.toLowerCase());
+                      setKeyword(e.target.value);
                       onSearch?.(e.target.value);
                     }}
                     onKeyDown={(e) => {
@@ -185,6 +187,7 @@ const LightSelect: React.ForwardRefRenderFunction<any, SelectProps<any> & LightS
           if (!labelTrigger) {
             setOpen(isOpen);
           }
+          restProps?.onDropdownVisibleChange?.(isOpen);
         }}
         prefixCls={customizePrefixCls}
         options={
@@ -192,22 +195,28 @@ const LightSelect: React.ForwardRefRenderFunction<any, SelectProps<any> & LightS
             ? options
             : options?.filter((o) => {
                 if (optionFilterProp) {
-                  return toArray(o[optionFilterProp]).join('').toLowerCase().includes(keyword);
+                  return toArray(o[optionFilterProp])
+                    .join('')
+                    .toLowerCase()
+                    .includes(keyword);
                 }
                 return (
-                  String(o[labelPropsName])?.toLowerCase()?.includes(keyword) ||
-                  o[valuePropsName]?.toString()?.toLowerCase()?.includes(keyword)
+                  String(o[labelPropsName])
+                    ?.toLowerCase()
+                    ?.includes(keyword?.toLowerCase()) ||
+                  o[valuePropsName]
+                    ?.toString()
+                    ?.toLowerCase()
+                    ?.includes(keyword?.toLowerCase())
                 );
               })
         }
       />
       <FieldLabel
         ellipsis
-        size={size}
         label={label}
         placeholder={placeholder}
         disabled={disabled}
-        expanded={open}
         bordered={bordered}
         allowClear={allowClear}
         value={filterValue || value?.label || value}

@@ -1,6 +1,6 @@
 import type { FormInstance, FormProps } from 'antd';
-import type { StepProps } from 'rc-steps/es/Step';
-import { noteOnce } from 'rc-util/es/warning';
+import type { StepProps } from 'rc-steps/lib/Step';
+import { noteOnce } from 'rc-util/lib/warning';
 import { useContext, useEffect, useImperativeHandle, useRef } from 'react';
 import type { CommonFormProps } from '../../BaseForm';
 import { BaseForm } from '../../BaseForm';
@@ -16,10 +16,17 @@ export type StepFormProps<T = Record<string, any>> = {
 function StepForm<T = Record<string, any>>(props: StepFormProps<T>) {
   const formRef = useRef<FormInstance | undefined>();
   const context = useContext(StepsFormProvide);
-  const { onFinish, step, formRef: propFormRef, title, stepProps, ...restProps } = props;
+  const {
+    onFinish,
+    step,
+    formRef: propFormRef,
+    title,
+    stepProps,
+    ...restProps
+  } = props;
 
-  // eslint-disable-next-line @typescript-eslint/dot-notation
-  noteOnce(!restProps['submitter'], 'StepForm 不包含提交按钮，请在 StepsForm 上');
+  //@ts-expect-error
+  noteOnce(!restProps.submitter, 'StepForm 不包含提交按钮，请在 StepsForm 上');
   /** 重置 formRef */
   useImperativeHandle(propFormRef, () => formRef.current);
 

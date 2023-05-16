@@ -43,7 +43,9 @@ const Item: React.FC<{ children: React.ReactNode }> = (props) => {
   );
 };
 
-const List: React.FC<{ title: string; style?: React.CSSProperties }> = (props) => {
+const List: React.FC<{ title: string; style?: React.CSSProperties }> = (
+  props,
+) => {
   const { token } = theme.useToken();
 
   return (
@@ -317,7 +319,10 @@ export default () => {
               {title}
             </a>
           );
-          if (document.body.clientWidth < 1400) {
+          if (
+            typeof document === 'undefined' ||
+            document.body.clientWidth < 1400
+          ) {
             return defaultDom;
           }
           if (_.isMobile) return defaultDom;

@@ -1,6 +1,6 @@
 // 兼容代码-----------
-import 'antd/es/table/style';
-import 'antd/es/typography/style';
+import 'antd/lib/table/style';
+import 'antd/lib/typography/style';
 //----------------------
 
 import ProCard from '@ant-design/pro-card';
@@ -19,7 +19,11 @@ import {
 } from '@ant-design/pro-utils';
 import type { TablePaginationConfig } from 'antd';
 import { ConfigProvider, Table } from 'antd';
-import type { GetRowKey, SortOrder, TableCurrentDataSource } from 'antd/es/table/interface';
+import type {
+  GetRowKey,
+  SortOrder,
+  TableCurrentDataSource,
+} from 'antd/lib/table/interface';
 import classNames from 'classnames';
 import React, {
   useCallback,
@@ -54,7 +58,7 @@ import {
 } from './utils';
 import { columnSort } from './utils/columnSort';
 import { genProColumnToColumn } from './utils/genProColumnToColumn';
-import type Summary from 'rc-table/es/Footer/Summary';
+import type Summary from 'rc-table/lib/Footer/Summary';
 
 function TableRender<T extends Record<string, any>, U, ValueType>(
   props: ProTableProps<T, U, ValueType> & {
@@ -126,15 +130,27 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
   }, [counter.columnsMap, tableColumns]);
 
   /** 如果所有列中的 filters=true| undefined 说明是用的是本地筛选 任何一列配置 filters=false，就能绕过这个判断 */
-  const useLocaleFilter = useMemo(
-    () =>
-      columns?.every(
-        (column) =>
-          (column.filters === true && column.onFilter === true) ||
-          (column.filters === undefined && column.onFilter === undefined),
-      ),
-    [columns],
-  );
+  const useLocaleFilter = useMemo(() => {
+    const _columns: any[] = [];
+    // 平铺所有columns, 用于判断是用的是本地筛选
+    const loopColumns = (data: any[]) => {
+      for (let i = 0; i < data.length; i++) {
+        const _curItem = data[i];
+        if (_curItem.children) {
+          loopColumns(_curItem.children);
+        } else {
+          _columns.push(_curItem);
+        }
+      }
+    };
+    loopColumns(columns);
+    return _columns?.every((column) => {
+      return (
+        (!!column.filters && !!column.onFilter) ||
+        (column.filters === undefined && column.onFilter === undefined)
+      );
+    });
+  }, [columns]);
 
   /**
    * 如果是分页的新增，总是加到最后一行
@@ -142,23 +158,30 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
    * @returns
    */
   const editableDataSource = (dataSource: any[]): T[] => {
-    const { options: newLineOptions, defaultValue: row } = editableUtils.newLineRecord || {};
+    const { options: newLineOptions, defaultValue: row } =
+      editableUtils.newLineRecord || {};
+    const isNewLineRecordAtTop = newLineOptions?.position === 'top';
     if (newLineOptions?.parentKey) {
       const actionProps = {
         data: dataSource,
         getRowKey: getRowKey,
         row: {
           ...row,
-          map_row_parentKey: recordKeyToString(newLineOptions?.parentKey)?.toString(),
+          map_row_parentKey: recordKeyToString(
+            newLineOptions.parentKey,
+          )?.toString(),
         },
         key: newLineOptions?.recordKey,
         childrenColumnName: props.expandable?.childrenColumnName || 'children',
       };
 
-      return editableRowByKey(actionProps, newLineOptions.position === 'top' ? 'top' : 'update');
+      return editableRowByKey(
+        actionProps,
+        isNewLineRecordAtTop ? 'top' : 'update',
+      );
     }
 
-    if (newLineOptions?.position === 'top') {
+    if (isNewLineRecordAtTop) {
       return [row, ...action.dataSource];
     }
     // 如果有分页的功能，我们加到这一页的末尾
@@ -168,7 +191,11 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
         newDataSource.push(row);
         return newDataSource;
       }
-      newDataSource.splice(pagination?.current * pagination?.pageSize - 1, 0, row);
+      newDataSource.splice(
+        pagination?.current * pagination?.pageSize - 1,
+        0,
+        row,
+      );
       return newDataSource;
     }
 
@@ -181,7 +208,9 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
     rowSelection: rowSelection === false ? undefined : rowSelection,
     className: tableClassName,
     style: tableStyle,
-    columns: columns.map((item) => (item.isExtraColumns ? item.extraColumn : item)),
+    columns: columns.map((item) =>
+      item.isExtraColumns ? item.extraColumn : item,
+    ),
     loading: action.loading,
     dataSource: editableUtils.newLineRecord
       ? editableDataSource(action.dataSource)
@@ -213,7 +242,8 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
         const isSortByField = sorterOfColumn?.toString() === sorterOfColumn;
         onSortChange(
           omitUndefined({
-            [`${isSortByField ? sorterOfColumn : sorter.field}`]: sorter.order as SortOrder,
+            [`${isSortByField ? sorterOfColumn : sorter.field}`]:
+              sorter.order as SortOrder,
           }) || {},
         );
       }
@@ -224,7 +254,11 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
    * 是否需要 card 来包裹
    */
   const notNeedCardDom = useMemo(() => {
-    if (props.search === false && !props.headerTitle && props.toolBarRender === false) {
+    if (
+      props.search === false &&
+      !props.headerTitle &&
+      props.toolBarRender === false
+    ) {
       return true;
     }
     return false;
@@ -244,6 +278,11 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
       )
     : baseTableDom;
 
+  /**
+   * 这段代码使用了 useMemo 进行了性能优化，根据 props.editable 和 props.name 的不同情况，渲染不同的页面组件。
+   * 当 props.editable 为 true 并且 props.name 不存在时，渲染一个带有表单和工具栏的页面组件，否则只渲染工具栏和表格组件。
+   * renderContent 函数会在 alertDom、props.loading、props.editable、tableDom、toolbarDom 发生变化时重新执行。
+   * */
   const tableContentDom = useMemo(() => {
     if (props.editable && !props.name) {
       return (
@@ -278,7 +317,8 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
   }, [alertDom, props.loading, !!props.editable, tableDom, toolbarDom]);
 
   const cardBodyStyle = useMemo(() => {
-    if (propsCardProps === false || notNeedCardDom === true || !!props.name) return {};
+    if (propsCardProps === false || notNeedCardDom === true || !!props.name)
+      return {};
 
     if (toolbarDom) {
       return {
@@ -351,7 +391,8 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
   return (
     <ConfigProvider
       getPopupContainer={() => {
-        return (counter.rootDomRef.current || document.body) as any as HTMLElement;
+        return (counter.rootDomRef.current ||
+          document.body) as any as HTMLElement;
       }}
     >
       {proTableDom}
@@ -361,7 +402,11 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
 
 const emptyObj = {};
 
-const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType>(
+const ProTable = <
+  T extends Record<string, any>,
+  U extends ParamsType,
+  ValueType,
+>(
   props: ProTableProps<T, U, ValueType> & {
     defaultClassName: string;
   },
@@ -419,14 +464,20 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
   useImperativeHandle(propsActionRef, () => actionRef.current);
 
   /** 单选多选的相关逻辑 */
-  const [selectedRowKeys, setSelectedRowKeys] = useMountMergeState<(string | number)[] | undefined>(
-    propsRowSelection ? propsRowSelection?.defaultSelectedRowKeys || [] : undefined,
+  const [selectedRowKeys, setSelectedRowKeys] = useMountMergeState<
+    (string | number)[] | undefined
+  >(
+    propsRowSelection
+      ? propsRowSelection?.defaultSelectedRowKeys || []
+      : undefined,
     {
       value: propsRowSelection ? propsRowSelection.selectedRowKeys : undefined,
     },
   );
 
-  const [formSearch, setFormSearch] = useMountMergeState<Record<string, any> | undefined>(() => {
+  const [formSearch, setFormSearch] = useMountMergeState<
+    Record<string, any> | undefined
+  >(() => {
     // 如果手动模式，或者 search 不存在的时候设置为 undefined
     // undefined 就不会触发首次加载
     if (manualRequest || search !== false) {
@@ -435,10 +486,12 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
     return {};
   });
 
-  const [proFilter, setProFilter] = useMountMergeState<Record<string, (string | number)[] | null>>(
+  const [proFilter, setProFilter] = useMountMergeState<
+    Record<string, (string | number)[] | null>
+  >({});
+  const [proSort, setProSort] = useMountMergeState<Record<string, SortOrder>>(
     {},
   );
-  const [proSort, setProSort] = useMountMergeState<Record<string, SortOrder>>({});
 
   /** 设置默认排序和筛选值 */
   useEffect(() => {
@@ -470,7 +523,11 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
 
       // eslint-disable-next-line no-underscore-dangle
       delete (actionParams as any)._timestamp;
-      const response = await request(actionParams as unknown as U, proSort, proFilter);
+      const response = await request(
+        actionParams as unknown as U,
+        proSort,
+        proFilter,
+      );
       return response as RequestData<T>;
     };
   }, [formSearch, params, proFilter, proSort, request]);
@@ -487,7 +544,12 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
     revalidateOnFocus,
     manual: formSearch === undefined,
     polling,
-    effects: [stringify(params), stringify(formSearch), stringify(proFilter), stringify(proSort)],
+    effects: [
+      stringify(params),
+      stringify(formSearch),
+      stringify(proFilter),
+      stringify(proSort),
+    ],
     debounceTime: props.debounceTime,
     onPageInfoChange: (pageInfo) => {
       if (type === 'list' || !propsPagination || !fetchData) return;
@@ -503,7 +565,12 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
   /** 默认聚焦的时候重新请求数据，这样可以保证数据都是最新的。 */
   useEffect(() => {
     // 手动模式和 request 为空都不生效
-    if (props.manualRequest || !props.request || !revalidateOnFocus || props.form?.ignoreRules)
+    if (
+      props.manualRequest ||
+      !props.request ||
+      !revalidateOnFocus ||
+      props.form?.ignoreRules
+    )
       return;
 
     // 聚焦时重新请求事件
@@ -514,7 +581,8 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
     };
 
     document.addEventListener('visibilitychange', visibilitychange);
-    return () => document.removeEventListener('visibilitychange', visibilitychange);
+    return () =>
+      document.removeEventListener('visibilitychange', visibilitychange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -552,7 +620,8 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
 
   /** 页面编辑的计算 */
   const pagination = useMemo(() => {
-    const newPropsPagination = propsPagination === false ? false : { ...propsPagination };
+    const newPropsPagination =
+      propsPagination === false ? false : { ...propsPagination };
     const pageConfig = {
       ...action.pageInfo,
       setPageInfo: ({ pageSize, current }: PageInfo) => {
@@ -583,7 +652,12 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
 
   useDeepCompareEffect(() => {
     // request 存在且params不为空，且已经请求过数据才需要设置。
-    if (props.request && params && action.dataSource && action?.pageInfo?.current !== 1) {
+    if (
+      props.request &&
+      params &&
+      action.dataSource &&
+      action?.pageInfo?.current !== 1
+    ) {
       action.setPageInfo({
         current: 1,
       });
@@ -689,7 +763,9 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
     () => {
       if (tableColumn && tableColumn.length > 0) {
         // 重新生成key的字符串用于排序
-        const columnKeys = tableColumn.map((item) => genColumnKey(item.key, item.index));
+        const columnKeys = tableColumn.map((item) =>
+          genColumnKey(item.key, item.index),
+        );
         counter.setSortKeyColumns(columnKeys);
       }
     },
@@ -701,7 +777,8 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
   /** 同步 Pagination，支持受控的 页码 和 pageSize */
   useDeepCompareEffect(() => {
     const { pageInfo } = action;
-    const { current = pageInfo?.current, pageSize = pageInfo?.pageSize } = propsPagination || {};
+    const { current = pageInfo?.current, pageSize = pageInfo?.pageSize } =
+      propsPagination || {};
     if (
       propsPagination &&
       (current || pageSize) &&
@@ -712,7 +789,10 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
         current: current || pageInfo.current,
       });
     }
-  }, [propsPagination && propsPagination.pageSize, propsPagination && propsPagination.current]);
+  }, [
+    propsPagination && propsPagination.pageSize,
+    propsPagination && propsPagination.current,
+  ]);
 
   /** 行选择相关的问题 */
   const rowSelection: TableRowSelection = {
@@ -727,15 +807,19 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
   };
 
   /** 是不是 LightFilter, LightFilter 有一些特殊的处理 */
-  const isLightFilter: boolean = search !== false && search?.filterType === 'light';
+  const isLightFilter: boolean =
+    search !== false && search?.filterType === 'light';
 
   const onFormSearchSubmit = <Y extends ParamsType>(values: Y): any => {
     // 判断search.onSearch返回值决定是否更新formSearch
     if (options && options.search) {
-      const { name = 'keyword' } = options.search === true ? {} : options.search;
+      const { name = 'keyword' } =
+        options.search === true ? {} : options.search;
 
       /** 如果传入的 onSearch 返回值为 false，则不要把options.search.name对应的值set到formSearch */
-      const success = (options.search as OptionSearchProps)?.onSearch?.(counter.keyWords!);
+      const success = (options.search as OptionSearchProps)?.onSearch?.(
+        counter.keyWords!,
+      );
 
       if (success !== false) {
         setFormSearch({
@@ -791,7 +875,11 @@ const ProTable = <T extends Record<string, any>, U extends ParamsType, ValueType
       <Toolbar<T>
         headerTitle={headerTitle}
         hideToolbar={
-          options === false && !headerTitle && !toolBarRender && !toolbar && !isLightFilter
+          options === false &&
+          !headerTitle &&
+          !toolBarRender &&
+          !toolbar &&
+          !isLightFilter
         }
         selectedRows={selectedRows}
         selectedRowKeys={selectedRowKeys!}
@@ -861,7 +949,9 @@ const ProviderTableContainer = <
 ) => {
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const ErrorComponent =
-    props.ErrorBoundary === false ? React.Fragment : props.ErrorBoundary || ErrorBoundary;
+    props.ErrorBoundary === false
+      ? React.Fragment
+      : props.ErrorBoundary || ErrorBoundary;
 
   return (
     <Container initValue={props}>

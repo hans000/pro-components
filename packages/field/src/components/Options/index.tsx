@@ -3,7 +3,7 @@ import React, { useContext, useImperativeHandle } from 'react';
 import type { ProFieldFC } from '../../index';
 
 // 兼容代码-----------
-import 'antd/es/space/style';
+import 'antd/lib/space/style';
 //----------------------
 
 const addArrayKeys = (doms: React.ReactNode[]) =>
@@ -29,14 +29,21 @@ const addArrayKeys = (doms: React.ReactNode[]) =>
  *
  * @param
  */
-const FieldOptions: ProFieldFC = ({ text, mode: type, render, fieldProps }, ref) => {
+const FieldOptions: ProFieldFC = (
+  { text, mode: type, render, fieldProps },
+  ref,
+) => {
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const className = getPrefixCls('pro-field-option');
 
   useImperativeHandle(ref, () => ({}));
 
   if (render) {
-    const doms = render(text, { mode: type, ...fieldProps }, <></>) as unknown as React.ReactNode[];
+    const doms = render(
+      text,
+      { mode: type, ...fieldProps },
+      <></>,
+    ) as unknown as React.ReactNode[];
 
     if (!doms || doms?.length < 1 || !Array.isArray(doms)) {
       return null;

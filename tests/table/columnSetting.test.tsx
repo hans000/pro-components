@@ -1,6 +1,5 @@
 import ProTable from '@ant-design/pro-table';
-import { fireEvent, render, createEvent } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act, fireEvent, render, createEvent } from '@testing-library/react';
 import { waitTime } from '../util';
 import { columns } from './demo';
 
@@ -40,7 +39,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -97,7 +98,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -168,7 +171,9 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -217,7 +222,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -263,7 +270,9 @@ describe('Table ColumnSetting', () => {
     // 触发重置
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-column-setting-action-rest-button')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-action-rest-button',
+        )
         ?.click?.();
     });
     await waitTime(100);
@@ -321,7 +330,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -368,7 +379,9 @@ describe('Table ColumnSetting', () => {
     // 触发重置
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-column-setting-action-rest-button')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-action-rest-button',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -408,7 +421,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -420,7 +435,9 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -476,7 +493,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -555,7 +574,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
     await waitTime(100);
@@ -647,7 +668,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
 
@@ -655,7 +678,9 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       const input = html.baseElement
-        ?.querySelector<HTMLDivElement>('.ant-pro-table-column-setting-title .ant-checkbox-wrapper')
+        ?.querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-title .ant-checkbox-wrapper',
+        )
         ?.querySelector<HTMLInputElement>('.ant-checkbox-input');
       input?.click();
     });
@@ -663,13 +688,16 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
 
     expect(
-      html.baseElement.querySelectorAll<HTMLDivElement>('span.ant-checkbox.ant-checkbox-checked')
-        .length,
+      html.baseElement.querySelectorAll<HTMLDivElement>(
+        'span.ant-checkbox.ant-checkbox-checked',
+      ).length,
     ).toBe(0);
 
     act(() => {
       const input = html.baseElement
-        ?.querySelector<HTMLDivElement>('.ant-pro-table-column-setting-title .ant-checkbox-wrapper')
+        ?.querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-title .ant-checkbox-wrapper',
+        )
         ?.querySelector<HTMLInputElement>('.ant-checkbox-input');
       input?.click();
     });
@@ -677,8 +705,9 @@ describe('Table ColumnSetting', () => {
     await waitTime(100);
 
     expect(
-      html.baseElement.querySelectorAll<HTMLDivElement>('span.ant-checkbox.ant-checkbox-checked')
-        .length +
+      html.baseElement.querySelectorAll<HTMLDivElement>(
+        'span.ant-checkbox.ant-checkbox-checked',
+      ).length +
         html.baseElement.querySelectorAll<HTMLDivElement>(
           'span.ant-tree-checkbox.ant-tree-checkbox-checked',
         ).length,
@@ -688,14 +717,18 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       const input = html.baseElement
-        ?.querySelector<HTMLDivElement>('.ant-tree-list-holder-inner .ant-tree-treenode')
+        ?.querySelector<HTMLDivElement>(
+          '.ant-tree-list-holder-inner .ant-tree-treenode',
+        )
         ?.querySelector<HTMLInputElement>('.ant-tree-checkbox');
       input?.click();
     });
 
     act(() => {
       const input = html.baseElement
-        ?.querySelector<HTMLDivElement>('.ant-tree-list-holder-inner .ant-tree-treenode')
+        ?.querySelector<HTMLDivElement>(
+          '.ant-tree-list-holder-inner .ant-tree-treenode',
+        )
         ?.querySelector<HTMLInputElement>('.ant-tree-checkbox');
       input?.click();
     });
@@ -749,25 +782,33 @@ describe('Table ColumnSetting', () => {
       />,
     );
     act(() => {
-      html.baseElement.querySelector<HTMLDivElement>(`span[aria-label="setting"]`)?.click();
+      html.baseElement
+        .querySelector<HTMLDivElement>(`span[aria-label="setting"]`)
+        ?.click();
     });
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>(`.ant-pro-table-column-setting-action-rest-button`)
+        .querySelector<HTMLDivElement>(
+          `.ant-pro-table-column-setting-action-rest-button`,
+        )
         ?.click();
     });
 
     act(() => {
       const input = html.baseElement
-        ?.querySelector<HTMLDivElement>('.ant-pro-table-column-setting-title .ant-checkbox-wrapper')
+        ?.querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-title .ant-checkbox-wrapper',
+        )
         ?.querySelector<HTMLInputElement>('.ant-checkbox-input');
       input?.click();
     });
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>(`.ant-pro-table-column-setting-action-rest-button`)
+        .querySelector<HTMLDivElement>(
+          `.ant-pro-table-column-setting-action-rest-button`,
+        )
         ?.click();
     });
 
@@ -832,7 +873,9 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
 
@@ -840,20 +883,25 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-column-setting-list .ant-tree-checkbox')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-list .ant-tree-checkbox',
+        )
         ?.click();
     });
 
     await waitTime(200);
 
     expect(
-      html.baseElement.querySelectorAll<HTMLDivElement>('span.ant-checkbox.ant-checkbox-checked')
-        .length,
+      html.baseElement.querySelectorAll<HTMLDivElement>(
+        'span.ant-checkbox.ant-checkbox-checked',
+      ).length,
     ).toBe(0);
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-column-setting-list .ant-tree-checkbox')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-list .ant-tree-checkbox',
+        )
         ?.click();
     });
 
@@ -861,20 +909,25 @@ describe('Table ColumnSetting', () => {
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-column-setting-list .ant-tree-checkbox')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-list .ant-tree-checkbox',
+        )
         ?.click();
     });
 
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-column-setting-list .ant-tree-checkbox')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-column-setting-list .ant-tree-checkbox',
+        )
         ?.click();
     });
     await waitTime(100);
 
     expect(
-      html.baseElement.querySelectorAll<HTMLDivElement>('span.ant-checkbox.ant-checkbox-checked')
-        .length +
+      html.baseElement.querySelectorAll<HTMLDivElement>(
+        'span.ant-checkbox.ant-checkbox-checked',
+      ).length +
         html.baseElement.querySelectorAll<HTMLDivElement>(
           'span.ant-tree-checkbox.ant-tree-checkbox-checked',
         ).length,
@@ -926,7 +979,9 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
 
@@ -976,7 +1031,9 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
 
@@ -1118,13 +1175,18 @@ describe('Table ColumnSetting', () => {
     await waitTime(200);
     act(() => {
       html.baseElement
-        .querySelector<HTMLDivElement>('.ant-pro-table-list-toolbar-setting-item .anticon-setting')
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
         ?.click();
     });
 
     await waitTime(1000);
 
-    expect(html.baseElement.querySelectorAll<HTMLDivElement>('.ant-tree-treenode').length).toBe(2);
+    expect(
+      html.baseElement.querySelectorAll<HTMLDivElement>('.ant-tree-treenode')
+        .length,
+    ).toBe(2);
   });
 
   it('🎏 columnSetting support replacement for default setting icon', async () => {
@@ -1133,7 +1195,9 @@ describe('Table ColumnSetting', () => {
         size="small"
         options={{
           setting: {
-            children: <button className="custom-setting-button">Click Me!</button>,
+            children: (
+              <button className="custom-setting-button">Click Me!</button>
+            ),
           },
         }}
         columns={[
@@ -1178,7 +1242,10 @@ describe('Table ColumnSetting', () => {
 
     await waitTime(1000);
 
-    expect(html.baseElement.querySelectorAll<HTMLDivElement>('.ant-tree-treenode').length).toBe(2);
+    expect(
+      html.baseElement.querySelectorAll<HTMLDivElement>('.ant-tree-treenode')
+        .length,
+    ).toBe(2);
   });
 
   it('🎏 DensityIcon support onChange', async () => {
@@ -1272,7 +1339,9 @@ describe('Table ColumnSetting', () => {
       />,
     );
     await waitTime(100);
-    const ellipsisList = html.baseElement.querySelectorAll('.ant-typography-ellipsis');
+    const ellipsisList = html.baseElement.querySelectorAll(
+      '.ant-typography-ellipsis',
+    );
     expect(ellipsisList.length).toBe(1);
   });
 });

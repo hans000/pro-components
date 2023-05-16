@@ -23,7 +23,6 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
     return {};
   }
   return {
-    [token.proComponentsCls]: { width: '100%', height: '100%' },
     [token.componentCls]: {
       width: '100%',
       height: '100%',
@@ -37,9 +36,10 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
           backgroundColor: 'transparent',
           width: '100%',
         },
-        [`${token.antCls}-menu-submenu-expand-icon, ${token.antCls}-menu-submenu-arrow`]: {
-          color: 'inherit',
-        },
+        [`${token.antCls}-menu-submenu-expand-icon, ${token.antCls}-menu-submenu-arrow`]:
+          {
+            color: 'inherit',
+          },
         [`&${token.antCls}-menu`]: {
           color: token?.layout?.sider?.colorTextMenu,
           [`${token.antCls}-menu-item`]: {
@@ -52,9 +52,10 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
           },
         },
         [`&${token.antCls}-menu-inline`]: {
-          [`${token.antCls}-menu-selected::after,${token.antCls}-menu-item-selected::after`]: {
-            display: 'none',
-          },
+          [`${token.antCls}-menu-selected::after,${token.antCls}-menu-item-selected::after`]:
+            {
+              display: 'none',
+            },
         },
         [`${token.antCls}-menu-sub ${token.antCls}-menu-inline`]: {
           backgroundColor: 'transparent!important',
@@ -85,7 +86,7 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
             ${token.antCls}-menu-submenu-title:hover`]: {
             color: token?.layout?.sider?.colorTextMenuActive,
             borderRadius: token.borderRadius,
-            backgroundColor: token?.layout?.sider?.colorBgMenuItemHover,
+            backgroundColor: `${token?.layout?.header?.colorBgMenuItemHover} !important`,
             [`${token.antCls}-menu-submenu-arrow`]: {
               color: token?.layout?.sider?.colorTextMenuActive,
             },
@@ -122,7 +123,7 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
             borderRadius: 4,
             transition: 'none',
             color: token?.layout?.header?.colorTextMenuActive,
-            backgroundColor: token?.layout?.header?.colorBgMenuItemHover,
+            backgroundColor: `${token?.layout?.header?.colorBgMenuItemHover} !important`,
           },
 
           [`${token.antCls}-menu-item-open,
@@ -132,18 +133,19 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
             backgroundColor: token?.layout?.header?.colorBgMenuItemSelected,
             borderRadius: token.borderRadius,
             transition: 'none',
-            color: token?.layout?.header?.colorTextMenuSelected,
+            color: `${token?.layout?.header?.colorTextMenuSelected} !important`,
             [`${token.antCls}-menu-submenu-arrow`]: {
-              color: token?.layout?.header?.colorTextMenuSelected,
+              color: `${token?.layout?.header?.colorTextMenuSelected} !important`,
             },
           },
           [`> ${token.antCls}-menu-item, > ${token.antCls}-menu-submenu`]: {
             paddingInline: 16,
             marginInline: 4,
           },
-          [`> ${token.antCls}-menu-item::after, > ${token.antCls}-menu-submenu::after`]: {
-            display: 'none',
-          },
+          [`> ${token.antCls}-menu-item::after, > ${token.antCls}-menu-submenu::after`]:
+            {
+              display: 'none',
+            },
         },
       },
 
@@ -219,61 +221,54 @@ const compatibleStyle: GenerateStyle<ProLayoutToken> = (token) => {
 
 const genProLayoutStyle: GenerateStyle<ProLayoutToken> = (token) => {
   return {
-    body: {
-      paddingBlock: 0,
-      paddingInline: 0,
-      marginBlock: 0,
-      marginInline: 0,
-      fontFamily: token.fontFamily,
+    [`${token.antCls}-layout`]: {
+      backgroundColor: 'transparent !important',
     },
-    [token.proComponentsCls]: {
-      [`${token.antCls}-layout`]: {
-        backgroundColor: 'transparent !important',
+    [token.componentCls]: {
+      [`& ${token.antCls}-layout`]: {
+        display: 'flex',
+        backgroundColor: 'transparent',
+        width: '100%',
       },
-      [`& ${token.componentCls}`]: {
-        [`& ${token.antCls}-layout`]: {
-          display: 'flex',
-          backgroundColor: 'transparent',
-          width: '100%',
-        },
-        [`${token.componentCls}-content`]: {
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          backgroundColor: token?.layout?.pageContainer?.colorBgPageContainer || 'transparent',
-          position: 'relative',
-          '*': { boxSizing: 'border-box' },
-          paddingBlock: token?.layout?.pageContainer?.paddingBlockPageContainerContent,
-          paddingInline: token?.layout?.pageContainer?.paddingInlinePageContainerContent,
-          '&-has-page-container': {
-            padding: 0,
-          },
-        },
-        [`${token.componentCls}-container`]: {
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          minWidth: 0,
-          minHeight: 0,
-          backgroundColor: 'transparent',
-        },
-        [`${token.componentCls}-bg-list`]: {
-          pointerEvents: 'none',
-          position: 'fixed',
-          overflow: 'hidden',
-          insetBlockStart: 0,
-          insetInlineStart: 0,
-          zIndex: 0,
-          height: '100%',
-          width: '100%',
-          background: token?.layout?.bgLayout,
+      [`${token.componentCls}-content`]: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        backgroundColor:
+          token?.layout?.pageContainer?.colorBgPageContainer || 'transparent',
+        position: 'relative',
+        paddingBlock:
+          token?.layout?.pageContainer?.paddingBlockPageContainerContent,
+        paddingInline:
+          token?.layout?.pageContainer?.paddingInlinePageContainerContent,
+        '&-has-page-container': {
+          padding: 0,
         },
       },
-      [`${token.antCls}-menu-submenu-popup`]: {
-        backgroundColor: 'rgba(255, 255, 255, 0.42)',
-        '-webkit-backdrop-filter': 'blur(8px)',
-        backdropFilter: 'blur(8px)',
+      [`${token.componentCls}-container`]: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 0,
+        minHeight: 0,
+        backgroundColor: 'transparent',
       },
+      [`${token.componentCls}-bg-list`]: {
+        pointerEvents: 'none',
+        position: 'fixed',
+        overflow: 'hidden',
+        insetBlockStart: 0,
+        insetInlineStart: 0,
+        zIndex: 0,
+        height: '100%',
+        width: '100%',
+        background: token?.layout?.bgLayout,
+      },
+    },
+    [`${token.antCls}-menu-submenu-popup`]: {
+      backgroundColor: 'rgba(255, 255, 255, 0.42)',
+      '-webkit-backdrop-filter': 'blur(8px)',
+      backdropFilter: 'blur(8px)',
     },
   };
 };

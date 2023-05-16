@@ -1,9 +1,16 @@
 import type { RequestOptionsType } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Select } from 'antd';
-import type { LabeledValue } from 'antd/es/select';
+
+import type { LabeledValue } from 'antd/lib/select';
 import classNames from 'classnames';
-import React, { useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 
 const { Option, OptGroup } = Select;
 
@@ -48,7 +55,7 @@ export interface SearchSelectProps<T = Record<string, any>>
    *
    * @default 请输入关键字搜索
    */
-  placeholder?: any;
+  placeholder?: string;
   /**
    * 是否在输入框聚焦时触发搜索
    *
@@ -69,7 +76,7 @@ export interface SearchSelectProps<T = Record<string, any>>
   prefixCls?: string;
 
   /** 刷新数据 */
-  fetchData: (keyWord: string) => void;
+  fetchData: (keyWord?: string) => void;
 
   /** 清空数据 */
   resetData: () => void;
@@ -80,6 +87,9 @@ export interface SearchSelectProps<T = Record<string, any>>
    * @default true
    */
   fetchDataOnSearch?: boolean;
+
+  /** 默认搜索关键词 */
+  defaultSearchValue?: string;
 }
 
 const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
@@ -105,6 +115,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
     searchValue: propsSearchValue,
     showSearch,
     fieldNames,
+    defaultSearchValue,
     ...restProps
   } = props;
 
@@ -114,7 +125,9 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
     options: optionsPropsName = 'options',
   } = fieldNames || {};
 
-  const [searchValue, setSearchValue] = useState(propsSearchValue);
+  const [searchValue, setSearchValue] = useState(
+    propsSearchValue ?? defaultSearchValue,
+  );
 
   const selectRef = useRef<any>();
 
@@ -204,7 +217,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
       optionLabelProp={optionLabelProp}
       onClear={() => {
         onClear?.();
-        fetchData('');
+        fetchData(undefined);
         if (showSearch) {
           setSearchValue(undefined);
         }
@@ -224,7 +237,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
       onChange={(value, optionList, ...rest) => {
         // 将搜索框置空 和 antd 行为保持一致
         if (showSearch && autoClearSearchValue) {
-          fetchData('');
+          fetchData(undefined);
           onSearch?.('');
           setSearchValue(undefined);
         }
@@ -254,7 +267,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
       }}
       onFocus={(e) => {
         if (searchOnFocus) {
-          fetchData('');
+          fetchData(searchValue);
         }
         onFocus?.(e);
       }}

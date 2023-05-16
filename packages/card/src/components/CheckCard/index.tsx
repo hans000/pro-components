@@ -1,11 +1,11 @@
 import { useMountMergeState } from '@ant-design/pro-utils';
 import { Avatar, ConfigProvider } from 'antd';
+
 import classNames from 'classnames';
 import React, { useContext, useEffect, useMemo } from 'react';
 import type { CheckCardGroupProps } from './Group';
 import CheckCardGroup, { CardLoading, CheckCardGroupConnext } from './Group';
 import { useStyle } from './style';
-
 interface CheckCardProps {
   /**
    * 自定义前缀
@@ -127,13 +127,13 @@ const CheckCard: React.FC<CheckCardProps> & {
       onChange: props.onChange,
     },
   );
-  const checkcardGroup = useContext(CheckCardGroupConnext);
+  const checkCardGroup = useContext(CheckCardGroupConnext);
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
 
   const handleClick = (e: any) => {
     props?.onClick?.(e);
     const newChecked = !stateChecked;
-    checkcardGroup?.toggleOption?.({ value: props.value });
+    checkCardGroup?.toggleOption?.({ value: props.value });
     setStateChecked?.(newChecked);
   };
 
@@ -145,8 +145,8 @@ const CheckCard: React.FC<CheckCardProps> & {
   };
 
   useEffect(() => {
-    checkcardGroup?.registerValue?.(props.value);
-    return () => checkcardGroup?.cancelValue?.(props.value);
+    checkCardGroup?.registerValue?.(props.value);
+    return () => checkCardGroup?.cancelValue?.(props.value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
 
@@ -160,7 +160,11 @@ const CheckCard: React.FC<CheckCardProps> & {
   const renderCover = (prefixCls: string, cover: string | React.ReactNode) => {
     return (
       <div className={`${prefixCls}-cover`}>
-        {typeof cover === 'string' ? <img src={cover} alt="checkcard" /> : cover}
+        {typeof cover === 'string' ? (
+          <img src={cover} alt="checkcard" />
+        ) : (
+          cover
+        )}
       </div>
     );
   };
@@ -186,24 +190,30 @@ const CheckCard: React.FC<CheckCardProps> & {
 
   let multiple = false;
 
-  if (checkcardGroup) {
+  if (checkCardGroup) {
     // 受组控制模式
-    checkCardProps.disabled = props.disabled || checkcardGroup.disabled;
-    checkCardProps.loading = props.loading || checkcardGroup.loading;
-    checkCardProps.bordered = props.bordered || checkcardGroup.bordered;
+    checkCardProps.disabled = props.disabled || checkCardGroup.disabled;
+    checkCardProps.loading = props.loading || checkCardGroup.loading;
+    checkCardProps.bordered = props.bordered || checkCardGroup.bordered;
 
-    multiple = checkcardGroup.multiple;
+    multiple = checkCardGroup.multiple;
 
-    const isChecked = checkcardGroup.multiple
-      ? checkcardGroup.value?.includes(props.value)
-      : checkcardGroup.value === props.value;
+    const isChecked = checkCardGroup.multiple
+      ? checkCardGroup.value?.includes(props.value)
+      : checkCardGroup.value === props.value;
 
     // loading时check为false
     checkCardProps.checked = checkCardProps.loading ? false : isChecked;
-    checkCardProps.size = props.size || checkcardGroup.size;
+    checkCardProps.size = props.size || checkCardGroup.size;
   }
 
-  const { disabled = false, size, loading: cardLoading, bordered = true, checked } = checkCardProps;
+  const {
+    disabled = false,
+    size,
+    loading: cardLoading,
+    bordered = true,
+    checked,
+  } = checkCardProps;
   const sizeCls = getSizeCls(size);
 
   const classString = classNames(prefixCls, className, hashId, {
@@ -226,11 +236,15 @@ const CheckCard: React.FC<CheckCardProps> & {
 
     const avatarDom = avatar ? (
       <div className={`${prefixCls}-avatar ${hashId}`}>
-        {typeof avatar === 'string' ? <Avatar size={48} shape="square" src={avatar} /> : avatar}
+        {typeof avatar === 'string' ? (
+          <Avatar size={48} shape="square" src={avatar} />
+        ) : (
+          avatar
+        )}
       </div>
     ) : null;
 
-    const headerDom = (title || extra) && (
+    const headerDom = (title ?? extra) != null && (
       <div className={`${prefixCls}-header ${hashId}`}>
         <div className={`${prefixCls}-title ${hashId}`}>{title}</div>
         {extra && <div className={`${prefixCls}-extra ${hashId}`}>{extra}</div>}
@@ -256,7 +270,16 @@ const CheckCard: React.FC<CheckCardProps> & {
         ) : null}
       </div>
     );
-  }, [avatar, cardLoading, cover, description, extra, hashId, prefixCls, title]);
+  }, [
+    avatar,
+    cardLoading,
+    cover,
+    description,
+    extra,
+    hashId,
+    prefixCls,
+    title,
+  ]);
 
   return wrapSSR(
     <div

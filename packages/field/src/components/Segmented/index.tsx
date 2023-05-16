@@ -5,8 +5,8 @@ import omit from 'omit.js';
 import type { FieldSelectProps } from '../Select';
 import { ObjToMap, proFieldParsingText, useFieldFetchData } from '../Select';
 
-import 'antd/es/segmented/style';
-import 'antd/es/spin/style';
+import 'antd/lib/segmented/style';
+import 'antd/lib/spin/style';
 
 /**
  * Segmented https://ant.design/components/segmented-cn/
@@ -18,7 +18,10 @@ const FieldSegmented: ProFieldFC<
     text: string;
     emptyText?: React.ReactNode;
   } & FieldSelectProps
-> = ({ mode, render, renderFormItem, fieldProps, emptyText = '-', ...rest }, ref) => {
+> = (
+  { mode, render, renderFormItem, fieldProps, emptyText = '-', ...rest },
+  ref,
+) => {
   const inputRef = useRef<HTMLInputElement>();
 
   const [loading, options, fetchData] = useFieldFetchData(rest);
@@ -39,10 +42,19 @@ const FieldSegmented: ProFieldFC<
         }, {})
       : undefined;
 
-    const dom = <>{proFieldParsingText(rest.text, ObjToMap(rest.valueEnum || optionsValueEnum))}</>;
+    const dom = (
+      <>
+        {proFieldParsingText(
+          rest.text,
+          ObjToMap(rest.valueEnum || optionsValueEnum),
+        )}
+      </>
+    );
 
     if (render) {
-      return render(rest.text, { mode, ...fieldProps }, <>{dom}</>) ?? emptyText;
+      return (
+        render(rest.text, { mode, ...fieldProps }, <>{dom}</>) ?? emptyText
+      );
     }
     return dom;
   }

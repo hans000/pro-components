@@ -1,8 +1,9 @@
 ﻿import { SearchOutlined } from '@ant-design/icons';
-import { useStyle } from '@ant-design/pro-provider';
+import { ProProvider, useStyle } from '@ant-design/pro-provider';
 import { useDebounceFn } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Select } from 'antd';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useContext } from 'react';
 import { ProHelpProvide } from './HelpProvide';
@@ -45,7 +46,9 @@ export const Highlight: React.FC<{
 
   // 创建正则表达式匹配关键词
   const matchKeywordsRE = new RegExp(
-    words.map((word) => word.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&')).join('|'),
+    words
+      .map((word) => word.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+      .join('|'),
     'gi',
   );
 
@@ -89,13 +92,16 @@ export const Highlight: React.FC<{
 };
 
 export const ProHelpSelect: React.FC<
-  Omit<SelectProps, 'onSearch' | 'optionFilterProp' | 'options' | 'filterOption'> & {
+  Omit<
+    SelectProps,
+    'onSearch' | 'optionFilterProp' | 'options' | 'filterOption'
+  > & {
     iconClassName?: string;
   }
 > = ({ iconClassName, ...props }) => {
   const { dataSource } = useContext(ProHelpProvide);
   const [keyWord, setKeyWork] = useState<string>('');
-
+  const { hashId } = useContext(ProProvider);
   const debounceSetKeyWork = useDebounceFn(async (key) => setKeyWork(key), 20);
 
   const [open, setOpen] = useState<boolean>(false);
@@ -103,7 +109,7 @@ export const ProHelpSelect: React.FC<
   return (
     <>
       {!open ? (
-        <div className={iconClassName}>
+        <div className={classNames(iconClassName, hashId)}>
           <SearchOutlined
             title="search panel"
             onClick={() => {
@@ -137,12 +143,22 @@ export const ProHelpSelect: React.FC<
           dropdownMatchSelectWidth={false}
           options={dataSource.map((item) => {
             return {
-              label: <Highlight label={item.title} words={[keyWord].filter(Boolean)} />,
+              label: (
+                <Highlight
+                  label={item.title}
+                  words={[keyWord].filter(Boolean)}
+                />
+              ),
               title: item.title,
               value: item.key,
               options: item.children?.map((sunItem) => {
                 return {
-                  label: <Highlight label={sunItem.title} words={[keyWord].filter(Boolean)} />,
+                  label: (
+                    <Highlight
+                      label={sunItem.title}
+                      words={[keyWord].filter(Boolean)}
+                    />
+                  ),
                   title: sunItem.title,
                   value: sunItem.key,
                   dataItemKey: item.key,

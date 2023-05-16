@@ -1,5 +1,5 @@
 import type { TabPaneProps, TabsProps } from 'antd';
-import type { LabelTooltipType } from 'antd/es/form/FormItemLabel';
+import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
 import type { ReactNode } from 'react';
 
 export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
@@ -58,7 +58,11 @@ type CardPropsBase = {
   /** 受控 collapsed 属性 */
   collapsed?: boolean;
   /** 折叠按钮自定义节点 */
-  collapsibleIconRender?: ({ collapsed }: { collapsed: boolean }) => React.ReactNode;
+  collapsibleIconRender?: ({
+    collapsed,
+  }: {
+    collapsed: boolean;
+  }) => React.ReactNode;
   /** 配置默认是否折叠 */
   defaultCollapsed?: boolean;
   /** 收起卡片的事件 */

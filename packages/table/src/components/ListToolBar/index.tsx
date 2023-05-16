@@ -2,8 +2,8 @@ import { useIntl } from '@ant-design/pro-provider';
 import { LabelIconTip } from '@ant-design/pro-utils';
 import type { TabPaneProps } from 'antd';
 import { ConfigProvider, Input, Tabs, Tooltip } from 'antd';
-import type { LabelTooltipType } from 'antd/es/form/FormItemLabel';
-import type { SearchProps } from 'antd/es/input';
+import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
+import type { SearchProps } from 'antd/lib/input';
 import classNames from 'classnames';
 import React, { useContext, useMemo, useState } from 'react';
 import type { ListToolBarHeaderMenuProps } from './HeaderMenu';
@@ -25,6 +25,7 @@ type TabPane = TabPaneProps & {
 
 export type ListToolBarTabs = {
   activeKey?: string;
+  defaultActiveKey?: string;
   onChange?: (activeKey: string) => void;
   items?: TabPane[];
 };
@@ -32,7 +33,9 @@ export type ListToolBarTabs = {
 export type ListToolBarMenu = ListToolBarHeaderMenuProps;
 
 type SearchPropType =
-  | (SearchProps & { onSearch: (searchValue: string) => Promise<false | void> | false | void })
+  | (SearchProps & {
+      onSearch: (searchValue: string) => Promise<false | void> | false | void;
+    })
   | React.ReactNode
   | boolean;
 type SettingPropType = React.ReactNode | ListToolBarSetting;
@@ -112,6 +115,7 @@ const ListToolBarTabBar: React.FC<{
           style={{
             width: '100%',
           }}
+          defaultActiveKey={tabs.defaultActiveKey}
           activeKey={tabs.activeKey}
           //@ts-ignore
           items={tabs.items.map((item, index) => ({
@@ -123,7 +127,9 @@ const ListToolBarTabBar: React.FC<{
           tabBarExtraContent={filtersNode}
         >
           {tabs.items?.map((item, index) => {
-            return <Tabs.TabPane {...item} key={item.key || index} tab={item.tab} />;
+            return (
+              <Tabs.TabPane {...item} key={item.key || index} tab={item.tab} />
+            );
           })}
         </Tabs>
       ) : (
@@ -189,7 +195,8 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
 
   /** 轻量筛选组件 */
   const filtersNode = useMemo(() => {
-    if (filter) return <div className={`${prefixCls}-filter ${hashId}`}>{filter}</div>;
+    if (filter)
+      return <div className={`${prefixCls}-filter ${hashId}`}>{filter}</div>;
     return null;
   }, [filter, hashId, prefixCls]);
 
@@ -232,9 +239,19 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
 
   const hasRight = useMemo(() => {
     return (
-      (hasTitle && searchNode) || (!multipleLine && filtersNode) || actionDom || settings?.length
+      (hasTitle && searchNode) ||
+      (!multipleLine && filtersNode) ||
+      actionDom ||
+      settings?.length
     );
-  }, [actionDom, filtersNode, hasTitle, multipleLine, searchNode, settings?.length]);
+  }, [
+    actionDom,
+    filtersNode,
+    hasTitle,
+    multipleLine,
+    searchNode,
+    settings?.length,
+  ]);
 
   const hasLeft = useMemo(
     () => tooltip || title || subTitle || menu || (!hasTitle && searchNode),
@@ -258,19 +275,40 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
       );
     }
     return (
-      <div className={`${prefixCls}-left ${hashId}`}>
+      <div
+        className={classNames(`${prefixCls}-left`, hashId, {
+          [`${prefixCls}-left-has-tabs`]: menu?.type === 'tab',
+          [`${prefixCls}-left-has-dropdown`]: menu?.type === 'dropdown',
+          [`${prefixCls}-left-has-inline-menu`]: menu?.type === 'inline',
+        })}
+      >
         {hasTitle && !menu && (
           <div className={`${prefixCls}-title ${hashId}`}>
             <LabelIconTip tooltip={tooltip} label={title} subTitle={subTitle} />
           </div>
         )}
-        {menu && <HeaderMenu {...menu} prefixCls={prefixCls} />}
+
+        {menu && (
+          // 这里面实现了 tabs 的逻辑
+          <HeaderMenu {...menu} prefixCls={prefixCls} />
+        )}
         {!hasTitle && searchNode ? (
           <div className={`${prefixCls}-search ${hashId}`}>{searchNode}</div>
         ) : null}
       </div>
     );
-  }, [hasLeft, hasRight, hasTitle, hashId, menu, prefixCls, searchNode, subTitle, title, tooltip]);
+  }, [
+    hasLeft,
+    hasRight,
+    hasTitle,
+    hashId,
+    menu,
+    prefixCls,
+    searchNode,
+    subTitle,
+    title,
+    tooltip,
+  ]);
 
   const rightTitleDom = useMemo(() => {
     if (!hasRight) return null;
@@ -290,7 +328,10 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
               const settingItem = getSettingItem(setting);
               return (
                 // eslint-disable-next-line react/no-array-index-key
-                <div key={index} className={`${prefixCls}-setting-item ${hashId}`}>
+                <div
+                  key={index}
+                  className={`${prefixCls}-setting-item ${hashId}`}
+                >
                   {settingItem}
                 </div>
               );
@@ -323,12 +364,22 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
         {rightTitleDom}
       </div>
     );
-  }, [hasLeft, hasRight, hashId, isMobile, leftTitleDom, prefixCls, rightTitleDom]);
+  }, [
+    hasLeft,
+    hasRight,
+    hashId,
+    isMobile,
+    leftTitleDom,
+    prefixCls,
+    rightTitleDom,
+  ]);
 
   return wrapSSR(
     <ResizeObserver
       onResize={(size) => {
-        setIsMobile(size.width < 375);
+        if (size.width < 375 !== isMobile) {
+          setIsMobile(size.width < 375);
+        }
       }}
     >
       <div style={style} className={classNames(prefixCls, hashId, className)}>

@@ -2,6 +2,84 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.7...@ant-design/pro-field@2.7.0) (2023-05-15)
+
+### Bug Fixes
+
+- **form:** 当设置了 digit 的 stringMode 为 true，但是组件没有返回 string ([#7031](https://github.com/ant-design/pro-components/issues/7031)) ([5dddc32](https://github.com/ant-design/pro-components/commit/5dddc32cb8525c1333fa73e10f6e09ae1b12f14c))
+
+### Features
+
+- **form:** rewirte light date form ([#7052](https://github.com/ant-design/pro-components/issues/7052)) ([1cf4bfa](https://github.com/ant-design/pro-components/commit/1cf4bfa39858f03e1aadeb290d40ba8b82cdf170))
+
+## [2.6.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.6...@ant-design/pro-field@2.6.7) (2023-05-08)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.6.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.5...@ant-design/pro-field@2.6.6) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.6.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.4...@ant-design/pro-field@2.6.5) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.6.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.3...@ant-design/pro-field@2.6.4) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.6.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.2...@ant-design/pro-field@2.6.3) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.6.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.1...@ant-design/pro-field@2.6.2) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.6.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.6.0...@ant-design/pro-field@2.6.1) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+# [2.6.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.5.2...@ant-design/pro-field@2.6.0) (2023-04-25)
+
+### Bug Fixes
+
+- **form:** fix parsed NaN value not display in readonly mode ([#6932](https://github.com/ant-design/pro-components/issues/6932)) ([4dee84a](https://github.com/ant-design/pro-components/commit/4dee84ae503ef34b2547b972652f978dd2ca1965))
+- **form:** 修复 form 重复渲染的 bug ([#6874](https://github.com/ant-design/pro-components/issues/6874)) ([c6000cc](https://github.com/ant-design/pro-components/commit/c6000ccab5d8f5da269348b6d0dfa31a82eef477))
+- **ProFormRadio:** 修复 radio 和 text 水平对齐[#6869](https://github.com/ant-design/pro-components/issues/6869) ([#6875](https://github.com/ant-design/pro-components/issues/6875)) ([1f63346](https://github.com/ant-design/pro-components/commit/1f6334640f3c8b7bed6c3a6568ea05a062b4c52a))
+
+### Features
+
+- **form:** add some DateRangePicker components ([#6850](https://github.com/ant-design/pro-components/issues/6850)) ([26cbe28](https://github.com/ant-design/pro-components/commit/26cbe28b4408847a965983049b020b9f4399eddb))
+
+## [2.5.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.5.1...@ant-design/pro-field@2.5.2) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-field
+
+## [2.5.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.5.0...@ant-design/pro-field@2.5.1) (2023-03-14)
+
+### Bug Fixes
+
+- **compoments:** remove .ant-pro dom ([403319f](https://github.com/ant-design/pro-components/commit/403319f2b80489d04101f51d65c3cb4dcbe4595d))
+
+# [2.5.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.4.0...@ant-design/pro-field@2.5.0) (2023-03-09)
+
+### Bug Fixes
+
+- **form:** Select request not trigger twice when keywords not change … ([#6717](https://github.com/ant-design/pro-components/issues/6717)) ([7828d57](https://github.com/ant-design/pro-components/commit/7828d579cdb74761224347a145b989783f268606)), closes [#6716](https://github.com/ant-design/pro-components/issues/6716) [#6716](https://github.com/ant-design/pro-components/issues/6716)
+- **layout:** fix menu item icon style error ([#6745](https://github.com/ant-design/pro-components/issues/6745)) ([87f9656](https://github.com/ant-design/pro-components/commit/87f965682e81d9ce166d140dd418a37a6020abcf))
+
+# [2.4.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.3.0...@ant-design/pro-field@2.4.0) (2023-03-08)
+
+### Bug Fixes
+
+- **form:** lightSelect 默认转小写 [#6692](https://github.com/ant-design/pro-components/issues/6692) ([#6696](https://github.com/ant-design/pro-components/issues/6696)) ([90ad382](https://github.com/ant-design/pro-components/commit/90ad3821b57306c8a798086d26ce3a8e117e2839))
+
+### Features
+
+- **components:** support antd@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
+- **layout:** add ProHelp components ([#6654](https://github.com/ant-design/pro-components/issues/6654)) ([b1a175c](https://github.com/ant-design/pro-components/commit/b1a175c9ecbdf24a26f1cf34e10a92da05ab2b9c)), closes [#6671](https://github.com/ant-design/pro-components/issues/6671) [#6676](https://github.com/ant-design/pro-components/issues/6676)
+
 # [2.3.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-field@2.2.9...@ant-design/pro-field@2.3.0) (2023-02-28)
 
 ### Bug Fixes

@@ -2,6 +2,96 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.9...@ant-design/pro-table@3.6.10) (2023-05-15)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.6.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.8...@ant-design/pro-table@3.6.9) (2023-05-08)
+
+### Bug Fixes
+
+- **table:** table should support dependencies ([#7019](https://github.com/ant-design/pro-components/issues/7019)) ([7addd50](https://github.com/ant-design/pro-components/commit/7addd5031c68720b809bbdd292e828f7b04bfd04))
+
+## [3.6.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.7...@ant-design/pro-table@3.6.8) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.6.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.6...@ant-design/pro-table@3.6.7) (2023-05-04)
+
+### Bug Fixes
+
+- **table:** 修复 useLocaleFilter 方法未判断存在 children 的情况 ([#6987](https://github.com/ant-design/pro-components/issues/6987)) ([5990003](https://github.com/ant-design/pro-components/commit/59900031e51592c989c79dd54d40007fe92210ee))
+
+## [3.6.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.5...@ant-design/pro-table@3.6.6) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.6.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.4...@ant-design/pro-table@3.6.5) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.6.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.3...@ant-design/pro-table@3.6.4) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.6.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.2...@ant-design/pro-table@3.6.3) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.6.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.1...@ant-design/pro-table@3.6.2) (2023-04-25)
+
+### Bug Fixes
+
+- **table:** new fetch function ([#6923](https://github.com/ant-design/pro-components/issues/6923)) ([275e9c1](https://github.com/ant-design/pro-components/commit/275e9c108ec939f13dbea002b5d287a074fce42e))
+- **table:** 修复当 loading 为对象时,pro-table 无法接管 loading 状态,必须手动控制的问题 ([#6962](https://github.com/ant-design/pro-components/issues/6962)) ([59bdd1a](https://github.com/ant-design/pro-components/commit/59bdd1ab39b581e8b2ebeedf14943ce35bcd9f9c))
+
+## [3.6.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.0...@ant-design/pro-table@3.6.1) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+# [3.6.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.5.2...@ant-design/pro-table@3.6.0) (2023-03-27)
+
+### Bug Fixes
+
+- **from:** solve queryfilter padding problem ([#6797](https://github.com/ant-design/pro-components/issues/6797)) ([fa92aae](https://github.com/ant-design/pro-components/commit/fa92aae5dc7b43e230b540a5215112c967dfb3cd))
+
+### Features
+
+- **table:** ProTable 的 toolbar.tabs 和 toolbar.menu 配置下增加 defaultActiveKey 选项 ([#6818](https://github.com/ant-design/pro-components/issues/6818)) ([f87c0da](https://github.com/ant-design/pro-components/commit/f87c0dafcf8284f1b23674372def4adced6e6d62))
+
+## [3.5.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.5.1...@ant-design/pro-table@3.5.2) (2023-03-14)
+
+### Bug Fixes
+
+- **compoments:** remove .ant-pro dom ([403319f](https://github.com/ant-design/pro-components/commit/403319f2b80489d04101f51d65c3cb4dcbe4595d))
+- **form:** fix AdvancedSearch demo no work error ([226fbac](https://github.com/ant-design/pro-components/commit/226fbac4e214a912a84973f69ccdd1183ffd34f0))
+
+## [3.5.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.5.0...@ant-design/pro-table@3.5.1) (2023-03-13)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+# [3.5.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.4.0...@ant-design/pro-table@3.5.0) (2023-03-09)
+
+### Bug Fixes
+
+- **layout:** fix menu item icon style error ([#6745](https://github.com/ant-design/pro-components/issues/6745)) ([87f9656](https://github.com/ant-design/pro-components/commit/87f965682e81d9ce166d140dd418a37a6020abcf))
+
+# [3.4.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.3.2...@ant-design/pro-table@3.4.0) (2023-03-08)
+
+### Bug Fixes
+
+- **table:** 修复 maxLength 选项配置为 0 时逻辑不符合预期的问题 ([#6719](https://github.com/ant-design/pro-components/issues/6719)) ([6983804](https://github.com/ant-design/pro-components/commit/69838042971b5869b90b01e50cfb2ba85b258050))
+- slove toolbar wrap problem ([#6694](https://github.com/ant-design/pro-components/issues/6694)) ([1ffd5bf](https://github.com/ant-design/pro-components/commit/1ffd5bfd11d8e8c2c0f26eeaf0ab88b0539a0a2a))
+
+### Features
+
+- **components:** support antd@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
+- **layout:** add ProHelp components ([#6654](https://github.com/ant-design/pro-components/issues/6654)) ([b1a175c](https://github.com/ant-design/pro-components/commit/b1a175c9ecbdf24a26f1cf34e10a92da05ab2b9c)), closes [#6671](https://github.com/ant-design/pro-components/issues/6671) [#6676](https://github.com/ant-design/pro-components/issues/6676)
+
+### Reverts
+
+- Revert "chore: remove useless code (#6690)" (#6701) ([4c6d070](https://github.com/ant-design/pro-components/commit/4c6d0702a4312edac0347d24e5f855435286a0cb)), closes [#6690](https://github.com/ant-design/pro-components/issues/6690) [#6701](https://github.com/ant-design/pro-components/issues/6701)
+
 ## [3.3.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.3.1...@ant-design/pro-table@3.3.2) (2023-02-28)
 
 ### Bug Fixes

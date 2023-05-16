@@ -1,18 +1,34 @@
 ﻿import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useIntl } from '@ant-design/pro-provider';
 import { ProFormContext } from '@ant-design/pro-utils';
+import type { ColProps } from 'antd';
 import { ConfigProvider, Form } from 'antd';
-import type { LabelTooltipType } from 'antd/es/form/FormItemLabel';
-import type { FormListFieldData, FormListOperation, FormListProps } from 'antd/es/form/FormList';
-import type { NamePath } from 'antd/es/form/interface';
+import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
+import type {
+  FormListFieldData,
+  FormListOperation,
+  FormListProps,
+} from 'antd/lib/form/FormList';
+import type { NamePath } from 'antd/lib/form/interface';
 import classNames from 'classnames';
-import { noteOnce } from 'rc-util/es/warning';
+
+import { noteOnce } from 'rc-util/lib/warning';
 import type { ReactNode } from 'react';
-import React, { useContext, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from 'react';
 import { useGridHelpers } from '../../helpers';
 import type { ProFormGridConfig } from '../../typing';
 import { ProFormListContainer } from './ListContainer';
-import type { ChildrenItemFunction, FormListActionGuard, ProFromListCommonProps } from './ListItem';
+import type {
+  ChildrenItemFunction,
+  FormListActionGuard,
+  ProFromListCommonProps,
+} from './ListItem';
 import { useStyle } from './style';
 
 const FormListContext = React.createContext<
@@ -80,17 +96,25 @@ export type ProFormListProps<T> = Omit<FormListProps, 'children' | 'rules'> &
     /**
      * 数据新增成功回调
      */
-    onAfterAdd?: (...params: [...Parameters<FormListOperation['add']>, number]) => void;
+    onAfterAdd?: (
+      ...params: [...Parameters<FormListOperation['add']>, number]
+    ) => void;
     /**
      * 数据移除成功回调
      */
-    onAfterRemove?: (...params: [...Parameters<FormListOperation['remove']>, number]) => void;
+    onAfterRemove?: (
+      ...params: [...Parameters<FormListOperation['remove']>, number]
+    ) => void;
     /** 是否同时校验列表是否为空 */
     isValidateList?: boolean;
     /** 当 isValidateList 为 true 时执行为空提示 */
     emptyListMessage?: string;
-    rules?: (Required<FormListProps>['rules'][number] & { required?: boolean })[];
+    rules?: (Required<FormListProps>['rules'][number] & {
+      required?: boolean;
+    })[];
     required?: boolean;
+    wrapperCol?: ColProps;
+    className?: string;
   } & Pick<ProFormGridConfig, 'colProps' | 'rowProps'>;
 
 function ProFormList<T>(props: ProFormListProps<T>) {
@@ -129,11 +153,13 @@ function ProFormList<T>(props: ProFormListProps<T>) {
     min,
     max,
     colProps,
+    wrapperCol,
     rowProps,
     onAfterAdd,
     onAfterRemove,
     isValidateList = false,
     emptyListMessage = '列表不能为空',
+    className,
     ...rest
   } = props;
 
@@ -156,15 +182,22 @@ function ProFormList<T>(props: ProFormListProps<T>) {
       ({
         ...actionRefs.current,
         get: (index: number) => {
-          return proFormContext.formRef!.current!.getFieldValue([...name, index]);
+          return proFormContext.formRef!.current!.getFieldValue([
+            ...name,
+            index,
+          ]);
         },
-        getList: () => proFormContext.formRef!.current!.getFieldValue([...name]),
+        getList: () =>
+          proFormContext.formRef!.current!.getFieldValue([...name]),
       } as any),
     [name, proFormContext.formRef],
   );
 
   useEffect(() => {
-    noteOnce(!!proFormContext.formRef, `ProFormList 必须要放到 ProForm 中,否则会造成行为异常。`);
+    noteOnce(
+      !!proFormContext.formRef,
+      `ProFormList 必须要放到 ProForm 中,否则会造成行为异常。`,
+    );
     noteOnce(
       !!proFormContext.formRef,
       `Proformlist must be placed in ProForm, otherwise it will cause abnormal behavior.`,
@@ -238,7 +271,9 @@ function ProFormList<T>(props: ProFormListProps<T>) {
                     onAfterRemove={(index, count) => {
                       if (isValidateList) {
                         if (count === 0) {
-                          proFormContext.formRef!.current!.validateFields([name]);
+                          proFormContext.formRef!.current!.validateFields([
+                            name,
+                          ]);
                         }
                       }
                       onAfterRemove?.(index, count);

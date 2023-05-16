@@ -5,7 +5,7 @@ import MockDate from 'mockdate';
 import React from 'react';
 import tableData from './table/mock.data.json';
 
-import { defaultConfig } from 'antd/es/theme/internal';
+import { defaultConfig } from 'antd/lib/theme/internal';
 
 defaultConfig.hashed = false;
 
@@ -60,7 +60,6 @@ Object.defineProperty(window, 'open', {
 });
 
 const crypto = require('crypto');
-
 Object.defineProperty(global.self, 'crypto', {
   value: {
     getRandomValues: (arr: any[]) => crypto.randomBytes(arr.length),

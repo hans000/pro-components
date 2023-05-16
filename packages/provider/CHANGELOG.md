@@ -2,6 +2,90 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.6...@ant-design/pro-provider@2.8.7) (2023-05-15)
+
+### Bug Fixes
+
+- **layout:** support fix header scroll use new color ([#7071](https://github.com/ant-design/pro-components/issues/7071)) ([55f15da](https://github.com/ant-design/pro-components/commit/55f15da73f35c705ab408654498e74fe6241aabe))
+
+## [2.8.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.5...@ant-design/pro-provider@2.8.6) (2023-05-08)
+
+### Bug Fixes
+
+- **layout:** use best className slove token error ([8090248](https://github.com/ant-design/pro-components/commit/80902487e865f37ce362e28c429ee7fc6368ef8e))
+- **provide:** defalut omit undefined value ([8199b08](https://github.com/ant-design/pro-components/commit/8199b08449620c5821d8b26be9ff3fcbd0d047db))
+
+## [2.8.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.4...@ant-design/pro-provider@2.8.5) (2023-05-04)
+
+### Bug Fixes
+
+- **layout:** support controlHeightLG token ([c2841b3](https://github.com/ant-design/pro-components/commit/c2841b310d375ffbde18f9aca6cd027affe9251c))
+
+## [2.8.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.3...@ant-design/pro-provider@2.8.4) (2023-05-04)
+
+### Bug Fixes
+
+- **provide:** fix default antCls no work error ([a3e7a11](https://github.com/ant-design/pro-components/commit/a3e7a113a97c8ef84ab7c2fa30a6b9ac6d117382))
+- support antd new version ([c90977c](https://github.com/ant-design/pro-components/commit/c90977c00ed524155a21de647216a54b0efd6332))
+
+## [2.8.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.2...@ant-design/pro-provider@2.8.3) (2023-04-26)
+
+### Bug Fixes
+
+- **components:** add process==undefined determine ([5494986](https://github.com/ant-design/pro-components/commit/5494986aceb4f90234d0c9cd51000db6aa1c7bdb))
+
+## [2.8.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.1...@ant-design/pro-provider@2.8.2) (2023-04-25)
+
+### Bug Fixes
+
+- **provide:** unuse process.env.NODE_ENV === 'TEST' ([0d9cba1](https://github.com/ant-design/pro-components/commit/0d9cba1a7fe74a87c6daf93a36f768801059f42d))
+
+## [2.8.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.0...@ant-design/pro-provider@2.8.1) (2023-04-25)
+
+### Bug Fixes
+
+- **layout:** fix colorBgMenuItemHover no work error ([3bfa45a](https://github.com/ant-design/pro-components/commit/3bfa45ad054d22e5ea2dfcf405e7a5279e8a4d39))
+
+# [2.8.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.7.0...@ant-design/pro-provider@2.8.0) (2023-04-25)
+
+### Bug Fixes
+
+- **components:** 修复在浏览器环境下 hashed 必为 false 的 bug ([#6900](https://github.com/ant-design/pro-components/issues/6900)) ([1de7341](https://github.com/ant-design/pro-components/commit/1de7341e954ffff3426bc156dc2dc2eefa8b8a4e))
+
+### Features
+
+- **layout:** ProHelp support more feature ([#6970](https://github.com/ant-design/pro-components/issues/6970)) ([b445d0b](https://github.com/ant-design/pro-components/commit/b445d0bb350389ac96f6e711a4fc6a86ace56fb9))
+
+# [2.7.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.6.1...@ant-design/pro-provider@2.7.0) (2023-03-27)
+
+### Features
+
+- **components:** Add translation for Slovak and Czech ([#6802](https://github.com/ant-design/pro-components/issues/6802)) ([d86638b](https://github.com/ant-design/pro-components/commit/d86638bb611de6e71616462979710d72bca7d5d6))
+
+## [2.6.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.6.0...@ant-design/pro-provider@2.6.1) (2023-03-14)
+
+### Bug Fixes
+
+- **compoments:** remove .ant-pro dom ([403319f](https://github.com/ant-design/pro-components/commit/403319f2b80489d04101f51d65c3cb4dcbe4595d))
+- **form:** fix AdvancedSearch demo no work error ([226fbac](https://github.com/ant-design/pro-components/commit/226fbac4e214a912a84973f69ccdd1183ffd34f0))
+
+# [2.6.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.5.0...@ant-design/pro-provider@2.6.0) (2023-03-09)
+
+### Bug Fixes
+
+- **layout:** fix colorBgPageContainerFixed no use colorBgElevated error ([712bc82](https://github.com/ant-design/pro-components/commit/712bc820fccb8f4db481d96918430696b9a62f54))
+- **layout:** fix menu item icon style error ([#6745](https://github.com/ant-design/pro-components/issues/6745)) ([87f9656](https://github.com/ant-design/pro-components/commit/87f965682e81d9ce166d140dd418a37a6020abcf))
+
+# [2.5.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.4.3...@ant-design/pro-provider@2.5.0) (2023-03-08)
+
+### Bug Fixes
+
+- **components:** src alway use es path ([4a13142](https://github.com/ant-design/pro-components/commit/4a1314225c08a60c5cef9d51f061cdf15a69ca13))
+
+### Features
+
+- **layout:** add ProHelp components ([#6654](https://github.com/ant-design/pro-components/issues/6654)) ([b1a175c](https://github.com/ant-design/pro-components/commit/b1a175c9ecbdf24a26f1cf34e10a92da05ab2b9c)), closes [#6671](https://github.com/ant-design/pro-components/issues/6671) [#6676](https://github.com/ant-design/pro-components/issues/6676)
+
 ## [2.4.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.4.2...@ant-design/pro-provider@2.4.3) (2023-02-17)
 
 ### Bug Fixes

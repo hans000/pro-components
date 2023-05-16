@@ -1,9 +1,8 @@
 import ProProvider from '@ant-design/pro-provider';
 import ProTable from '@ant-design/pro-table';
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { Input } from 'antd';
 import { useContext } from 'react';
-import { act } from 'react-dom/test-utils';
 import { waitTime } from '../util';
 
 const Demo = () => {
@@ -109,16 +108,21 @@ describe('Table valueEnum', () => {
     });
     await waitTime(200);
     act(() => {
-      html.baseElement.querySelector<HTMLDivElement>('form.ant-form div.ant-select')?.click();
+      html.baseElement
+        .querySelector<HTMLDivElement>('form.ant-form div.ant-select')
+        ?.click();
     });
     act(() => {
       expect(
-        html.baseElement.querySelector<HTMLDivElement>('div.ant-select-dropdown'),
-      ).toMatchSnapshot();
+        html.baseElement.querySelector<HTMLDivElement>(
+          'div.ant-select-dropdown',
+        )?.textContent,
+      ).toBe('01关闭运行中已上线异常');
     });
-    expect(html.baseElement.querySelector<HTMLDivElement>('td.ant-table-cell')?.textContent).toBe(
-      '已上线',
-    );
+    expect(
+      html.baseElement.querySelector<HTMLDivElement>('td.ant-table-cell')
+        ?.textContent,
+    ).toBe('已上线');
   });
 
   it('🎏 customization valueType', async () => {

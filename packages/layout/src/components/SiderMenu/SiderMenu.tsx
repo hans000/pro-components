@@ -1,8 +1,8 @@
 import type { GenerateStyle } from '@ant-design/pro-provider';
 import { ProProvider } from '@ant-design/pro-provider';
 import type { AvatarProps, SiderProps } from 'antd';
-import { Avatar, ConfigProvider, Layout, Menu, Space } from 'antd';
-import type { ItemType } from 'antd/es/menu/hooks/useItems';
+import { Avatar, Layout, Menu, Space } from 'antd';
+import type { ItemType } from 'antd/lib/menu/hooks/useItems';
 import classNames from 'classnames';
 import type { CSSProperties } from 'react';
 import React, { useContext, useMemo } from 'react';
@@ -68,14 +68,20 @@ export type SiderMenuProps = {
   /** 相关品牌的列表 */
   appList?: AppListProps;
   /** 相关品牌的列表项 点击事件，当事件存在时，appList 内配置的 url 不在自动跳转 */
-  itemClick?: (item: AppItemProps, popoverRef?: React.RefObject<HTMLSpanElement>) => void;
+  itemClick?: (
+    item: AppItemProps,
+    popoverRef?: React.RefObject<HTMLSpanElement>,
+  ) => void;
   /** 菜单的宽度 */
   siderWidth?: number;
   /** 头像的设置 */
   avatarProps?: WithFalse<
     AvatarProps & {
       title?: React.ReactNode;
-      render?: (props: AvatarProps, defaultDom: React.ReactNode) => React.ReactNode;
+      render?: (
+        props: AvatarProps,
+        defaultDom: React.ReactNode,
+      ) => React.ReactNode;
     }
   >;
 
@@ -90,7 +96,11 @@ export type SiderMenuProps = {
    * @example 不要这个区域了 : menuHeaderRender={false}
    */
   menuHeaderRender?: WithFalse<
-    (logo: React.ReactNode, title: React.ReactNode, props?: SiderMenuProps) => React.ReactNode
+    (
+      logo: React.ReactNode,
+      title: React.ReactNode,
+      props?: SiderMenuProps,
+    ) => React.ReactNode
   >;
   /**
    * @name 侧边菜单底部的配置，可以增加一些底部操作
@@ -205,14 +215,22 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
 
   const baseClassName = `${prefixCls}-sider`;
 
+  // 收起的宽度
+  const collapsedWidth = 64;
+
   // 之所以这样写是为了提升样式优先级，不然会被sider 自带的覆盖掉
-  const stylishClassName = useStylish(`${baseClassName}.${baseClassName}-stylish`, {
-    stylish,
-    proLayoutCollapsedWidth: 64,
-  });
+  const stylishClassName = useStylish(
+    `${baseClassName}.${baseClassName}-stylish`,
+    {
+      stylish,
+      proLayoutCollapsedWidth: collapsedWidth,
+    },
+  );
 
   const siderClassName = classNames(`${baseClassName}`, hashId, {
     [`${baseClassName}-fixed`]: fixSiderbar,
+    [`${baseClassName}-fixed-mix`]:
+      layout === 'mix' && !isMobile && fixSiderbar,
     [`${baseClassName}-collapsed`]: props.collapsed,
     [`${baseClassName}-layout-${layout}`]: layout && !isMobile,
     [`${baseClassName}-light`]: theme !== 'dark',
@@ -282,7 +300,10 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
         >
           {actionsRender?.(props).map((item, index) => {
             return (
-              <div key={index} className={`${baseClassName}-actions-list-item ${hashId}`}>
+              <div
+                key={index}
+                className={`${baseClassName}-actions-list-item ${hashId}`}
+              >
                 {item}
               </div>
             );
@@ -318,7 +339,14 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
     );
     if (collapsedButtonRender) return collapsedButtonRender(collapsed, dom);
     return dom;
-  }, [collapsedButtonRender, isMobile, originCollapsed, baseClassName, collapsed, onCollapse]);
+  }, [
+    collapsedButtonRender,
+    isMobile,
+    originCollapsed,
+    baseClassName,
+    collapsed,
+    onCollapse,
+  ]);
 
   /** 操作区域的dom */
   const actionAreaDom = useMemo(() => {
@@ -337,8 +365,6 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
       </div>
     );
   }, [actionsDom, avatarDom, baseClassName, collapsed, hashId]);
-
-  const collapsedWidth = 60;
 
   /* Using the useMemo hook to create a CSS class that will hide the menu when the menu is collapsed. */
   const hideMenuWhenCollapsedClassName = useMemo(() => {
@@ -395,7 +421,7 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
             className={`${baseClassName}-link-menu ${hashId}`}
             selectedKeys={[]}
             openKeys={[]}
-            theme="light"
+            theme={theme}
             mode="inline"
             items={linksMenuItems}
           />
@@ -429,8 +455,6 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
     </>
   );
 
-  const { token } = useContext(ProProvider);
-
   return stylishClassName.wrapSSR(
     <>
       {fixSiderbar && !isMobile && !hideMenuWhenCollapsedClassName && (
@@ -457,50 +481,28 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
         }}
         collapsedWidth={collapsedWidth}
         style={style}
-        theme="light"
+        theme={theme}
         width={siderWidth}
-        className={classNames(siderClassName, hashId, hideMenuWhenCollapsedClassName)}
+        className={classNames(
+          siderClassName,
+          hashId,
+          hideMenuWhenCollapsedClassName,
+        )}
       >
-        <ConfigProvider
-          theme={{
-            hashed: process.env.NODE_ENV?.toLowerCase() !== 'test',
-            components: {
-              Menu: {
-                radiusItem: 4,
-                colorItemBgSelected:
-                  token?.layout?.sider?.colorBgMenuItemSelected || 'rgba(0, 0, 0, 0.04)',
-                colorItemBgActive:
-                  token?.layout?.sider?.colorBgMenuItemHover || 'rgba(0, 0, 0, 0.04)',
-                colorActiveBarWidth: 0,
-                colorActiveBarHeight: 0,
-                colorActiveBarBorderSize: 0,
-                colorItemText: token?.layout?.sider?.colorTextMenu || 'rgba(0, 0, 0, 0.65)',
-                colorItemTextHover:
-                  token?.layout?.sider?.colorTextMenuActive || 'rgba(0, 0, 0, 0.85)',
-                colorItemTextSelected:
-                  token?.layout?.sider?.colorTextMenuSelected || 'rgba(0, 0, 0, 1)',
-                colorItemBg: 'transparent',
-                colorSubItemBg: 'transparent',
-                colorBgElevated: token?.layout?.sider?.colorBgMenuItemCollapsedElevated || '#fff',
-              },
-            },
-          }}
-        >
-          {hideMenuWhenCollapsedClassName ? (
-            <div
-              className={`${baseClassName}-hide-when-collapsed ${hashId}`}
-              style={{
-                height: '100%',
-                width: '100%',
-                opacity: hideMenuWhenCollapsedClassName ? 0 : 1,
-              }}
-            >
-              {menuDomItems}
-            </div>
-          ) : (
-            menuDomItems
-          )}
-        </ConfigProvider>
+        {hideMenuWhenCollapsedClassName ? (
+          <div
+            className={`${baseClassName}-hide-when-collapsed ${hashId}`}
+            style={{
+              height: '100%',
+              width: '100%',
+              opacity: hideMenuWhenCollapsedClassName ? 0 : 1,
+            }}
+          >
+            {menuDomItems}
+          </div>
+        ) : (
+          menuDomItems
+        )}
         {collapsedDom}
       </Sider>
     </>,

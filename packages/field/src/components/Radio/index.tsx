@@ -7,7 +7,8 @@ import type { ProFieldFC } from '../../index';
 import type { FieldSelectProps } from '../Select';
 import { ObjToMap, proFieldParsingText, useFieldFetchData } from '../Select';
 // 兼容代码-----------
-import 'antd/es/radio/style';
+import 'antd/lib/radio/style';
+
 //------------
 export type GroupProps = {
   options?: RadioGroupProps['options'];
@@ -39,7 +40,7 @@ const FieldRadio: ProFieldFC<GroupProps> = (
     return {
       [`.${layoutClassName}-vertical`]: {
         [`${token.antCls}-radio-wrapper`]: {
-          display: 'block',
+          display: 'flex',
           marginInlineEnd: 0,
         },
       },
@@ -56,7 +57,14 @@ const FieldRadio: ProFieldFC<GroupProps> = (
           return { ...pre, [cur.value ?? '']: cur.label };
         }, {})
       : undefined;
-    const dom = <>{proFieldParsingText(rest.text, ObjToMap(rest.valueEnum || optionsValueEnum))}</>;
+    const dom = (
+      <>
+        {proFieldParsingText(
+          rest.text,
+          ObjToMap(rest.valueEnum || optionsValueEnum),
+        )}
+      </>
+    );
 
     if (render) {
       return render(rest.text, { mode, ...rest.fieldProps }, dom) || null;
@@ -79,7 +87,9 @@ const FieldRadio: ProFieldFC<GroupProps> = (
       />,
     );
     if (renderFormItem) {
-      return renderFormItem(rest.text, { mode, ...rest.fieldProps }, dom) || null;
+      return (
+        renderFormItem(rest.text, { mode, ...rest.fieldProps }, dom) || null
+      );
     }
     return dom;
   }

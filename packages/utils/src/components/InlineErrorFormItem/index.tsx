@@ -2,7 +2,7 @@
 import { openVisibleCompatible } from '../../compareVersions/openVisibleCompatible';
 import type { FormItemProps, PopoverProps } from 'antd';
 import { ConfigProvider, Form, Popover } from 'antd';
-import type { NamePath } from 'rc-field-form/es/interface';
+import type { NamePath } from 'rc-field-form/lib/interface';
 import React, { useContext, useEffect, useState } from 'react';
 import { useStyle } from './style';
 
@@ -53,6 +53,8 @@ const InlineErrorFormItemPopover: React.FC<{
     },
   );
 
+  const loading = inputProps.validateStatus === 'validating';
+
   return (
     <Popover
       key="popover"
@@ -63,7 +65,7 @@ const InlineErrorFormItemPopover: React.FC<{
       getTooltipContainer={popoverProps?.getTooltipContainer}
       content={wrapSSR(
         <div className={`${prefixCls}-form-item-with-help ${hashId}`}>
-          {inputProps.validateStatus === 'validating' ? <LoadingOutlined /> : null}
+          {loading ? <LoadingOutlined /> : null}
           {errorList}
         </div>,
       )}
@@ -78,7 +80,6 @@ const InlineErrorFormItemPopover: React.FC<{
 };
 
 const InternalFormItemFunction: React.FC<InternalProps & FormItemProps> = ({
-  label,
   rules,
   name,
   children,
@@ -90,7 +91,7 @@ const InternalFormItemFunction: React.FC<InternalProps & FormItemProps> = ({
       preserve={false}
       name={name}
       rules={rules}
-      hasFeedback
+      hasFeedback={false}
       // @ts-ignore
       _internalItemRender={{
         mark: 'pro_table_render',
@@ -127,13 +128,23 @@ export const InlineErrorFormItem = (props: InlineErrorFormItemProps) => {
 
   if (name && rules?.length && errorType === 'popover') {
     return (
-      <InternalFormItemFunction name={name} rules={rules!} popoverProps={popoverProps} {...rest}>
+      <InternalFormItemFunction
+        name={name}
+        rules={rules!}
+        popoverProps={popoverProps}
+        {...rest}
+      >
         {children}
       </InternalFormItemFunction>
     );
   }
   return (
-    <Form.Item rules={rules} {...rest} style={{ ...FIX_INLINE_STYLE, ...rest.style }} name={name}>
+    <Form.Item
+      rules={rules}
+      {...rest}
+      style={{ ...FIX_INLINE_STYLE, ...rest.style }}
+      name={name}
+    >
       {children}
     </Form.Item>
   );

@@ -2,6 +2,75 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.13](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.12...@ant-design/pro-list@2.3.13) (2023-05-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.12](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.11...@ant-design/pro-list@2.3.12) (2023-05-08)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.10...@ant-design/pro-list@2.3.11) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.9...@ant-design/pro-list@2.3.10) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.8...@ant-design/pro-list@2.3.9) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.7...@ant-design/pro-list@2.3.8) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.6...@ant-design/pro-list@2.3.7) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.5...@ant-design/pro-list@2.3.6) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.4...@ant-design/pro-list@2.3.5) (2023-04-25)
+
+### Bug Fixes
+
+- **list:** add pro-utils to package.json deps ([#6894](https://github.com/ant-design/pro-components/issues/6894)) ([68b60ff](https://github.com/ant-design/pro-components/commit/68b60ff805eb5e685c95a173b665a0030ab17846))
+
+## [2.3.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.3...@ant-design/pro-list@2.3.4) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.2...@ant-design/pro-list@2.3.3) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.3.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.1...@ant-design/pro-list@2.3.2) (2023-03-14)
+
+### Bug Fixes
+
+- **compoments:** remove .ant-pro dom ([403319f](https://github.com/ant-design/pro-components/commit/403319f2b80489d04101f51d65c3cb4dcbe4595d))
+- **list:** fix usePaginationArgs and useSelection args error ([fe331b9](https://github.com/ant-design/pro-components/commit/fe331b936586d3377cbfa3f835241eeaba3fbde4))
+
+## [2.3.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.3.0...@ant-design/pro-list@2.3.1) (2023-03-13)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+# [2.3.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.2.0...@ant-design/pro-list@2.3.0) (2023-03-09)
+
+### Bug Fixes
+
+- **layout:** fix menu item icon style error ([#6745](https://github.com/ant-design/pro-components/issues/6745)) ([87f9656](https://github.com/ant-design/pro-components/commit/87f965682e81d9ce166d140dd418a37a6020abcf))
+
+# [2.2.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.1.2...@ant-design/pro-list@2.2.0) (2023-03-08)
+
+### Features
+
+- **components:** support antd@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
+
 ## [2.1.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.1.1...@ant-design/pro-list@2.1.2) (2023-02-28)
 
 **Note:** Version bump only for package @ant-design/pro-list

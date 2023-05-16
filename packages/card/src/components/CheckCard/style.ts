@@ -73,7 +73,7 @@ const genProStyle: GenerateStyle<ProListToken> = (token) => {
             height: '14px',
             marginBlock: '4px',
             background: `linear-gradient(90deg, rgba(54, 61, 64, 0.2), rgba(54, 61, 64, 0.4), rgba(54, 61, 64, 0.2))`,
-            animationName: cardLoading,
+            animationName: cardLoading as unknown as string,
             animationDuration: '1.4s',
             animationTimingFunction: 'ease',
             animationIterationCount: 'infinite',
@@ -142,7 +142,11 @@ const genProStyle: GenerateStyle<ProListToken> = (token) => {
           marginBlockEnd: 4,
         },
       },
-      '&-header': { display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
+      '&-header': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      },
       '&-title': {
         overflow: 'hidden',
         color: token.colorTextHeading,

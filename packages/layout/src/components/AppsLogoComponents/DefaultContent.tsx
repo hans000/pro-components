@@ -15,8 +15,14 @@ export const DefaultContent: React.FC<{
         {appList?.map((app, index) => {
           if (app?.children?.length) {
             return (
-              <div className={`${baseClassName}-content-list-item-group ${hashId}`}>
-                <div className={`${baseClassName}-content-list-item-group-title ${hashId}`}>
+              <div
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                className={`${baseClassName}-content-list-item-group ${hashId}`}
+              >
+                <div
+                  className={`${baseClassName}-content-list-item-group-title ${hashId}`}
+                >
                   {app.title}
                 </div>
                 <DefaultContent

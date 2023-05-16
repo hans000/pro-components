@@ -1,5 +1,6 @@
 ﻿import { useDebounceFn } from '@ant-design/pro-utils';
 import { Avatar, ConfigProvider } from 'antd';
+
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import React, { useContext, useMemo, useState } from 'react';
@@ -65,16 +66,23 @@ export const ActionsContent: React.FC<GlobalHeaderProps> = ({
                   <div
                     // eslint-disable-next-line react/no-array-index-key
                     key={index}
-                    className={classNames(`${prefixCls}-header-actions-item ${hashId}`, {
-                      [`${prefixCls}-header-actions-hover`]: !hideHover,
-                    })}
+                    className={classNames(
+                      `${prefixCls}-header-actions-item ${hashId}`,
+                      {
+                        [`${prefixCls}-header-actions-hover`]: !hideHover,
+                      },
+                    )}
                   >
                     {dom}
                   </div>
                 );
               })}
               {avatarDom && (
-                <span className={`${prefixCls}-header-actions-avatar ${hashId}`}>{avatarDom}</span>
+                <span
+                  className={`${prefixCls}-header-actions-avatar ${hashId}`}
+                >
+                  {avatarDom}
+                </span>
               )}
             </div>,
           );

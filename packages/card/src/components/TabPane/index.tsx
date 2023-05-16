@@ -1,8 +1,8 @@
 import type { TabPaneProps, TabsProps } from 'antd';
 import { ConfigProvider, Tabs, version } from 'antd';
 import classNames from 'classnames';
-import toArray from 'rc-util/es/Children/toArray';
-import { noteOnce } from 'rc-util/es/warning';
+import toArray from 'rc-util/lib/Children/toArray';
+import { noteOnce } from 'rc-util/lib/warning';
 import React, { useContext } from 'react';
 import type { ProCardTabPaneProps, ProCardTabsProps } from '../../typing';
 import Card from '../Card';
@@ -26,22 +26,24 @@ export function useLegacyItems(
   }
   noteOnce(!tabs, 'Tabs.TabPane is deprecated. Please use `items` directly.');
 
-  const childrenItems = toArray(children).map((node: React.ReactElement<TabPaneProps>) => {
-    if (React.isValidElement(node)) {
-      const { key, props } = node;
-      const { tab, children: tempChild, ...restProps } = props || {};
+  const childrenItems = toArray(children).map(
+    (node: React.ReactElement<TabPaneProps>) => {
+      if (React.isValidElement(node)) {
+        const { key, props } = node;
+        const { tab, children: tempChild, ...restProps } = props || {};
 
-      const item = {
-        key: String(key),
-        ...restProps,
-        children: <Card {...tabs?.cardProps}>{tempChild}</Card>,
-        label: tab,
-      };
-      return item;
-    }
+        const item = {
+          key: String(key),
+          ...restProps,
+          children: <Card {...tabs?.cardProps}>{tempChild}</Card>,
+          label: tab,
+        };
+        return item;
+      }
 
-    return null;
-  });
+      return null;
+    },
+  );
 
   return filter(childrenItems);
 }

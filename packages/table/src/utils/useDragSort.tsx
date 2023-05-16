@@ -1,5 +1,5 @@
 import { useRefFunction } from '@ant-design/pro-utils';
-import type { TableComponents } from 'rc-table/es/interface';
+import type { TableComponents } from 'rc-table/lib/interface';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import type { SortDataParams } from './index';
 import { sortData } from './index';
@@ -44,7 +44,8 @@ export function useDragSort<T>(props: UseDragSortOptions<T>) {
     const { ...restProps } = p;
     // function findIndex base on Table rowKey props and should always be a right array index
     const index = dataSource.findIndex(
-      (item: any) => item[props.rowKey ?? 'index'] === restProps['data-row-key'],
+      (item: any) =>
+        item[props.rowKey ?? 'index'] === restProps['data-row-key'],
     );
     return <SortableItem index={index} {...restProps} />;
   });

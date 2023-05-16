@@ -1,14 +1,14 @@
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import ArrowRightOutlined from '@ant-design/icons/ArrowRightOutlined';
-import type { AvatarProps, BreadcrumbProps, TagType } from 'antd';
+import type { AvatarProps, TagType, BreadcrumbProps } from 'antd';
 import { Avatar, Breadcrumb, ConfigProvider, Space } from 'antd';
-import type { DirectionType } from 'antd/es/config-provider';
+import type { DirectionType } from 'antd/lib/config-provider';
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import * as React from 'react';
 import useStyle from './style/index';
 import type { ContentWidth } from '../../defaultSettings';
-import 'antd/es/breadcrumb/style';
+import 'antd/lib/breadcrumb/style';
 
 export interface PageHeaderProps {
   backIcon?: React.ReactNode;
@@ -17,8 +17,11 @@ export interface PageHeaderProps {
   subTitle?: React.ReactNode;
   style?: React.CSSProperties;
   childrenContentStyle?: React.CSSProperties;
-  breadcrumb?: BreadcrumbProps | React.ReactElement<typeof Breadcrumb>;
-  breadcrumbRender?: (props: PageHeaderProps, defaultDom: React.ReactNode) => React.ReactNode;
+  breadcrumb?: Partial<BreadcrumbProps> | React.ReactElement<typeof Breadcrumb>;
+  breadcrumbRender?: (
+    props: PageHeaderProps,
+    defaultDom: React.ReactNode,
+  ) => React.ReactNode;
   tags?: React.ReactElement<TagType> | React.ReactElement<TagType>[];
   footer?: React.ReactNode;
   extra?: React.ReactNode;
@@ -56,7 +59,7 @@ const renderBack = (
 };
 
 const renderBreadcrumb = (breadcrumb: BreadcrumbProps, prefixCls: string) => {
-  if (!breadcrumb.routes?.length) return null;
+  if (!breadcrumb.items?.length) return null;
   return (
     <Breadcrumb
       {...breadcrumb}
@@ -65,7 +68,10 @@ const renderBreadcrumb = (breadcrumb: BreadcrumbProps, prefixCls: string) => {
   );
 };
 
-const getBackIcon = (props: PageHeaderProps, direction: DirectionType = 'ltr') => {
+const getBackIcon = (
+  props: PageHeaderProps,
+  direction: DirectionType = 'ltr',
+) => {
   if (props.backIcon !== undefined) {
     return props.backIcon;
   }
@@ -95,7 +101,11 @@ const renderTitle = (
           {backIconDom}
           {avatar && (
             <Avatar
-              className={classNames(`${headingPrefixCls}-avatar`, hashId, avatar.className)}
+              className={classNames(
+                `${headingPrefixCls}-avatar`,
+                hashId,
+                avatar.className,
+              )}
               {...avatar}
             />
           )}
@@ -115,7 +125,9 @@ const renderTitle = (
               {subTitle}
             </span>
           )}
-          {tags && <span className={`${headingPrefixCls}-tags ${hashId}`}>{tags}</span>}
+          {tags && (
+            <span className={`${headingPrefixCls}-tags ${hashId}`}>{tags}</span>
+          )}
         </div>
       )}
       {extra && (
@@ -127,16 +139,22 @@ const renderTitle = (
   );
 };
 
-const renderFooter = (prefixCls: string, footer: React.ReactNode, hashId: string) => {
+const renderFooter = (
+  prefixCls: string,
+  footer: React.ReactNode,
+  hashId: string,
+) => {
   if (footer) {
     return <div className={`${prefixCls}-footer ${hashId}`}>{footer}</div>;
   }
   return null;
 };
 
-const renderChildren = (prefixCls: string, children: React.ReactNode, hashId: string) => (
-  <div className={`${prefixCls}-content ${hashId}`}>{children}</div>
-);
+const renderChildren = (
+  prefixCls: string,
+  children: React.ReactNode,
+  hashId: string,
+) => <div className={`${prefixCls}-content ${hashId}`}>{children}</div>;
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const [compact, updateCompact] = React.useState<boolean>(false);
@@ -144,7 +162,9 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     updateCompact(width < 768);
   };
 
-  const { getPrefixCls, direction } = React.useContext(ConfigProvider.ConfigContext);
+  const { getPrefixCls, direction } = React.useContext(
+    ConfigProvider.ConfigContext,
+  );
 
   const {
     prefixCls: customizePrefixCls,
@@ -161,7 +181,16 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const { wrapSSR, hashId } = useStyle(prefixCls);
 
   const getDefaultBreadcrumbDom = () => {
-    if ((breadcrumb as BreadcrumbProps)?.routes) {
+    if (
+      breadcrumb &&
+      !(breadcrumb as BreadcrumbProps)?.items &&
+      (breadcrumb as unknown as BreadcrumbProps)?.routes
+    ) {
+      // @ts-ignore
+      breadcrumb.items = breadcrumb.routes;
+    }
+
+    if ((breadcrumb as BreadcrumbProps)?.items) {
       return renderBreadcrumb(breadcrumb as BreadcrumbProps, prefixCls);
     }
     return null;
@@ -170,11 +199,15 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const defaultBreadcrumbDom = getDefaultBreadcrumbDom();
 
   const isBreadcrumbComponent = breadcrumb && 'props' in breadcrumb;
+
   // support breadcrumbRender function
   const breadcrumbRenderDomFromProps =
-    breadcrumbRender?.({ ...props, prefixCls }, defaultBreadcrumbDom) ?? defaultBreadcrumbDom;
+    breadcrumbRender?.({ ...props, prefixCls }, defaultBreadcrumbDom) ??
+    defaultBreadcrumbDom;
 
-  const breadcrumbDom = isBreadcrumbComponent ? breadcrumb : breadcrumbRenderDomFromProps;
+  const breadcrumbDom = isBreadcrumbComponent
+    ? breadcrumb
+    : breadcrumbRenderDomFromProps;
 
   const className = classNames(prefixCls, hashId, customizeClassName, {
     [`${prefixCls}-has-breadcrumb`]: !!breadcrumbDom,

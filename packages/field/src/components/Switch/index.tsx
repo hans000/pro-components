@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import type { ProFieldFC } from '../../index';
 
 // 兼容代码-----------
-import 'antd/es/switch/style';
+import 'antd/lib/switch/style';
 //------------
 
 /**
@@ -20,12 +20,11 @@ const FieldSwitch: ProFieldFC<{ text: boolean; fieldProps?: SwitchProps }> = (
 ) => {
   const intl = useIntl();
   const dom = useMemo(() => {
-    if (text === undefined || text === null || `${text}`.length < 1) {
-      return '-';
-    }
+    if (text === undefined || text === null || `${text}`.length < 1) return '-';
     return text
       ? fieldProps?.checkedChildren ?? intl.getMessage('switch.open', '打开')
-      : fieldProps?.unCheckedChildren ?? intl.getMessage('switch.close', '关闭');
+      : fieldProps?.unCheckedChildren ??
+          intl.getMessage('switch.close', '关闭');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldProps?.checkedChildren, fieldProps?.unCheckedChildren, text]);
 

@@ -48,9 +48,11 @@ const genProListStyle: GenerateStyle<ProListToken> = (token) => {
         justifyContent: 'flex-start',
         maxWidth: 'calc(100% - 200px)',
         flex: 1,
-        overflow: 'auto',
         [`${token.antCls}-tabs`]: {
           width: '100%',
+        },
+        '&-has-tabs': {
+          overflow: 'hidden',
         },
       },
       '&-right': {
@@ -71,7 +73,7 @@ const genProListStyle: GenerateStyle<ProListToken> = (token) => {
         '&:not(:last-child)': { marginInlineEnd: token.margin },
         display: 'flex',
         alignItems: 'center',
-        [`div.$${token.antCls}-pro-table-search`]: {
+        [`div$${token.antCls}-pro-table-search`]: {
           marginBlock: 0,
           marginInline: 0,
           paddingBlock: 0,
@@ -103,7 +105,11 @@ const genProListStyle: GenerateStyle<ProListToken> = (token) => {
       },
       '@media (max-width: 768px)': {
         [token.componentCls]: {
-          '&-container': { display: 'flex', flexWrap: 'wrap', flexDirection: 'column' },
+          '&-container': {
+            display: 'flex',
+            flexWrap: 'wrap',
+            flexDirection: 'column',
+          },
           '&-left': { marginBlockEnd: '16px', maxWidth: '100%' },
         },
       },

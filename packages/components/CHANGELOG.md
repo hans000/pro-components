@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.15](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.14...@ant-design/pro-components@2.4.15) (2023-05-15)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.14](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.13...@ant-design/pro-components@2.4.14) (2023-05-08)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.13](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.12...@ant-design/pro-components@2.4.13) (2023-05-08)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.12](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.11...@ant-design/pro-components@2.4.12) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.10...@ant-design/pro-components@2.4.11) (2023-05-04)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.9...@ant-design/pro-components@2.4.10) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.8...@ant-design/pro-components@2.4.9) (2023-04-26)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.7...@ant-design/pro-components@2.4.8) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.6...@ant-design/pro-components@2.4.7) (2023-04-25)
+
+### Bug Fixes
+
+- **layout:** fix colorBgMenuItemHover no work error ([3bfa45a](https://github.com/ant-design/pro-components/commit/3bfa45ad054d22e5ea2dfcf405e7a5279e8a4d39))
+
+## [2.4.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.5...@ant-design/pro-components@2.4.6) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.4...@ant-design/pro-components@2.4.5) (2023-04-25)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.3...@ant-design/pro-components@2.4.4) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.2...@ant-design/pro-components@2.4.3) (2023-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.1...@ant-design/pro-components@2.4.2) (2023-03-14)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.4.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.4.0...@ant-design/pro-components@2.4.1) (2023-03-13)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+# [2.4.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.3.59...@ant-design/pro-components@2.4.0) (2023-03-09)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
+## [2.3.59](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.3.58...@ant-design/pro-components@2.3.59) (2023-03-08)
+
+**Note:** Version bump only for package @ant-design/pro-components
+
 ## [2.3.58](https://github.com/ant-design/pro-components/compare/@ant-design/pro-components@2.3.57...@ant-design/pro-components@2.3.58) (2023-02-28)
 
 **Note:** Version bump only for package @ant-design/pro-components
