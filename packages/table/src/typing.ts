@@ -179,7 +179,7 @@ export type Bordered =
       table?: boolean;
     };
 
-export type ColumnsStateType = {
+export type ColumnStateType = {
   /**
    * 持久化的类型，支持 localStorage 和 sessionStorage
    *
@@ -233,7 +233,7 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
   onColumnsStateChange?: (map: Record<string, ColumnsState>) => void;
 
   /** @name 列状态的配置，可以用来操作列功能 */
-  columnsState?: ColumnsStateType;
+  columnsState?: ColumnStateType;
 
   onSizeChange?: (size: DensitySize) => void;
 
@@ -444,7 +444,7 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
   /**
    * 错误边界自定义
    */
-  ErrorBoundary?: any;
+  ErrorBoundary?: React.ComponentClass<any, any> | false;
 } & Omit<TableProps<DataSource>, 'columns' | 'rowSelection'>;
 
 export type ActionType = ProCoreActionType & {

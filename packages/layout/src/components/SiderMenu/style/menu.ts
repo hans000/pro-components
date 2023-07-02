@@ -67,11 +67,11 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
           height: '14px',
         },
       },
-      '& &-item-title': {
+      '&-item-title': {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 8,
+        gap: token.marginXS,
         '&-collapsed': {
           flexDirection: 'column',
           justifyContent: 'center',
@@ -94,13 +94,13 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
           },
         },
         [`&${token.componentCls}-group-item-title`]: {
-          gap: 4,
+          gap: token.marginXS,
           height: 18,
           overflow: 'hidden',
         },
         [`&${token.componentCls}-item-collapsed-show-title`]: {
           lineHeight: '16px',
-          height: '48px',
+          gap: 0,
           [`&${token.componentCls}-item-title-collapsed`]: {
             display: 'flex',
             [`${token.componentCls}-item-icon`]: {

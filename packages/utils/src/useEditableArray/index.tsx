@@ -332,8 +332,8 @@ export function SaveEditableAction<T>(
         .flat(1)
         .filter(Boolean) as string[];
       setLoading(true);
-      // @ts-expect-error
       await form.validateFields(namePath, {
+        // @ts-expect-error
         recursive: true,
       });
 
@@ -367,9 +367,15 @@ export function SaveEditableAction<T>(
       throw error;
     }
   });
-  useImperativeHandle(ref, () => ({
-    save,
-  }));
+
+  // 保存数据
+  useImperativeHandle(
+    ref,
+    () => ({
+      save,
+    }),
+    [save],
+  );
 
   return (
     <a
@@ -479,8 +485,8 @@ const CancelEditableAction: React.FC<ActionRenderConfig<any> & { row: any }> = (
           form.getFieldValue(namePath);
         const record = isMapEditor ? set({}, namePath, fields) : fields;
         const res = await onCancel?.(recordKey, record, row, newLineConfig);
-        cancelEditable(recordKey);
-        /** 充值为默认值，不然编辑的行会丢掉 */
+        await cancelEditable(recordKey);
+        /** 重置为默认值，不然编辑的行会丢掉 */
         form.setFieldsValue({
           [recordKey as React.Key]: isMapEditor ? get(row, namePath) : row,
         });
@@ -851,7 +857,7 @@ export function useEditableArray<RecordType>(
       // 防止多次渲染
       const recordKey = props.getRowKey(row, -1);
 
-      if (!recordKey) {
+      if (!recordKey && recordKey !== 0) {
         noteOnce(
           !!recordKey,
           '请设置 recordCreatorProps.record 并返回一个唯一的key  \n  https://procomponents.ant.design/components/editable-table#editable-%E6%96%B0%E5%BB%BA%E8%A1%8C',
@@ -917,10 +923,10 @@ export function useEditableArray<RecordType>(
       },
       newLine?: NewLineConfig<RecordType>,
     ) => {
-      // 保存时解除编辑模式,这个要提前一下不然数据会被清空
-      cancelEditable(recordKey);
-
       const res = await props?.onSave?.(recordKey, editRow, originRow, newLine);
+      // 保存时解除编辑模式,这个要提前一下不然数据会被清空
+      await cancelEditable(recordKey);
+
       const { options } = newLine || newLineRecordRef.current || {};
       if (!options?.parentKey && options?.recordKey === recordKey) {
         if (options?.position === 'top') {
@@ -950,6 +956,7 @@ export function useEditableArray<RecordType>(
           options?.position === 'top' ? 'top' : 'update',
         ),
       );
+      await cancelEditable(recordKey);
       return res;
     },
   );
@@ -969,7 +976,8 @@ export function useEditableArray<RecordType>(
         childrenColumnName: props.childrenColumnName || 'children',
       };
       const res = await props?.onDelete?.(recordKey, editRow);
-      await cancelEditable(recordKey);
+      // 不传递 false时，重新form.setFieldsValue同一份静态数据，会导致该行始终处于不可编辑状态
+      await cancelEditable(recordKey, false);
       props.setDataSource(editableRowByKey(actionProps, 'delete'));
 
       return res;

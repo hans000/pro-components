@@ -4,8 +4,7 @@ import { useDebounceFn } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Select } from 'antd';
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ProHelpProvide } from './HelpProvide';
 
 /**
@@ -140,7 +139,7 @@ export const ProHelpSelect: React.FC<
           filterOption={(input, option) =>
             (option?.title ?? '').toLowerCase().includes(input.toLowerCase())
           }
-          dropdownMatchSelectWidth={false}
+          popupMatchSelectWidth={false}
           options={dataSource.map((item) => {
             return {
               label: (
