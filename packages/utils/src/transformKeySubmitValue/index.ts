@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import deepMerge from 'lodash.merge';
 import get from 'rc-util/lib/utils/get';
 import namePathSet from 'rc-util/lib/utils/set';
 import React from 'react';
@@ -130,29 +131,51 @@ export const transformKeySubmitValue = <T extends object = any>(
       const key = parentsKey
         ? [parentsKey, entityKey].flat(1)
         : [entityKey].flat(1);
-      const itemValue = tempValues[entityKey];
+      const itemValue = (tempValues as any)[entityKey];
 
-      const transformFunction = get(dataFormatMap, key);
+      const transformFunction = get(dataFormatMap, key as (number | string)[]);
 
       const transform = () => {
-        const tempKey =
-          typeof transformFunction === 'function'
-            ? transformFunction?.(itemValue, entityKey, tempValues)
-            : transformForArray(transformFunction, itemValue);
+        let tempKey,
+          transformedResult,
+          isTransformedResultPrimitive = false;
+
+        /**
+         * 先判断是否是方法，是的话执行后拿到值，如果是基本类型，则认为是直接 transform 为新的值，
+         * 如果返回是 Object 则认为是 transform 为新的 {newKey: newValue}
+         */
+        if (typeof transformFunction === 'function') {
+          transformedResult = transformFunction?.(
+            itemValue,
+            entityKey,
+            tempValues,
+          );
+          const typeOfResult = typeof transformedResult;
+          if (typeOfResult !== 'object' && typeOfResult !== 'undefined') {
+            tempKey = entityKey;
+            isTransformedResultPrimitive = true;
+          } else {
+            tempKey = transformedResult;
+          }
+        } else {
+          tempKey = transformForArray(transformFunction, itemValue);
+        }
+
         // { [key:string]:any } 数组也能通过编译
         if (Array.isArray(tempKey)) {
           result = namePathSet(result, tempKey, itemValue);
           return;
         }
         if (typeof tempKey === 'object' && !Array.isArray(finalValues)) {
-          finalValues = {
-            ...finalValues,
-            ...tempKey,
-          };
+          finalValues = deepMerge(finalValues, tempKey);
         } else if (typeof tempKey === 'object' && Array.isArray(finalValues)) {
           result = { ...result, ...tempKey };
-        } else if (tempKey) {
-          result = namePathSet(result, [tempKey], itemValue);
+        } else if (tempKey !== null || tempKey !== undefined) {
+          result = namePathSet(
+            result,
+            [tempKey],
+            isTransformedResultPrimitive ? transformedResult : itemValue,
+          );
         }
       };
 

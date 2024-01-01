@@ -1,5 +1,11 @@
 import Field from '@ant-design/pro-field';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { Button, Input } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
@@ -9,7 +15,14 @@ import { TreeSelectDemo } from './fixtures/treeSelectDemo';
 
 const domRef = React.createRef();
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('Field', () => {
+  afterEach(() => {
+    cleanup();
+  });
   it('🐴 base use', async () => {
     const html = render(<Field text="100" valueType="money" mode="edit" />);
     expect(html.asFragment()).toMatchSnapshot();
@@ -32,16 +45,16 @@ describe('Field', () => {
         {},
       );
     });
-    expect(html.baseElement.querySelector('input')?.value).toBe('￥ 1,000');
+    expect(html.baseElement.querySelector('input')?.value).toBe('¥ 1,000');
     act(() => {
       fireEvent.change(html.baseElement.querySelector('input')!, {
         target: {
-          value: '￥ 100',
+          value: '¥ 100',
         },
       });
     });
 
-    expect(html.baseElement.querySelector('input')?.value).toBe('￥ 100');
+    expect(html.baseElement.querySelector('input')?.value).toBe('¥ 100');
     html.unmount();
   });
 
@@ -106,18 +119,18 @@ describe('Field', () => {
       });
     });
     await waitFor(() => {
-      expect(!!html.queryByDisplayValue('￥ 1,000')).toBeTruthy();
+      expect(!!html.queryByDisplayValue('¥ 1,000')).toBeTruthy();
     });
 
     act(() => {
       fireEvent.change(html.baseElement.querySelector('input')!, {
         target: {
-          value: '￥ 100',
+          value: '¥ 100',
         },
       });
     });
     await waitFor(() => {
-      expect(!!html.queryByDisplayValue('￥ 100')).toBeTruthy();
+      expect(!!html.queryByDisplayValue('¥ 100')).toBeTruthy();
     });
     act(() => {
       fireEvent.change(html.baseElement.querySelector('input')!, {
@@ -152,7 +165,7 @@ describe('Field', () => {
       );
     });
 
-    await html.findByDisplayValue('￥ 111,111,111');
+    await html.findByDisplayValue('¥ 111,111,111');
 
     act(() => {
       fireEvent.click(
@@ -174,13 +187,13 @@ describe('Field', () => {
   });
 
   it('🐴 should trigger onChange function provided when change', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <Field
         text="100"
         valueType="money"
         mode="edit"
-        fieldProps={{ onChange: fn }}
+        fieldProps={{ onChange: fn, onBlur: fn }}
       />,
     );
     act(() => {
@@ -190,6 +203,15 @@ describe('Field', () => {
     });
 
     expect(fn).toBeCalled();
+
+    act(() => {
+      fireEvent.blur(html.baseElement.querySelector('input')!, {
+        target: { value: 1000 },
+      });
+    });
+
+    expect(fn).toBeCalledTimes(2);
+
     html.unmount();
   });
 
@@ -294,11 +316,11 @@ describe('Field', () => {
     });
 
     it(`🐴 ${valueType} read mode support request function`, async () => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
       const ref = React.createRef<{
         fetchData: (keyWord?: string) => void;
       }>();
-      const fn = jest.fn();
+      const fn = vi.fn();
       const html = render(
         <Field
           ref={ref}
@@ -323,7 +345,7 @@ describe('Field', () => {
       );
 
       act(() => {
-        jest.runOnlyPendingTimers();
+        vi.runOnlyPendingTimers();
       });
 
       await html.findAllByText('default');
@@ -335,12 +357,12 @@ describe('Field', () => {
       });
 
       act(() => {
-        jest.runOnlyPendingTimers();
+        vi.runOnlyPendingTimers();
       });
 
       expect(fn).toBeCalledTimes(2);
       html.unmount();
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it(`🐴 ${valueType}  edit model support renderFormItem function`, async () => {
@@ -525,7 +547,7 @@ describe('Field', () => {
 
   ['cascader', 'treeSelect'].map((valueType) => {
     it(`🐴 ${valueType} labelInValue use label`, async () => {
-      const fn = jest.fn();
+      const fn = vi.fn();
       const html = render(
         <Field
           fieldProps={{
@@ -749,7 +771,7 @@ describe('Field', () => {
   });
 
   it(`🐴 treeSelect searchValue control mode`, async () => {
-    const onSearch = jest.fn();
+    const onSearch = vi.fn();
     const html = render(
       <TreeSelectDemo
         multiple={false}
@@ -793,8 +815,8 @@ describe('Field', () => {
   });
 
   it(`🐴 treeSelect options single value`, async () => {
-    jest.useFakeTimers();
-    const onChangeFn = jest.fn();
+    vi.useFakeTimers();
+    const onChangeFn = vi.fn();
     const TreeSelectChangeDemo = () => {
       const [value, setValue] = useState();
       return (
@@ -845,18 +867,18 @@ describe('Field', () => {
     expect(html.queryAllByText('Child Node5').length > 0).toBeTruthy();
 
     expect(onChangeFn).toHaveBeenCalledWith(false);
-    jest.useRealTimers();
+    vi.useRealTimers();
     html.unmount();
   });
 
   it(`🐴 treeSelect support request function and search, asynchronously loadData`, async () => {
-    const requestFn = jest.fn(),
-      onSearchFn = jest.fn(),
-      onBlurFn = jest.fn(),
-      loadDataFn = jest.fn(),
-      onClearFn = jest.fn();
+    const requestFn = vi.fn(),
+      onSearchFn = vi.fn(),
+      onBlurFn = vi.fn(),
+      loadDataFn = vi.fn(),
+      onClearFn = vi.fn();
 
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const TreeSelectChangeDemo = () => {
       const [value, setValue] = useState();
@@ -881,7 +903,7 @@ describe('Field', () => {
     const html = render(<TreeSelectChangeDemo />);
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -1004,7 +1026,7 @@ describe('Field', () => {
 
     expect(onBlurFn).toBeCalledTimes(1);
     html.unmount();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('🐴 edit and no plain', async () => {
@@ -1167,10 +1189,10 @@ describe('Field', () => {
       html.unmount();
     };
 
-    renderField('en_US');
-    renderField('ru_RU');
-    renderField('ms_MY');
-    renderField('sr_RS');
+    renderField('en-US');
+    renderField('ru-RU');
+    renderField('ms-MY');
+    renderField('sr-RS');
   });
 
   it('🐴 percent support unit string', async () => {
@@ -1447,7 +1469,7 @@ describe('Field', () => {
     const html = render(
       <Field text={123456} valueType="password" mode="read" />,
     );
-    await html.findByText('＊ ＊ ＊ ＊ ＊');
+    await html.findByText('********');
 
     act(() => {
       fireEvent.click(
@@ -1463,7 +1485,7 @@ describe('Field', () => {
   });
 
   it('🐴 password support controlled open', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <Field
         text={123456}
@@ -1490,7 +1512,7 @@ describe('Field', () => {
   });
 
   it('🐴 password support controlled visible', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <Field
         text={123456}
@@ -1666,7 +1688,7 @@ describe('Field', () => {
   });
 
   it(`🐴 valueType digit support precision when change with`, async () => {
-    const change = jest.fn();
+    const change = vi.fn();
     const html = render(
       <Field
         text={1000.3}
@@ -1874,7 +1896,7 @@ describe('Field', () => {
   });
 
   it('🐴 select request debounceTime', async () => {
-    const requestFn = jest.fn();
+    const requestFn = vi.fn();
     const ref = React.createRef<{
       fetchData: (keyWord?: string) => void;
     }>();

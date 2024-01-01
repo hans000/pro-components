@@ -2,8 +2,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { ButtonProps, UploadProps } from 'antd';
 import { Button, Upload } from 'antd';
 import React, { useContext, useMemo } from 'react';
-import { createField } from '../../BaseForm/createField';
 import { EditOrReadOnlyContext } from '../../BaseForm/EditOrReadOnlyContext';
+import { createField } from '../../BaseForm/createField';
 import type { ProFormFieldItemProps } from '../../typing';
 
 type PickUploadProps = Pick<
@@ -76,7 +76,6 @@ const BaseProFormUploadButton: React.ForwardRefRenderFunction<
     max,
     icon = <UploadOutlined />,
     buttonProps,
-    onChange,
     disabled,
     proFieldProps,
     ...restProps
@@ -105,7 +104,6 @@ const BaseProFormUploadButton: React.ForwardRefRenderFunction<
       {...fieldProps}
       name={fieldProps?.name ?? 'file'}
       onChange={(info) => {
-        onChange?.(info);
         fieldProps?.onChange?.(info);
       }}
     >

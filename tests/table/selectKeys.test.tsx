@@ -1,8 +1,12 @@
 import ProTable from '@ant-design/pro-table';
-import { act, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
 import React, { useState } from 'react';
 import { waitForWaitTime } from '../util';
 import { getFetchData } from './demo';
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('BasicTable Search', () => {
   const LINE_STR_COUNT = 20;
@@ -37,7 +41,7 @@ describe('BasicTable Search', () => {
   });
 
   it('🎏 filter test', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -80,7 +84,7 @@ describe('BasicTable Search', () => {
   });
 
   it('✔️ selected rows support row is function', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const DemoTable = () => {
       const columns = [
         {

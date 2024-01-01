@@ -1,7 +1,13 @@
 import { proTheme, useIntl } from '@ant-design/pro-provider';
-import { LabelIconTip } from '@ant-design/pro-utils';
-import type { TabPaneProps } from 'antd';
-import { ConfigProvider, Input, Tabs, Tooltip } from 'antd';
+import { LabelIconTip, compareVersions } from '@ant-design/pro-utils';
+import {
+  ConfigProvider,
+  Input,
+  TabPaneProps,
+  Tabs,
+  Tooltip,
+  version,
+} from 'antd';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
 import type { SearchProps } from 'antd/lib/input';
 import classNames from 'classnames';
@@ -106,18 +112,17 @@ const ListToolBarTabBar: React.FC<{
   filtersNode: React.ReactNode;
   multipleLine: boolean;
   tabs: ListToolBarProps['tabs'];
-}> = ({ prefixCls, tabs = {}, multipleLine, filtersNode }) => {
+}> = ({ prefixCls, tabs, multipleLine, filtersNode }) => {
   if (!multipleLine) return null;
   return (
     <div className={`${prefixCls}-extra-line`}>
-      {tabs.items && tabs.items.length ? (
+      {tabs?.items && tabs?.items.length ? (
         <Tabs
           style={{
             width: '100%',
           }}
           defaultActiveKey={tabs.defaultActiveKey}
           activeKey={tabs.activeKey}
-          //@ts-ignore
           items={tabs.items.map((item, index) => ({
             label: item.tab,
             ...item,
@@ -127,9 +132,9 @@ const ListToolBarTabBar: React.FC<{
           tabBarExtraContent={filtersNode}
         >
           {tabs.items?.map((item, index) => {
-            return (
+            return compareVersions(version, '4.23.0') < 0 ? (
               <Tabs.TabPane {...item} key={item.key || index} tab={item.tab} />
-            );
+            ) : null;
           })}
         </Tabs>
       ) : (
@@ -151,7 +156,7 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
   filter,
   actions = [],
   settings = [],
-  tabs = {},
+  tabs,
   menu,
 }) => {
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
@@ -240,7 +245,7 @@ const ListToolBar: React.FC<ListToolBarProps> = ({
   }, [actions]);
 
   const hasRight = useMemo(() => {
-    return (
+    return !!(
       (hasTitle && searchNode) ||
       (!multipleLine && filtersNode) ||
       actionDom ||

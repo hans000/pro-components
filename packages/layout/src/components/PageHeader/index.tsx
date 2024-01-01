@@ -29,6 +29,7 @@ export interface PageHeaderProps {
   onBack?: (e?: React.MouseEvent<HTMLElement>) => void;
   className?: string;
   contentWidth?: ContentWidth;
+  layout?: string;
   ghost?: boolean;
   children?: React.ReactNode;
 }
@@ -162,9 +163,8 @@ const renderChildren = (
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const [compact, updateCompact] = React.useState<boolean>(false);
-  const onResize = ({ width }: { width: number }) => {
-    updateCompact(width < 768);
-  };
+
+  const onResize = ({ width }: { width: number }) => updateCompact(width < 768);
 
   const { getPrefixCls, direction } = React.useContext(
     ConfigProvider.ConfigContext,
@@ -179,6 +179,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     breadcrumbRender,
     className: customizeClassName,
     contentWidth,
+    layout,
   } = props;
 
   const prefixCls = getPrefixCls('page-header', customizePrefixCls);
@@ -218,7 +219,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     [`${prefixCls}-has-footer`]: !!footer,
     [`${prefixCls}-rtl`]: direction === 'rtl',
     [`${prefixCls}-compact`]: compact,
-    [`${prefixCls}-wide`]: contentWidth === 'Fixed',
+    [`${prefixCls}-wide`]: contentWidth === 'Fixed' && layout == 'top',
     [`${prefixCls}-ghost`]: true,
   });
   const title = renderTitle(prefixCls, props, direction, hashId);
@@ -226,7 +227,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const footerDom = renderFooter(prefixCls, footer, hashId);
 
   if (!breadcrumbDom && !title && !footerDom && !childDom) {
-    return null;
+    return <div className={classNames(hashId, [`${prefixCls}-no-children`])} />;
   }
 
   return wrapSSR(

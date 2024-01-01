@@ -27,12 +27,12 @@ import type {
 import type dayjs from 'dayjs';
 import type React from 'react';
 import type { CSSProperties } from 'react';
+import type { ColumnsState, ContainerType } from './Store/Provide';
 import type { AlertRenderType } from './components/Alert';
 import type { SearchConfig, TableFormItem } from './components/Form/FormRender';
 import type { ListToolBarProps } from './components/ListToolBar';
 import type { OptionConfig, ToolBarProps } from './components/ToolBar';
 import type { DensitySize } from './components/ToolBar/DensityIcon';
-import type { ColumnsState, ContainerType } from './Store/Provide';
 
 export type PageInfo = {
   pageSize: number;
@@ -89,6 +89,7 @@ export type ExtraProColumnType<T> = Omit<
 export type ProColumnType<T = unknown, ValueType = 'text'> = ProSchema<
   T,
   ExtraProColumnType<T> & {
+    children?: ProColumns<T>[];
     index?: number;
     /**
      * 每个表单占据的格子大小
@@ -162,13 +163,10 @@ export type ProColumnType<T = unknown, ValueType = 'text'> = ProSchema<
   }
 >;
 
-export type ProColumnGroupType<RecordType, ValueType> = {
-  children: ProColumns<RecordType>[];
-} & ProColumnType<RecordType, ValueType>;
-
-export type ProColumns<T = any, ValueType = 'text'> =
-  | ProColumnGroupType<T, ValueType>
-  | ProColumnType<T, ValueType>;
+export type ProColumns<T = any, ValueType = 'text'> = ProColumnType<
+  T,
+  ValueType
+>;
 
 export type BorderedType = 'search' | 'table';
 
@@ -276,6 +274,14 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
     dataSource: DataSource[],
   ) => React.ReactNode;
 
+  /**
+   * @name 渲染搜索表单
+   */
+  searchFormRender?: (
+    props: ProTableProps<DataSource, U, ValueType>,
+    defaultDom: JSX.Element,
+  ) => React.ReactNode;
+
   /** @name 一个获得 dataSource 的方法 */
   request?: (
     params: U & {
@@ -312,6 +318,8 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
    */
   toolBarRender?: ToolBarProps<DataSource>['toolBarRender'] | false;
 
+  optionsRender?: ToolBarProps<DataSource>['optionsRender'];
+
   /**
    * @name 数据加载完成后触发
    */
@@ -329,7 +337,7 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
 
   /**
    * 是否轮询 ProTable 它不会自动提交表单，如果你想自动提交表单的功能，需要在 onValueChange 中调用 formRef.current?.submit()
-   *
+   * @property {number} polling 表示轮询的时间间隔，0 表示关闭轮询，大于 0 表示开启轮询，最小的轮询时间为 2000ms
    * @param dataSource 返回当前的表单数据，你可以用它判断要不要打开轮询
    */
   polling?: number | ((dataSource: DataSource[]) => number);
@@ -367,6 +375,7 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
    * @name 如何格式化日期
    */
   dateFormatter?:
+    | (string & {})
     | 'string'
     | 'number'
     | ((value: dayjs.Dayjs, valueType: string) => string | number)

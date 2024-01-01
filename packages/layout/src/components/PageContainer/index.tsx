@@ -3,11 +3,17 @@ import { ProConfigProvider, ProProvider } from '@ant-design/pro-provider';
 import type {
   AffixProps,
   BreadcrumbProps,
-  SpinProps,
   TabPaneProps,
   TabsProps,
 } from 'antd';
-import { Affix, Breadcrumb, ConfigProvider, Tabs } from 'antd';
+import {
+  Affix,
+  Breadcrumb,
+  ConfigProvider,
+  SpinProps,
+  Tabs,
+  version,
+} from 'antd';
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React, { useContext, useEffect, useMemo } from 'react';
@@ -24,6 +30,8 @@ import { WaterMark } from '../WaterMark';
 import type { PageContainerToken, pageContainerToken } from './style';
 import { useStyle } from './style';
 import { useStylish } from './style/stylish';
+
+import { compareVersions } from '@ant-design/pro-utils';
 
 import 'antd/lib/breadcrumb/style';
 
@@ -150,7 +158,6 @@ const renderFooter: React.FC<
           }
         }}
         tabBarExtraContent={tabBarExtraContent}
-        // @ts-ignore
         items={tabList?.map((item, index) => ({
           label: item.tab,
           ...item,
@@ -158,11 +165,18 @@ const renderFooter: React.FC<
         }))}
         {...tabProps}
       >
-        {tabList?.map((item, index) => {
-          return (
-            <Tabs.TabPane key={item.key || index} tab={item.tab} {...item} />
-          );
-        })}
+        {/* 如果版本低于 4.23.0，不支持 items */}
+        {compareVersions(version, '4.23.0') < 0
+          ? tabList?.map((item, index) => {
+              return (
+                <Tabs.TabPane
+                  key={item.key || index}
+                  tab={item.tab}
+                  {...item}
+                />
+              );
+            })
+          : null}
       </Tabs>
     );
   }
@@ -295,7 +309,7 @@ const memoRenderPageHeader = (
       'footer',
       'avatar',
       'backIcon',
-    ].every((item) => !pageHeaderProps[item]) &&
+    ].every((item) => !pageHeaderProps[item as 'backIcon']) &&
     noHasBreadCrumb &&
     !content &&
     !extraContent
@@ -398,7 +412,12 @@ const PageContainerBase: React.FC<PageContainerProps> = (props) => {
       <>
         <div
           className={classNames(
-            `${basePageContainer}-children-container ${hashId}`.trim(),
+            hashId,
+            `${basePageContainer}-children-container`,
+            {
+              [`${basePageContainer}-children-container-no-header`]:
+                !pageHeaderDom,
+            },
           )}
           style={childrenContentStyle}
         >
@@ -436,7 +455,7 @@ const PageContainerBase: React.FC<PageContainerProps> = (props) => {
             <Affix
               offsetTop={
                 value.hasHeader && value.fixedHeader
-                  ? token?.layout?.header?.heightLayoutHeader
+                  ? token.layout?.header?.heightLayoutHeader
                   : 1
               }
               {...affixProps}
@@ -484,4 +503,4 @@ const ProPageHeader = (
   });
 };
 
-export { ProPageHeader, PageContainer, ProBreadcrumb };
+export { PageContainer, ProBreadcrumb, ProPageHeader };

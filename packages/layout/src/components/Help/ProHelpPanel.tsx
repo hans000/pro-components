@@ -1,5 +1,6 @@
 ﻿import { CloseOutlined, ProfileOutlined } from '@ant-design/icons';
-import { isNeedOpenHash, ProProvider } from '@ant-design/pro-provider';
+import { ProProvider, isNeedOpenHash } from '@ant-design/pro-provider';
+import { coverToNewToken } from '@ant-design/pro-utils';
 import { Card, ConfigProvider, Menu } from 'antd';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, { useContext, useMemo, useState } from 'react';
@@ -18,6 +19,10 @@ export const SelectKeyProvide = React.createContext<{
 });
 
 export type ProHelpPanelProps = {
+  /**
+   * 帮助面板的标题
+   */
+  title?: string;
   /**
    * 帮助面板首次打开时的默认选中文档的键名
    */
@@ -86,6 +91,7 @@ export type ProHelpPanelProps = {
  * @returns
  */
 export const ProHelpPanel: React.FC<ProHelpPanelProps> = ({
+  title = '帮助中心',
   bordered = true,
   onClose,
   footer,
@@ -199,7 +205,7 @@ export const ProHelpPanel: React.FC<ProHelpPanelProps> = ({
     >
       <Card
         bordered={bordered}
-        title="帮助中心"
+        title={title}
         bodyStyle={{
           display: 'flex',
           padding: 0,
@@ -220,35 +226,37 @@ export const ProHelpPanel: React.FC<ProHelpPanelProps> = ({
             <ConfigProvider
               theme={{
                 hashed: isNeedOpenHash(),
+                token: {
+                  lineHeight: 1.2,
+                  fontSize: 12,
+                  controlHeightLG: 26,
+                },
                 components: {
-                  Menu: {
-                    lineHeight: 1.2,
-                    controlHeightLG: 26,
-                    fontSize: 12,
-                    radiusItem: 4,
+                  Menu: coverToNewToken({
+                    radiusItem: token.borderRadius,
                     colorActiveBarWidth: 0,
                     colorActiveBarBorderSize: 0,
                     colorItemBgSelected:
-                      token?.layout?.sider?.colorBgMenuItemSelected ||
+                      token.layout?.sider?.colorBgMenuItemSelected ||
                       'rgba(0, 0, 0, 0.04)',
                     colorItemBgActive:
-                      token?.layout?.sider?.colorBgMenuItemHover ||
+                      token.layout?.sider?.colorBgMenuItemHover ||
                       'rgba(0, 0, 0, 0.04)',
                     colorItemText:
-                      token?.layout?.sider?.colorTextMenu ||
+                      token.layout?.sider?.colorTextMenu ||
                       'rgba(0, 0, 0, 0.65)',
                     colorItemTextHover:
-                      token?.layout?.sider?.colorTextMenuActive ||
+                      token.layout?.sider?.colorTextMenuActive ||
                       'rgba(0, 0, 0, 0.85)',
                     colorItemTextSelected:
-                      token?.layout?.sider?.colorTextMenuSelected ||
+                      token.layout?.sider?.colorTextMenuSelected ||
                       'rgba(0, 0, 0, 1)',
                     colorItemBg: 'transparent',
                     colorSubItemBg: 'transparent',
-                    colorBgElevated:
-                      token?.layout?.sider?.colorBgMenuItemCollapsedElevated ||
-                      '#fff',
-                  },
+                    popupBg: token?.colorBgElevated,
+                    // @ts-expect-error
+                    darkPopupBg: token?.colorBgElevated,
+                  }),
                 },
               }}
             >

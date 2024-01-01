@@ -1,12 +1,16 @@
 import ProTable from '@ant-design/pro-table';
-import { act, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
 import useFetchData from '../../packages/table/src/useFetchData';
 import { columns } from './demo';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('polling', () => {
   it('⏱️ polling should clearTime', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const html = render(
       <ProTable
         size="small"
@@ -45,7 +49,7 @@ describe('polling', () => {
       expect(fn).toBeCalledTimes(1);
     });
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -53,7 +57,7 @@ describe('polling', () => {
     });
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -61,7 +65,7 @@ describe('polling', () => {
     });
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -70,12 +74,12 @@ describe('polling', () => {
 
     expect(fn).toBeCalledTimes(2);
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('⏱️ polling should clearTime when useFetchData', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const App = (props: { getData: () => void }) => {
       useFetchData(
         async () => {
@@ -108,7 +112,7 @@ describe('polling', () => {
       expect(fn).toBeCalledTimes(1);
     });
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
 
     await waitFor(() => {
@@ -116,7 +120,7 @@ describe('polling', () => {
     });
 
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
 
     await waitFor(() => {
@@ -125,12 +129,12 @@ describe('polling', () => {
 
     expect(fn).toBeCalledTimes(2);
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('⏱️ polling min time is 2000', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const html = render(
       <ProTable
         size="small"
@@ -155,7 +159,7 @@ describe('polling', () => {
     });
 
     await act(() => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     await waitFor(() => {
@@ -163,18 +167,18 @@ describe('polling', () => {
     });
 
     await act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     await waitFor(() => {
       expect(fn).toBeCalledTimes(2);
     });
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('⏱️ polling time=3000', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const html = render(
       <ProTable
         polling={3000}
@@ -210,7 +214,7 @@ describe('polling', () => {
     });
 
     await act(() => {
-      return jest.advanceTimersByTime(1000);
+      return vi.advanceTimersByTime(1000);
     });
 
     await waitFor(() => {
@@ -218,7 +222,7 @@ describe('polling', () => {
     });
 
     await act(() => {
-      return jest.advanceTimersByTime(1000);
+      return vi.advanceTimersByTime(1000);
     });
 
     await waitFor(() => {
@@ -226,18 +230,18 @@ describe('polling', () => {
     });
 
     await act(() => {
-      return jest.advanceTimersByTime(2000);
+      return vi.advanceTimersByTime(2000);
     });
 
     await waitFor(() => {
       expect(fn).toBeCalledTimes(2);
     });
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('⏱️ polling support function', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const html = render(
       <ProTable
         polling={() => {
@@ -275,7 +279,7 @@ describe('polling', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -283,7 +287,7 @@ describe('polling', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -294,6 +298,6 @@ describe('polling', () => {
       expect(fn).toBeCalledTimes(2);
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 });

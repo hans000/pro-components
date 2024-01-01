@@ -1,12 +1,16 @@
 import ProTable, { TableDropdown } from '@ant-design/pro-table';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { waitForWaitTime } from '../util';
 import { request } from './demo';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('BasicTable pagination', () => {
   it('🎏 pagination current test', async () => {
-    const fn = jest.fn();
-    const onChangeFn = jest.fn();
+    const fn = vi.fn();
+    const onChangeFn = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -43,8 +47,8 @@ describe('BasicTable pagination', () => {
   });
 
   it('🎏 pagination pageSize test ', async () => {
-    const fn = jest.fn();
-    const currentFn = jest.fn();
+    const fn = vi.fn();
+    const currentFn = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -105,8 +109,8 @@ describe('BasicTable pagination', () => {
   });
 
   it('🎏 pagination current', async () => {
-    const fn = jest.fn();
-    const pageSizeFn = jest.fn();
+    const fn = vi.fn();
+    const pageSizeFn = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -163,7 +167,7 @@ describe('BasicTable pagination', () => {
   });
 
   it('🎏 pagination=false, do not have pageParams', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -219,7 +223,7 @@ describe('BasicTable pagination', () => {
   });
 
   it('🎏 request call once when data.length more then pageSize', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <ProTable<{
         money: number;
@@ -263,7 +267,7 @@ describe('BasicTable pagination', () => {
   });
 
   it('🎏 pagination was correct in controlled mode && params was in deep comparison', async () => {
-    const currentFn = jest.fn();
+    const currentFn = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -326,9 +330,13 @@ describe('BasicTable pagination', () => {
   });
 });
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('TableDropdown', () => {
   it('TableDropdown support onSelect', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <TableDropdown
         onSelect={fn}

@@ -1,4 +1,5 @@
 ﻿import type { TableColumnType } from 'antd';
+import merge from 'lodash.merge';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { noteOnce } from 'rc-util/lib/warning';
 import {
@@ -11,7 +12,7 @@ import {
 } from 'react';
 import type { DensitySize } from '../components/ToolBar/DensityIcon';
 import type { ProTableProps } from '../index';
-import type { ActionType } from '../typing';
+import type { ActionType, ProColumns } from '../typing';
 import { genColumnKey } from '../utils';
 
 export type ColumnsState = {
@@ -33,11 +34,11 @@ export type UseContainerProps<T = any> = {
   size?: DensitySize;
   defaultSize?: DensitySize;
   onSizeChange?: (size: DensitySize) => void;
-  columns?: ProTableColumn<T>[];
+  columns?: ProTableColumn<T>[] | ProColumns<T, T>[];
   columnsState?: ProTableProps<any, any, any>['columnsState'];
 };
 
-function useContainer(props: UseContainerProps = {}) {
+function useContainer(props: UseContainerProps = {} as Record<string, any>) {
   const actionRef = useRef<ActionType>();
   const rootDomRef = useRef<HTMLDivElement>(null);
   /** 父 form item 的 name */
@@ -63,7 +64,7 @@ function useContainer(props: UseContainerProps = {}) {
   const defaultColumnKeyMap = useMemo(() => {
     if (props?.columnsState?.defaultValue)
       return props.columnsState.defaultValue;
-    const columnKeyMap = {};
+    const columnKeyMap = {} as Record<string, any>;
     props.columns?.forEach(({ key, dataIndex, fixed, disable }, index) => {
       const columnKey = genColumnKey(key ?? (dataIndex as React.Key), index);
       if (columnKey) {
@@ -89,6 +90,12 @@ function useContainer(props: UseContainerProps = {}) {
         try {
           const storageValue = storage?.getItem(persistenceKey);
           if (storageValue) {
+            if (props?.columnsState?.defaultValue) {
+              return merge(
+                JSON.parse(storageValue),
+                props?.columnsState?.defaultValue,
+              );
+            }
             return JSON.parse(storageValue);
           }
         } catch (error) {
@@ -118,7 +125,16 @@ function useContainer(props: UseContainerProps = {}) {
       try {
         const storageValue = storage?.getItem(persistenceKey);
         if (storageValue) {
-          setColumnsMap(JSON.parse(storageValue));
+          if (props?.columnsState?.defaultValue) {
+            setColumnsMap(
+              merge(
+                JSON.parse(storageValue),
+                props?.columnsState?.defaultValue,
+              ),
+            );
+          } else {
+            setColumnsMap(JSON.parse(storageValue));
+          }
         } else {
           setColumnsMap(defaultColumnKeyMap);
         }
@@ -126,7 +142,12 @@ function useContainer(props: UseContainerProps = {}) {
         console.warn(error);
       }
     }
-  }, [props.columnsState, defaultColumnKeyMap, setColumnsMap]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    props.columnsState?.persistenceKey,
+    props.columnsState?.persistenceType,
+    defaultColumnKeyMap,
+  ]);
 
   noteOnce(
     !props.columnsStateMap,
@@ -234,4 +255,4 @@ const Container: React.FC<{
   );
 };
 
-export { TableContext, Container };
+export { Container, TableContext };

@@ -4,14 +4,15 @@ import 'antd/lib/typography/style';
 //----------------------
 
 import ProCard from '@ant-design/pro-card';
-import ProForm from '@ant-design/pro-form';
+import ProForm, { GridContext } from '@ant-design/pro-form';
 import type { ParamsType } from '@ant-design/pro-provider';
 import { ProConfigProvider, proTheme, useIntl } from '@ant-design/pro-provider';
 import {
-  editableRowByKey,
   ErrorBoundary,
+  editableRowByKey,
   omitUndefined,
   recordKeyToString,
+  stringify,
   useDeepCompareEffect,
   useDeepCompareEffectDebounce,
   useEditableArray,
@@ -27,6 +28,7 @@ import type {
 import classNames from 'classnames';
 import type Summary from 'rc-table/lib/Footer/Summary';
 import React, {
+  Key,
   useCallback,
   useContext,
   useEffect,
@@ -34,12 +36,11 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { stringify } from 'use-json-comparison';
 import type { ActionType } from '.';
+import { Container, TableContext } from './Store/Provide';
 import Alert from './components/Alert';
 import FormRender from './components/Form';
 import Toolbar from './components/ToolBar';
-import { Container, TableContext } from './Store/Provide';
 import { useStyle } from './style';
 import type {
   OptionSearchProps,
@@ -267,7 +268,17 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
   }, []);
 
   /** 默认的 table dom，如果是编辑模式，外面还要包个 form */
-  const baseTableDom = <Table<T> {...getTableProps()} rowKey={rowKey} />;
+  const baseTableDom = (
+    <GridContext.Provider
+      value={{
+        grid: false,
+        colProps: undefined,
+        rowProps: undefined,
+      }}
+    >
+      <Table<T> {...getTableProps()} rowKey={rowKey} />
+    </GridContext.Provider>
+  );
 
   /** 自定义的 render */
   const tableDom = props.tableViewRender
@@ -312,6 +323,7 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
       <>
         {toolbarDom}
         {alertDom}
+
         {tableDom}
       </>
     );
@@ -400,7 +412,7 @@ function TableRender<T extends Record<string, any>, U, ValueType>(
   );
 }
 
-const emptyObj = {};
+const emptyObj = {} as Record<string, any>;
 
 const ProTable = <
   T extends Record<string, any>,
@@ -424,6 +436,7 @@ const ProTable = <
     actionRef: propsActionRef,
     columns: propsColumns = [],
     toolBarRender,
+    optionsRender,
     onLoad,
     onRequestError,
     style,
@@ -449,6 +462,7 @@ const ProTable = <
     polling,
     tooltip,
     revalidateOnFocus = false,
+    searchFormRender,
     ...rest
   } = props;
   const { wrapSSR, hashId } = useStyle(props.defaultClassName);
@@ -465,7 +479,7 @@ const ProTable = <
 
   /** 单选多选的相关逻辑 */
   const [selectedRowKeys, setSelectedRowKeys] = useMountMergeState<
-    (string | number)[] | undefined
+    (string | number)[] | Key[] | undefined
   >(
     propsRowSelection
       ? propsRowSelection?.defaultSelectedRowKeys || []
@@ -626,10 +640,12 @@ const ProTable = <
       ...action.pageInfo,
       setPageInfo: ({ pageSize, current }: PageInfo) => {
         const { pageInfo } = action;
+
         // pageSize 发生改变，并且你不是在第一页，切回到第一页
         // 这样可以防止出现 跳转到一个空的数据页的问题
         if (pageSize === pageInfo.pageSize || pageInfo.current === 1) {
           action.setPageInfo({ pageSize, current });
+
           return;
         }
 
@@ -677,8 +693,7 @@ const ProTable = <
     setSelectedRowKeys([]);
   }, [propsRowSelection, setSelectedRowKeys]);
 
-  counter.setAction(actionRef.current);
-  counter.propsRef.current = props;
+  counter.propsRef.current = props as ProTableProps<any, any, any>;
 
   /** 可编辑行的相关配置 */
   const editableUtils = useEditableArray<any>({
@@ -733,10 +748,8 @@ const ProTable = <
     editableUtils,
   });
 
-  if (propsActionRef) {
-    // @ts-ignore
-    propsActionRef.current = actionRef.current;
-  }
+  /** 同步 action */
+  counter.setAction(actionRef.current);
 
   // ---------- 列计算相关 start  -----------------
   const tableColumn = useMemo(() => {
@@ -813,28 +826,31 @@ const ProTable = <
   const isLightFilter: boolean =
     search !== false && search?.filterType === 'light';
 
-  const onFormSearchSubmit = <Y extends ParamsType>(values: Y): any => {
-    // 判断search.onSearch返回值决定是否更新formSearch
-    if (options && options.search) {
-      const { name = 'keyword' } =
-        options.search === true ? {} : options.search;
+  const onFormSearchSubmit = useCallback(
+    <Y extends ParamsType>(values: Y): any => {
+      // 判断search.onSearch返回值决定是否更新formSearch
+      if (options && options.search) {
+        const { name = 'keyword' } =
+          options.search === true ? {} : options.search;
 
-      /** 如果传入的 onSearch 返回值为 false，则不要把options.search.name对应的值set到formSearch */
-      const success = (options.search as OptionSearchProps)?.onSearch?.(
-        counter.keyWords!,
-      );
+        /** 如果传入的 onSearch 返回值为 false，则不要把options.search.name对应的值set到formSearch */
+        const success = (options.search as OptionSearchProps)?.onSearch?.(
+          counter.keyWords!,
+        );
 
-      if (success !== false) {
-        setFormSearch({
-          ...values,
-          [name]: counter.keyWords,
-        });
-        return;
+        if (success !== false) {
+          setFormSearch({
+            ...values,
+            [name]: counter.keyWords,
+          });
+          return;
+        }
       }
-    }
 
-    setFormSearch(values);
-  };
+      setFormSearch(values);
+    },
+    [counter.keyWords, options, setFormSearch],
+  );
 
   const loading = useMemo(() => {
     if (typeof action.loading === 'object') {
@@ -843,29 +859,50 @@ const ProTable = <
     return action.loading;
   }, [action.loading]);
 
-  const searchNode =
-    search === false && type !== 'form' ? null : (
-      <FormRender<T, U>
-        pagination={pagination}
-        beforeSearchSubmit={beforeSearchSubmit}
-        action={actionRef}
-        columns={propsColumns}
-        onFormSearchSubmit={(values) => {
-          onFormSearchSubmit(values);
-        }}
-        ghost={ghost}
-        onReset={props.onReset}
-        onSubmit={props.onSubmit}
-        loading={!!loading}
-        manualRequest={manualRequest}
-        search={search}
-        form={props.form}
-        formRef={formRef}
-        type={props.type || 'table'}
-        cardBordered={props.cardBordered}
-        dateFormatter={props.dateFormatter}
-      />
-    );
+  const searchNode = useMemo(() => {
+    const node =
+      search === false && type !== 'form' ? null : (
+        <FormRender<T, U>
+          pagination={pagination}
+          beforeSearchSubmit={beforeSearchSubmit}
+          action={actionRef}
+          columns={propsColumns}
+          onFormSearchSubmit={(values) => {
+            onFormSearchSubmit(values);
+          }}
+          ghost={ghost}
+          onReset={props.onReset}
+          onSubmit={props.onSubmit}
+          loading={!!loading}
+          manualRequest={manualRequest}
+          search={search}
+          form={props.form}
+          formRef={formRef}
+          type={props.type || 'table'}
+          cardBordered={props.cardBordered}
+          dateFormatter={props.dateFormatter}
+        />
+      );
+
+    if (searchFormRender && node) {
+      return <>{searchFormRender(props, node)}</>;
+    } else {
+      return node;
+    }
+  }, [
+    beforeSearchSubmit,
+    formRef,
+    ghost,
+    loading,
+    manualRequest,
+    onFormSearchSubmit,
+    pagination,
+    props,
+    propsColumns,
+    search,
+    searchFormRender,
+    type,
+  ]);
 
   const selectedRows = useMemo(
     () => selectedRowKeys?.map((key) => preserveRecordsRef.current?.get(key)),
@@ -897,6 +934,7 @@ const ProTable = <
         }}
         searchNode={isLightFilter ? searchNode : null}
         options={options}
+        optionsRender={optionsRender}
         actionRef={actionRef}
         toolBarRender={toolBarRender}
       />
@@ -932,7 +970,7 @@ const ProTable = <
       toolbarDom={toolbarDom}
       onSortChange={(sortConfig) => {
         if (proSort === sortConfig) return;
-        setProSort(sortConfig);
+        setProSort(sortConfig ?? {});
       }}
       onFilterChange={(filterConfig) => {
         if (filterConfig === proFilter) return;

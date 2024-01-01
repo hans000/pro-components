@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`💵 ProFormMoney 💵 ProFormMoney value expect number 1`] = `
+exports[`💵 ProFormMoney > 💵 ProFormMoney value expect number 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -98,7 +98,7 @@ exports[`💵 ProFormMoney 💵 ProFormMoney value expect number 1`] = `
                     placeholder="请输入"
                     role="spinbutton"
                     step="1"
-                    value="￥ 44.33"
+                    value="¥ 44.33"
                   />
                 </div>
               </div>
@@ -111,14 +111,6 @@ exports[`💵 ProFormMoney 💵 ProFormMoney value expect number 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          提 交
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
@@ -126,12 +118,20 @@ exports[`💵 ProFormMoney 💵 ProFormMoney value expect number 1`] = `
           重 置
         </span>
       </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          提 交
+        </span>
+      </button>
     </div>
   </form>
 </div>
 `;
 
-exports[`💵 ProFormMoney 💵 can input negative 1`] = `
+exports[`💵 ProFormMoney > 💵 can input negative 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -229,7 +229,7 @@ exports[`💵 ProFormMoney 💵 can input negative 1`] = `
                     placeholder="请输入"
                     role="spinbutton"
                     step="1"
-                    value="￥ -55.33"
+                    value="¥ -55.33"
                   />
                 </div>
               </div>
@@ -242,14 +242,6 @@ exports[`💵 ProFormMoney 💵 can input negative 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          提 交
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
@@ -257,12 +249,20 @@ exports[`💵 ProFormMoney 💵 can input negative 1`] = `
           重 置
         </span>
       </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          提 交
+        </span>
+      </button>
     </div>
   </form>
 </div>
 `;
 
-exports[`💵 ProFormMoney 💵 can not input negative 1`] = `
+exports[`💵 ProFormMoney > 💵 can not input negative 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -373,14 +373,6 @@ exports[`💵 ProFormMoney 💵 can not input negative 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          提 交
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
@@ -388,12 +380,20 @@ exports[`💵 ProFormMoney 💵 can not input negative 1`] = `
           重 置
         </span>
       </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          提 交
+        </span>
+      </button>
     </div>
   </form>
 </div>
 `;
 
-exports[`💵 ProFormMoney 💵 moneySymbol with custom locale 1`] = `
+exports[`💵 ProFormMoney > 💵 moneySymbol with custom locale 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -504,14 +504,6 @@ exports[`💵 ProFormMoney 💵 moneySymbol with custom locale 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          提 交
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
@@ -519,12 +511,20 @@ exports[`💵 ProFormMoney 💵 moneySymbol with custom locale 1`] = `
           重 置
         </span>
       </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          提 交
+        </span>
+      </button>
     </div>
   </form>
 </div>
 `;
 
-exports[`💵 ProFormMoney 💵 moneySymbol with custom symbol 1`] = `
+exports[`💵 ProFormMoney > 💵 moneySymbol with custom symbol 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -635,14 +635,6 @@ exports[`💵 ProFormMoney 💵 moneySymbol with custom symbol 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          提 交
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
@@ -650,12 +642,20 @@ exports[`💵 ProFormMoney 💵 moneySymbol with custom symbol 1`] = `
           重 置
         </span>
       </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          提 交
+        </span>
+      </button>
     </div>
   </form>
 </div>
 `;
 
-exports[`💵 ProFormMoney 💵 moneySymbol with global locale 1`] = `
+exports[`💵 ProFormMoney > 💵 moneySymbol with global locale 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -766,14 +766,6 @@ exports[`💵 ProFormMoney 💵 moneySymbol with global locale 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          Submit
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
@@ -781,12 +773,20 @@ exports[`💵 ProFormMoney 💵 moneySymbol with global locale 1`] = `
           Reset
         </span>
       </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
     </div>
   </form>
 </div>
 `;
 
-exports[`💵 ProFormMoney 💵 update money precision when init 1`] = `
+exports[`💵 ProFormMoney > 💵 update money precision when init 1`] = `
 <div>
   <form
     autocomplete="off"
@@ -897,19 +897,19 @@ exports[`💵 ProFormMoney 💵 update money precision when init 1`] = `
       style="display: flex; gap: 8px; align-items: center;"
     >
       <button
-        class="ant-btn ant-btn-primary"
-        type="button"
-      >
-        <span>
-          提 交
-        </span>
-      </button>
-      <button
         class="ant-btn ant-btn-default"
         type="button"
       >
         <span>
           重 置
+        </span>
+      </button>
+      <button
+        class="ant-btn ant-btn-primary"
+        type="button"
+      >
+        <span>
+          提 交
         </span>
       </button>
     </div>

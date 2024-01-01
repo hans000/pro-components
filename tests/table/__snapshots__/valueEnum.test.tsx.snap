@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Table valueEnum 🎏 customization valueType 1`] = `
+exports[`Table valueEnum > 🎏 customization valueType 1`] = `
 <DocumentFragment>
   <div
     class="ant-pro-table"
@@ -98,6 +98,7 @@ exports[`Table valueEnum 🎏 customization valueType 1`] = `
                     >
                       <div
                         class="ant-space ant-space-horizontal ant-space-align-center"
+                        style="column-gap: 16px; row-gap: 16px;"
                       >
                         <div
                           class="ant-space-item"
@@ -106,19 +107,19 @@ exports[`Table valueEnum 🎏 customization valueType 1`] = `
                             style="display: flex; gap: 8px; align-items: center;"
                           >
                             <button
-                              class="ant-btn ant-btn-default"
-                              type="button"
-                            >
-                              <span>
-                                重 置
-                              </span>
-                            </button>
-                            <button
                               class="ant-btn ant-btn-primary"
                               type="button"
                             >
                               <span>
                                 查 询
+                              </span>
+                            </button>
+                            <button
+                              class="ant-btn ant-btn-default"
+                              type="button"
+                            >
+                              <span>
+                                重 置
                               </span>
                             </button>
                           </div>
@@ -479,7 +480,6 @@ exports[`Table valueEnum 🎏 customization valueType 1`] = `
                         class="ant-select-selection-search"
                       >
                         <input
-                          aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
                           aria-autocomplete="list"
                           aria-controls="rc_select_TEST_OR_SSR_list"
                           aria-expanded="false"

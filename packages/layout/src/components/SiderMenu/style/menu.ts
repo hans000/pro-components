@@ -13,6 +13,7 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
   const menuToken = mode.includes('horizontal')
     ? token.layout?.header
     : token.layout?.sider;
+
   return {
     [`${token.componentCls}`]: {
       background: 'transparent',
@@ -36,6 +37,10 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
           width: '100%',
         },
       },
+      [`${token.componentCls}-item-icon`]: {
+        display: 'flex',
+        alignItems: 'center',
+      },
       [`&&-collapsed`]: {
         [`${token.antCls}-menu-item, 
         ${token.antCls}-menu-item-group > ${token.antCls}-menu-item-group-list > ${token.antCls}-menu-item, 
@@ -57,24 +62,19 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
         },
       },
 
-      [`${token.componentCls}-item-icon`]: {
-        height: '14px',
-        width: '14px',
-        opacity: '0.85',
-        lineHeight: '14px',
-        '> span.anticon': {
-          lineHeight: '14px!important',
-          height: '14px',
-        },
-      },
       '&-item-title': {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         gap: token.marginXS,
+        [`${token.componentCls}-item-text`]: {
+          maxWidth: '100%',
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          wordBreak: 'break-all',
+          whiteSpace: 'nowrap',
+        },
         '&-collapsed': {
-          flexDirection: 'column',
-          justifyContent: 'center',
           minWidth: 40,
           height: 40,
           [`${token.componentCls}-item-icon`]: {
@@ -82,16 +82,18 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
             width: '16px',
             lineHeight: '16px !important',
             '.anticon': {
-              lineHeight: '16px',
+              lineHeight: '16px !important',
               height: '16px',
             },
           },
-          [`${token.componentCls}-item-text`]: {
-            maxWidth: '100%',
-          },
+
           [`${token.componentCls}-item-text-has-icon`]: {
             display: 'none !important',
           },
+        },
+        '&-collapsed-level-0': {
+          flexDirection: 'column',
+          justifyContent: 'center',
         },
         [`&${token.componentCls}-group-item-title`]: {
           gap: token.marginXS,
@@ -108,7 +110,7 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
               width: '16px',
               lineHeight: '16px !important',
               '.anticon': {
-                lineHeight: '16px',
+                lineHeight: '16px!important',
                 height: '16px',
               },
             },
@@ -140,11 +142,26 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
           },
         },
       },
+
       '&-group-divider': {
         color: token.colorTextSecondary,
         fontSize: 12,
         lineHeight: 20,
       },
+    },
+    ...(mode.includes('horizontal')
+      ? {}
+      : {
+          [`${token.antCls}-menu-submenu${token.antCls}-menu-submenu-popup`]: {
+            [`${token.componentCls}-item-title`]: {
+              alignItems: 'flex-start',
+            },
+          },
+        }),
+    [`${token.antCls}-menu-submenu-popup`]: {
+      backgroundColor: 'rgba(255, 255, 255, 0.42)',
+      '-webkit-backdrop-filter': 'blur(8px)',
+      backdropFilter: 'blur(8px)',
     },
   };
 };

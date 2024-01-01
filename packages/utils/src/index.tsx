@@ -32,6 +32,7 @@ import {
   useDeepCompareEffect,
   useDeepCompareEffectDebounce,
 } from './hooks/useDeepCompareEffect';
+import useDeepCompareMemo from './hooks/useDeepCompareMemo';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
 import type { ProRequestData } from './hooks/useFetchData';
 import { useFetchData } from './hooks/useFetchData';
@@ -54,7 +55,9 @@ import { omitUndefinedAndEmptyArr } from './omitUndefinedAndEmptyArr';
 import { parseValueToDay } from './parseValueToMoment';
 import { pickProFormItemProps } from './pickProFormItemProps';
 import { pickProProps } from './pickProProps';
+import { objectToMap, proFieldParsingText } from './proFieldParsingText';
 import { runFunction } from './runFunction';
+import stringify from './stringify';
 import { transformKeySubmitValue } from './transformKeySubmitValue';
 import type {
   RowEditableConfig,
@@ -72,75 +75,81 @@ import type {
   UseEditableMapUtilType,
 } from './useEditableMap';
 import { useEditableMap } from './useEditableMap';
+import { useBreakpoint } from './useMediaQuery';
 import { useMountMergeState } from './useMountMergeState';
 
 export * from './typing';
-export type {
-  ProFormInstanceType,
-  RowEditableConfig,
-  RowEditableType,
-  ProRequestData,
-  UseEditableType,
-  UseEditableUtilType,
-  UseEditableMapType,
-  UseEditableMapUtilType,
-};
 export {
-  LabelIconTip,
-  ProFormContext,
-  isDeepEqualReact,
-  FilterDropdown,
-  menuOverlayCompatible,
-  FieldLabel,
-  InlineErrorFormItem,
   DropdownFooter,
   ErrorBoundary,
-  dateFormatterMap,
-  // function
-  transformKeySubmitValue,
-  conversionMomentValue as conversionSubmitValue,
+  FieldLabel,
+  FilterDropdown,
+  InlineErrorFormItem,
+  LabelIconTip,
+  ProFormContext,
+  compareVersions,
   conversionMomentValue,
+  conversionMomentValue as conversionSubmitValue,
   convertMoment,
-  parseValueToDay,
-  genCopyable,
-  useDocumentTitle,
-  isImg,
-  omitBoolean,
   coverToNewToken,
-  isNil,
-  merge,
+  dateArrayFormatter,
+  dateFormatterMap,
+  editableRowByKey,
+  genCopyable,
+  getFieldPropsOrFormItemProps,
+  isBrowser,
+  isDeepEqualReact,
   isDropdownValueType,
+  isImg,
+  isNil,
+  isUrl,
+  lighten,
+  menuOverlayCompatible,
+  merge,
+  nanoid,
+  objectToMap,
+  omitBoolean,
   omitUndefined,
   omitUndefinedAndEmptyArr,
-  pickProFormItemProps,
-  isUrl,
-  isBrowser,
-  pickProProps,
-  runFunction,
-  getFieldPropsOrFormItemProps,
-  dateArrayFormatter,
   openVisibleCompatible,
-  nanoid,
-  editableRowByKey,
+  operationUnit,
+  parseValueToDay,
+  pickProFormItemProps,
+  pickProProps,
+  proFieldParsingText,
   recordKeyToString,
-  compareVersions,
+  resetComponent,
+  runFunction,
+  setAlpha,
+  stringify,
+  // function
+  transformKeySubmitValue,
+  useBreakpoint,
+  useDebounceFn,
+  useDebounceValue,
+  useDeepCompareEffect,
+  useDeepCompareEffectDebounce,
+  useDeepCompareMemo,
+  useDocumentTitle,
   // hooks
   useEditableArray,
   useEditableMap,
-  useRefFunction,
-  useDeepCompareEffect,
-  usePrevious,
-  useDebounceFn,
-  useMountMergeState,
   useFetchData,
-  useDeepCompareEffectDebounce,
   useLatest,
-  useDebounceValue,
-  useStyle,
-  setAlpha,
-  resetComponent,
-  operationUnit,
-  lighten,
+  useMountMergeState,
+  usePrevious,
   useReactiveRef,
   useRefCallback,
+  useRefFunction,
+  useStyle,
+};
+export type {
+  ProFormInstanceType,
+  ProRequestData,
+  RowEditableConfig,
+  RowEditableType,
+  UseEditableMapType,
+  UseEditableMapUtilType,
+  UseEditableType,
+  UseEditableUtilType,
 };

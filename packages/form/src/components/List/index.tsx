@@ -115,6 +115,7 @@ export type ProFormListProps<T> = Omit<FormListProps, 'children' | 'rules'> &
     required?: boolean;
     wrapperCol?: ColProps;
     className?: string;
+    readonly?: boolean;
   } & Pick<ProFormGridConfig, 'colProps' | 'rowProps'>;
 
 function ProFormList<T>(props: ProFormListProps<T>) {
@@ -122,7 +123,6 @@ function ProFormList<T>(props: ProFormListProps<T>) {
   const context = useContext(ConfigProvider.ConfigContext);
   const listContext = useContext(FormListContext);
   const baseClassName = context.getPrefixCls('pro-form-list');
-
   // Internationalization
   const intl = useIntl();
 
@@ -139,12 +139,12 @@ function ProFormList<T>(props: ProFormListProps<T>) {
     fieldExtraRender,
     copyIconProps = {
       Icon: CopyOutlined,
-      tooltipText: intl.getMessage('copyThisLine', '复制此行'),
+      tooltipText: intl.getMessage('copyThisLine', '复制此项'),
     },
     children,
     deleteIconProps = {
       Icon: DeleteOutlined,
-      tooltipText: intl.getMessage('deleteThisLine', '删除此行'),
+      tooltipText: intl.getMessage('deleteThisLine', '删除此项'),
     },
     actionRef,
     style,
@@ -207,7 +207,6 @@ function ProFormList<T>(props: ProFormListProps<T>) {
   const { wrapSSR, hashId } = useStyle(baseClassName);
 
   if (!proFormContext.formRef) return null;
-
   return wrapSSR(
     <ColWrapper>
       <div className={classNames(baseClassName, hashId)} style={style}>
@@ -245,6 +244,7 @@ function ProFormList<T>(props: ProFormListProps<T>) {
                 <RowWrapper>
                   <ProFormListContainer
                     name={name}
+                    readonly={!!rest.readonly}
                     originName={rest.name}
                     copyIconProps={copyIconProps}
                     deleteIconProps={deleteIconProps}
@@ -280,6 +280,8 @@ function ProFormList<T>(props: ProFormListProps<T>) {
                       }
                       onAfterRemove?.(index, count);
                     }}
+                    containerClassName={props.containerClassName}
+                    containerStyle={props.containerStyle}
                   >
                     {children}
                   </ProFormListContainer>

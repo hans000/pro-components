@@ -1,4 +1,4 @@
-import type { ProCardProps } from '@ant-design/pro-card';
+import type { CheckCardProps } from '@ant-design/pro-card';
 import { ProConfigProvider } from '@ant-design/pro-provider';
 import type {
   ActionType,
@@ -32,7 +32,9 @@ export type ProListMeta<T> = Pick<
   | 'fieldProps'
   | 'formItemProps'
   | 'renderFormItem'
->;
+> & {
+  key?: React.Key;
+};
 
 type ProListMetaAction<T> = ProListMeta<T> & {
   /**
@@ -80,7 +82,7 @@ export type ProListProps<
     showExtra?: 'hover' | 'always';
     onRow?: GetComponentProps<RecordType>;
     onItem?: GetComponentProps<RecordType>;
-    itemCardProps?: ProCardProps;
+    itemCardProps?: CheckCardProps;
     rowClassName?: string | ((item: RecordType, index: number) => string);
     itemHeaderRender?: ItemProps<RecordType>['itemHeaderRender'];
     itemTitleRender?: ItemProps<RecordType>['itemTitleRender'];

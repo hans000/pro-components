@@ -4,6 +4,7 @@ import { Input, Space } from 'antd';
 import type { GroupProps } from 'antd/lib/input';
 import toArray from 'rc-util/lib/Children/toArray';
 import React, { useCallback, useImperativeHandle, useMemo } from 'react';
+import type { LightWrapperProps } from '../../BaseForm';
 import { createField } from '../../BaseForm/createField';
 import { useGridHelpers } from '../../helpers';
 import type { ProFormItemProps } from '../FormItem';
@@ -18,6 +19,7 @@ export type ProFormFieldSetProps<T = any> = {
   convertValue?: ProFormItemProps['convertValue'];
   transform?: ProFormItemProps['transform'];
   children?: React.ReactNode;
+  lightProps?: LightWrapperProps;
 };
 
 const FieldSetType = {
@@ -28,6 +30,7 @@ const FieldSetType = {
 export function defaultGetValueFromEvent(valuePropName: string, ...args: any) {
   const event = args[0];
   if (event && event.target && valuePropName in event.target) {
+    // @ts-ignore
     return (event.target as HTMLInputElement)[valuePropName];
   }
   return event;
@@ -43,6 +46,7 @@ const FieldSet: React.FC<ProFormFieldSetProps> = ({
   type = 'space',
   transform,
   convertValue,
+  lightProps,
   ...rest
 }) => {
   /**
@@ -110,7 +114,7 @@ const FieldSet: React.FC<ProFormFieldSetProps> = ({
 
   const Wrapper: React.FC = useCallback(
     ({ children: dom }: { children?: React.ReactNode }) => (
-      <Components {...typeProps} {...(space as SpaceProps)} align="start">
+      <Components {...typeProps} {...(space as SpaceProps)} align="start" wrap>
         {dom}
       </Components>
     ),

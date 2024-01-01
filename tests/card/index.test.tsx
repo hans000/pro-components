@@ -1,20 +1,31 @@
 import { ProCard } from '@ant-design/pro-components';
-import { act, render } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
 
-jest.mock('antd/lib/grid/hooks/useBreakpoint');
+vi.mock('antd/lib/grid/hooks/useBreakpoint');
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Card', () => {
   it('🥩 collapsible onCollapse', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
+
     const wrapper = render(
-      <ProCard
-        title="可折叠"
-        headerBordered
-        collapsible
-        defaultCollapsed
-        onCollapse={fn}
-      >
-        内容
+      <ProCard title="父节点">
+        <ProCard
+          title="可折叠"
+          headerBordered
+          collapsible
+          defaultCollapsed
+          onCollapse={fn}
+          colSpan={{
+            xs: 24,
+          }}
+        >
+          内容
+        </ProCard>
+        ,
       </ProCard>,
     );
 
@@ -110,6 +121,11 @@ describe('Card', () => {
         }
         defaultCollapsed={false}
         collapsible
+        extra={
+          <div>
+            <span>操作</span>
+          </div>
+        }
       >
         内容
       </ProCard>,
@@ -130,11 +146,17 @@ describe('Card', () => {
 
     expect(!!dom).toBe(true);
 
+    act(() => {
+      wrapper.baseElement
+        .querySelector<HTMLDivElement>('.ant-pro-card-extra')
+        ?.click();
+    });
+
     wrapper.unmount();
   });
 
   it('🥩 tabs onChange', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <ProCard
         tabs={{

@@ -3,8 +3,9 @@ import omit from 'omit.js';
 import React, { useImperativeHandle, useRef } from 'react';
 import type { ProFieldFC } from '../../index';
 import type { FieldSelectProps } from '../Select';
-import { ObjToMap, proFieldParsingText, useFieldFetchData } from '../Select';
+import { useFieldFetchData } from '../Select';
 
+import { objectToMap, proFieldParsingText } from '@ant-design/pro-utils';
 import 'antd/lib/segmented/style';
 import 'antd/lib/spin/style';
 
@@ -50,7 +51,7 @@ const FieldSegmented: ProFieldFC<
       <>
         {proFieldParsingText(
           rest.text,
-          ObjToMap(rest.valueEnum || optionsValueEnum),
+          objectToMap(rest.valueEnum || optionsValueEnum),
         )}
       </>
     );
@@ -72,7 +73,11 @@ const FieldSegmented: ProFieldFC<
     );
 
     if (renderFormItem) {
-      return renderFormItem(rest.text, { mode, ...fieldProps, options }, dom);
+      return renderFormItem(
+        rest.text,
+        { mode, ...fieldProps, options, loading },
+        dom,
+      );
     }
     return dom;
   }

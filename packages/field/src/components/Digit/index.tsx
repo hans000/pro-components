@@ -42,12 +42,12 @@ const FieldDigit: ProFieldFC<FieldDigitProps> = (
       ) {
         val = Number(val.toFixed(fieldProps.precision));
       }
-      return fieldProps?.onChange?.(val);
+      return val;
     },
     [fieldProps],
   );
   if (type === 'read') {
-    let fractionDigits = {} as any;
+    let fractionDigits = {} as Record<string, any> as any;
     if (fieldProps?.precision) {
       fractionDigits = {
         minimumFractionDigits: Number(fieldProps.precision),
@@ -72,8 +72,9 @@ const FieldDigit: ProFieldFC<FieldDigitProps> = (
         ref={ref}
         min={0}
         placeholder={placeholderValue}
-        {...omit(fieldProps, ['onChange'])}
-        onChange={proxyChange}
+        {...omit(fieldProps, ['onChange', 'onBlur'])}
+        onChange={(e) => fieldProps?.onChange?.(proxyChange(e))}
+        onBlur={(e) => fieldProps?.onBlur?.(proxyChange(e.target.value))}
       />
     );
     if (renderFormItem) {

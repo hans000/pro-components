@@ -59,20 +59,27 @@ const getSpanConfig = (
     };
   }
 
-  const spanConfig = span
+  const spanConfig: (string | number)[][] = span
     ? ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].map((key) => [
-        CONFIG_SPAN_BREAKPOINTS[key],
-        24 / span[key],
+        CONFIG_SPAN_BREAKPOINTS[key as 'xs'],
+        24 / (span as any)[key as 'sm'],
         'horizontal',
       ])
-    : BREAKPOINTS[layout || 'default'];
+    : BREAKPOINTS[(layout as 'default') || 'default'];
 
   const breakPoint = (spanConfig || BREAKPOINTS.default).find(
-    (item: [number, number, FormProps['layout']]) => width < item[0] + 16, // 16 = 2 * (ant-row -8px margin)
+    (item) => width < (item[0] as number) + 16, // 16 = 2 * (ant-row -8px margin)
   );
+
+  if (!breakPoint) {
+    return {
+      span: 8,
+      layout: 'horizontal',
+    };
+  }
   return {
-    span: 24 / breakPoint[1],
-    layout: breakPoint[2],
+    span: 24 / (breakPoint[1] as number),
+    layout: breakPoint?.[2] as 'horizontal',
   };
 };
 
@@ -98,6 +105,9 @@ export type BaseQueryFilterProps = Omit<
    * @type 'horizontal' | 'inline' | 'vertical';
    */
   layout?: FormProps['layout'];
+  /**
+   * @name 默认一行显示几个表单项
+   */
   defaultColsNumber?: number;
   /**
    * @name 文字标签的宽度
@@ -190,10 +200,20 @@ export type BaseQueryFilterProps = Omit<
 const flatMapItems = (
   items: React.ReactNode[],
   ignoreRules?: boolean,
+  form?: FormInstance,
 ): React.ReactNode[] => {
   return items?.flatMap((item: any) => {
     if (item?.type.displayName === 'ProForm-Group' && !item.props?.title) {
       return item.props.children;
+    }
+    if (item?.type.displayName === 'ProFormDependency' && !item.props?.title) {
+      const values = item.props.name.reduce((current: any, next: any) => {
+        return {
+          ...current,
+          [next]: form?.getFieldValue(next),
+        };
+      }, {});
+      return item.props.children(values);
     }
     if (ignoreRules && React.isValidElement(item)) {
       return React.cloneElement(item, {
@@ -208,11 +228,11 @@ const flatMapItems = (
   });
 };
 
-export type QueryFilterProps<T = Record<string, any>> = Omit<
-  FormProps<T>,
-  'onFinish'
-> &
-  CommonFormProps<T> &
+export type QueryFilterProps<
+  T = Record<string, any>,
+  U = Record<string, any>,
+> = Omit<FormProps<T>, 'onFinish'> &
+  CommonFormProps<T, U> &
   BaseQueryFilterProps & {
     onReset?: (values: T) => void;
   };
@@ -270,6 +290,7 @@ const QueryFilterContent: React.FC<{
     showLength,
     searchGutter,
     showHiddenNum,
+    form,
   } = props;
 
   const submitter = useMemo(() => {
@@ -309,7 +330,7 @@ const QueryFilterContent: React.FC<{
   let currentSpan = 0;
 
   // 处理过，包含是否需要隐藏的 数组
-  const processedList = flatMapItems(items, props.ignoreRules).map(
+  const processedList = flatMapItems(items, props.ignoreRules, form).map(
     (
       item,
       index,

@@ -44,6 +44,18 @@ export default () => {
         <Descriptions.Item label="颜色">
           <ProField text="blue" valueType="color" mode={state} plain={plain} />
         </Descriptions.Item>
+        <Descriptions.Item label="颜色禁用">
+          <ProField
+            text="blue"
+            valueType="color"
+            fieldProps={{
+              disabled: true,
+            }}
+            mode={state}
+            plain={plain}
+          />
+          <ProField text="blue" valueType="color" disabled mode="read" />
+        </Descriptions.Item>
         <Descriptions.Item label="图片">
           <ProField
             text="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
@@ -69,11 +81,28 @@ export default () => {
             mode={state}
             plain={plain}
           />
+
+          <ProField
+            valueType="money"
+            label="自定义货币符号"
+            name="amount4"
+            fieldProps={{
+              value: 2221212.22,
+              customSymbol: '💰',
+            }}
+            mode="read"
+          />
         </Descriptions.Item>
         <Descriptions.Item label="数字">
           <ProField
             text="19897979797979"
             valueType="digit"
+            fieldProps={{
+              min: 1,
+              max: 10000,
+              precision: 0,
+              formatter: null,
+            }}
             mode={state}
             plain={plain}
           />
@@ -459,7 +488,7 @@ Done in 9.70s.
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
+
     "declaration": true,
     "skipLibCheck": true
   },

@@ -4,7 +4,13 @@ import type {
 } from '@ant-design/pro-descriptions';
 import Descriptions from '@ant-design/pro-descriptions';
 import type { RowEditableConfig } from '@ant-design/pro-utils';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { Form, InputNumber } from 'antd';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, { useRef } from 'react';
@@ -18,7 +24,7 @@ type DataSourceType = {
   }[];
   state?: string;
   time?: {
-    created_at?: string;
+    created_at?: number;
   };
   children?: DataSourceType;
 };
@@ -28,7 +34,7 @@ const defaultData: DataSourceType = {
   title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
   labels: [{ name: 'bug', color: 'error' }],
   time: {
-    created_at: '1590486176000',
+    created_at: 1590486176000,
   },
   state: 'processing',
 };
@@ -139,7 +145,15 @@ const DescriptionsDemo = (
   );
 };
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('Descriptions', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('📝 Descriptions close editable', async () => {
     const wrapper = render(
       <Descriptions<DataSourceType>
@@ -167,7 +181,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support onEditorChange', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo
         onEditorChange={(keys) => {
@@ -316,7 +330,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support cancel click', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo
         onEditorChange={(keys) => {
@@ -360,7 +374,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support cancel click render false', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo
         onEditorChange={(keys) => {
@@ -406,7 +420,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 type=single, only edit one rows', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo
         defaultKeys={['state']}
@@ -428,7 +442,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 type=multiple, edit multiple rows', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo
         type="multiple"
@@ -450,7 +464,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support onSave', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(<DescriptionsDemo onSave={(key) => fn(key)} />);
     await wrapper.findAllByText('重置');
     act(() => {
@@ -483,7 +497,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support onSave support false', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo
         onSave={async (key) => {
@@ -536,7 +550,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support onCancel', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(<DescriptionsDemo onCancel={(key) => fn(key)} />);
 
     await wrapper.findAllByText('重置');
@@ -571,7 +585,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 support form rules', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo onSave={(key, row) => fn(row.title)} />,
     );
@@ -654,7 +668,7 @@ describe('Descriptions', () => {
   });
 
   it('📝 when dataIndex is array', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <DescriptionsDemo onSave={(key, row) => fn(row?.time?.created_at)} />,
     );

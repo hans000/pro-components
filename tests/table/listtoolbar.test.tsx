@@ -1,12 +1,16 @@
 import { FullscreenOutlined, SettingOutlined } from '@ant-design/icons';
 import ProTable, { ListToolBar } from '@ant-design/pro-table';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { Button, Input } from 'antd';
 import { waitForWaitTime } from '../util';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('Table valueEnum', () => {
   it('ListToolBar onAction', async () => {
-    const onAction = jest.fn();
+    const onAction = vi.fn();
     const wrapper = render(
       <ListToolBar
         actions={[
@@ -31,7 +35,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar support onSearch', async () => {
-    const onSearch = jest.fn();
+    const onSearch = vi.fn();
     const wrapper = render(
       <ProTable<{
         name: string;
@@ -130,7 +134,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar onSettingClick', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     const wrapper = render(
       <ListToolBar
         settings={[
@@ -162,7 +166,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar search left', async () => {
-    const onSearch = jest.fn();
+    const onSearch = vi.fn();
     const wrapper = render(
       <ListToolBar
         search={{
@@ -194,7 +198,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar search right and custom input search', async () => {
-    const onSearch = jest.fn();
+    const onSearch = vi.fn();
     const wrapper = render(
       <ListToolBar
         title="I am title"
@@ -226,7 +230,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar dropdown menu', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <ListToolBar
         menu={{
@@ -257,7 +261,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar tab menu', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <ListToolBar
         menu={{
@@ -285,7 +289,7 @@ describe('Table valueEnum', () => {
   });
 
   it('ListToolBar inline menu', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <ListToolBar
         menu={{

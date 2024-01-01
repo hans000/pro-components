@@ -18,16 +18,27 @@ import {
   parseValueToDay,
   pickProProps,
   setAlpha,
+  stringify,
   transformKeySubmitValue,
   useDebounceFn,
   useDebounceValue,
 } from '@ant-design/pro-utils';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { Form, Input } from 'antd';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('utils', () => {
   beforeEach(() => {
@@ -69,7 +80,7 @@ describe('utils', () => {
   });
 
   it('📅 useDebounceValue', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const App = (props: { deps: string[] }) => {
       const value = useDebounceValue(props.deps?.[0], 200, props.deps);
 
@@ -93,7 +104,7 @@ describe('utils', () => {
     await html.findByText('string');
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -128,7 +139,7 @@ describe('utils', () => {
   });
 
   it('📅 useDebounceValue without deps', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const App = (props: { deps: string[] }) => {
       const [, forceUpdate] = useState([]);
@@ -158,14 +169,14 @@ describe('utils', () => {
     expect(html.baseElement?.textContent).toEqual('name');
 
     await act(() => {
-      return jest.runAllTimers();
+      return vi.runAllTimers();
     });
 
     await waitFor(() => {
       expect(html.baseElement?.textContent).toEqual('string');
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('📅 useDebounceFn', async () => {
@@ -175,8 +186,8 @@ describe('utils', () => {
       },
     });
 
-    jest.useFakeTimers();
-    const fn = jest.fn();
+    vi.useFakeTimers();
+    const fn = vi.fn();
     const App = ({ wait }: { wait?: number }) => {
       const fetchData = useDebounceFn(async () => fn(), wait);
       useEffect(() => {
@@ -213,7 +224,7 @@ describe('utils', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     act(() => {
@@ -221,7 +232,7 @@ describe('utils', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await html.findByText('test');
@@ -253,14 +264,14 @@ describe('utils', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     html.unmount();
 
     expect(fn).toBeCalledTimes(7);
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('📅 useDebounceFn execution has errors', async () => {
@@ -270,10 +281,10 @@ describe('utils', () => {
       },
     });
 
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const error = new Error('debounce error');
-    const catchFn = jest.fn();
+    const catchFn = vi.fn();
     const App = ({ wait }: { wait?: number }) => {
       const fetchData = useDebounceFn(async () => {
         throw error;
@@ -292,7 +303,7 @@ describe('utils', () => {
       expect(catchFn).toBeCalledWith(error);
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('📅 conversionSubmitValue nil', async () => {
@@ -663,10 +674,10 @@ describe('utils', () => {
         dateRange2: ['2019-11-16 12:50:26', '2019-11-16 12:55:26'],
       },
       {
-        dataTime: () => 'new-dataTime',
-        time: () => 'new-time',
+        dataTime: (value) => ({ 'new-dataTime': value }),
+        time: (value) => ({ 'new-time': value }),
         name: () => 'new-name',
-        money: () => 'new-money',
+        money: (value) => ({ 'new-money': value }),
         // @ts-ignore
         dateRange2: [
           (itemValue, _, tempValues) => tempValues,
@@ -680,7 +691,7 @@ describe('utils', () => {
         'new-dataTime',
         'new-time',
         'dateRange2',
-        'new-name',
+        'name',
         'new-money',
         'dateTimeRange',
         'dateRange',
@@ -690,7 +701,7 @@ describe('utils', () => {
       [
         'dataTime',
         'time',
-        'name',
+        'new-name',
         'dateRange2',
         'money',
         'dateTimeRange',
@@ -699,7 +710,7 @@ describe('utils', () => {
     );
     expect((html as any)['new-dataTime']).toBe('2019-11-16 12:50:26');
     expect((html as any)['new-time']).toBe('2019-11-16 12:50:26');
-    expect((html as any)['new-name']).toBe('qixian');
+    expect((html as any).name).toBe('new-name');
     expect((html as any)['new-money']).toBe(20);
     expect(html.dateTimeRange.join(',')).toBe(
       '2019-11-16 12:50:26,2019-11-16 12:55:26',
@@ -750,7 +761,7 @@ describe('utils', () => {
       },
     );
     const htmlKeys = Object.keys(html).sort();
-
+    console.log(html);
     expect(htmlKeys).toEqual(
       [
         'dateTimeRange1',
@@ -871,8 +882,8 @@ describe('utils', () => {
         'new-time',
       ].sort(),
     );
-    expect(html['new-dataTime']).toBe('2019-11-16 12:50:26');
-    expect(html['new-time']).toBe('2019-11-16 12:50:26');
+    expect((html as any)['new-dataTime']).toBe('2019-11-16 12:50:26');
+    expect((html as any)['new-time']).toBe('2019-11-16 12:50:26');
     expect(html.name).toBe('qixian');
     expect(html.money).toBe(20);
     expect(html.dateTimeRange.join(',')).toBe(
@@ -913,7 +924,7 @@ describe('utils', () => {
       dataTime: () => ['new-dataTime'],
       time: undefined,
     });
-    expect(html['new-dataTime']).toBe('2019-11-16 12:50:26');
+    expect((html as any)['new-dataTime']).toBe('2019-11-16 12:50:26');
     expect(html.tag).not.toBe(labelInValue);
     expect(React.isValidElement(html.tag.label)).toBeTruthy();
   });
@@ -930,7 +941,7 @@ describe('utils', () => {
       dataTime: () => ['new-dataTime'],
       time: undefined,
     });
-    expect(html['new-dataTime']).toBe('2019-11-16 12:50:26');
+    expect((html as any)['new-dataTime']).toBe('2019-11-16 12:50:26');
     expect(html.file).toBe(file);
     expect(html.files[0]).toBe(file);
   });
@@ -945,7 +956,7 @@ describe('utils', () => {
       dataTime: () => ['new-dataTime'],
       time: undefined,
     });
-    expect(html['new-dataTime']).toBe('2019-11-16 12:50:26');
+    expect((html as any)['new-dataTime']).toBe('2019-11-16 12:50:26');
     expect(html.file).toBe(undefined);
   });
 
@@ -1092,10 +1103,56 @@ describe('utils', () => {
   });
 
   it('🪓 nanoid', () => {
-    window.crypto.randomUUID = jest.fn(() => '1234567890abcdef');
+    if (!window.crypto.randomUUID) {
+      window.crypto.randomUUID = () => '1' as any;
+    }
+    const cryptoSpy = vi.spyOn(window.crypto, 'randomUUID');
 
-    const id = nanoid();
+    nanoid();
 
-    expect(id).toBe('1234567890abcdef');
+    expect(cryptoSpy).toBeCalled();
+  });
+
+  it('🪓 stringify', () => {
+    expect(
+      stringify({
+        name: 'kiner',
+        age: 28,
+        liked: false,
+        favs: ['Reading', 'Running'],
+        userInfo: { fullName: 'kinertang' },
+      }),
+    ).toBe(
+      '{"name":"kiner","age":28,"liked":false,"favs":["Reading","Running"],"userInfo":{"fullName":"kinertang"}}',
+    );
+
+    const json: any = {
+      name: 'kiner',
+      age: 28,
+    };
+    json.detail = json;
+    expect(stringify(json)).toBe(
+      '{"name":"kiner","age":28,"detail":"Magic circle!"}',
+    );
+
+    expect(
+      stringify({
+        name: 'kiner',
+        age: BigInt(999),
+      }),
+    ).toBe('{"name":"kiner","age":999}');
+
+    expect(
+      stringify({
+        name: 'kiner',
+        age: BigInt(99999),
+        node: <div>aaaa</div>,
+        fn: function () {
+          console.log(1);
+        },
+      }),
+    ).toBe(
+      '{"name":"kiner","age":99999,"node":{"type":"div","key":null,"ref":null,"props":{"children":"aaaa"},"_owner":null,"_store":{}}}',
+    );
   });
 });

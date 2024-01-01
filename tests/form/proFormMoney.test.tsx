@@ -1,11 +1,21 @@
 import ProForm, { ProFormMoney } from '@ant-design/pro-form';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { ConfigProvider } from 'antd';
 import enGBIntl from 'antd/lib/locale/en_GB';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('💵 ProFormMoney', () => {
   it('💵 ProFormMoney value expect number', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProForm
         onFinish={async (values) => {
@@ -18,7 +28,7 @@ describe('💵 ProFormMoney', () => {
 
     expect(container.querySelectorAll('input#amount')[0]).toHaveAttribute(
       'value',
-      '￥ 44.33',
+      '¥ 44.33',
     );
 
     act(() => {
@@ -32,7 +42,7 @@ describe('💵 ProFormMoney', () => {
   });
 
   it('💵 moneySymbol with global locale', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ConfigProvider locale={enGBIntl}>
         <ProForm
@@ -61,7 +71,7 @@ describe('💵 ProFormMoney', () => {
   });
 
   it('💵 moneySymbol with custom locale', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProForm
         onFinish={async (values) => {
@@ -85,7 +95,7 @@ describe('💵 ProFormMoney', () => {
     expect(container).toMatchSnapshot();
   });
   it('💵 moneySymbol with custom symbol', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProForm
         onFinish={async (values) => {
@@ -109,7 +119,7 @@ describe('💵 ProFormMoney', () => {
     expect(container).toMatchSnapshot();
   });
   it('💵 can not input negative', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProForm
         onFinish={async (values) => {
@@ -139,7 +149,7 @@ describe('💵 ProFormMoney', () => {
     expect(container).toMatchSnapshot();
   });
   it('💵 can input negative', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProForm
         onFinish={async (values) => {
@@ -163,7 +173,7 @@ describe('💵 ProFormMoney', () => {
 
     expect(container.querySelectorAll('input#amount')[0]).toHaveAttribute(
       'value',
-      '￥ -55.33',
+      '¥ -55.33',
     );
 
     fireEvent.click(container.querySelector('button.ant-btn-primary')!);
@@ -175,7 +185,7 @@ describe('💵 ProFormMoney', () => {
   });
 
   it('💵 update money precision when init', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProForm
         onFinish={async (values) => {

@@ -1,19 +1,31 @@
 import ProTable from '@ant-design/pro-table';
-import { act, createEvent, fireEvent, render } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  createEvent,
+  fireEvent,
+  render,
+} from '@testing-library/react';
 import { waitForWaitTime } from '../util';
 import { columns } from './demo';
 
-function fireDragEvent(ele: HTMLElement, eventName: string, data: object = {}) {
+function fireDragEvent(ele: HTMLElement, eventName: string, data: object) {
+  // @ts-ignore
   const event = createEvent[eventName](ele);
   Object.keys(data).forEach((key) => {
+    // @ts-ignore
     event[key] = data[key];
   });
   fireEvent(ele, event);
 }
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('Table ColumnSetting', () => {
   beforeEach(() => {
-    console.warn = jest.fn();
+    console.warn = vi.fn();
   });
   it('🎏 columnSetting', async () => {
     const html = render(
@@ -141,7 +153,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting columnsStateMap onChange', async () => {
-    const callBack = jest.fn();
+    const callBack = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -279,7 +291,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting columnsState.value props throw error', async () => {
-    console.warn = jest.fn();
+    console.warn = vi.fn();
     const localStorage = { ...window.localStorage };
 
     // 为了测试报错的情况
@@ -390,7 +402,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting columnsState.onChange', async () => {
-    const callBack = jest.fn();
+    const callBack = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -454,7 +466,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting columnsState.persistenceKey', async () => {
-    const callBack = jest.fn();
+    const callBack = vi.fn();
 
     window.localStorage.setItem(
       'test-keys',
@@ -537,8 +549,64 @@ describe('Table ColumnSetting', () => {
     expect(overlay.length).toBe(2);
   });
 
+  it('🎏 columnSetting columnsState.persistenceKey with defaultValue', async () => {
+    const callBack = vi.fn();
+
+    window.localStorage.setItem(
+      'test-keys-with-defaultValue',
+      JSON.stringify({
+        index: { fixed: 'left' },
+        Age: { show: false },
+        option: { fixed: 'right' },
+      }),
+    );
+    const html = render(
+      <ProTable
+        size="small"
+        columnsState={{
+          persistenceKey: 'test-keys-with-defaultValue',
+          persistenceType: 'localStorage',
+          defaultValue: {
+            status: { disable: true },
+            option: { disable: true },
+          },
+          onChange: callBack,
+        }}
+        columns={columns}
+        request={async () => {
+          return {
+            data: [
+              {
+                key: 1,
+                name: `TradeCode ${1}`,
+                createdAt: 1602572994055,
+              },
+            ],
+            success: true,
+          };
+        }}
+        rowKey="key"
+      />,
+    );
+
+    await waitForWaitTime(100);
+
+    act(() => {
+      html.baseElement
+        .querySelector<HTMLDivElement>(
+          '.ant-pro-table-list-toolbar-setting-item .anticon-setting',
+        )
+        ?.click();
+    });
+    await waitForWaitTime(100);
+    const overlay = html.baseElement.querySelectorAll<HTMLDivElement>(
+      '.ant-tree-checkbox-disabled',
+    );
+    expect(overlay.length).toBe(2);
+  });
+
   it('🎏 columnSetting columnsState.persistenceKey is error dom', async () => {
-    const callBack = jest.fn();
+    const callBack = vi.fn();
 
     window.localStorage.setItem(
       'test-keys',
@@ -619,7 +687,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting select all', async () => {
-    const callBack = jest.fn();
+    const callBack = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -735,7 +803,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting click Reset and reset when columnsState.value and columnsState.defaultValue also exist', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -825,7 +893,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnsState use the column key or dataIndex as index name', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -930,7 +998,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 columnSetting select one', async () => {
-    const callBack = jest.fn();
+    const callBack = vi.fn();
     const html = render(
       <ProTable
         size="small"
@@ -1339,7 +1407,7 @@ describe('Table ColumnSetting', () => {
   });
 
   it('🎏 DensityIcon support onChange', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const html = render(
       <ProTable
         onSizeChange={(size) => onChange(size)}

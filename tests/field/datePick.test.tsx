@@ -1,5 +1,11 @@
 import Field from '@ant-design/pro-field';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import dayjs from 'dayjs';
 
 function closePicker(container: HTMLElement, index = 0) {
@@ -13,7 +19,14 @@ export function openPicker(container: HTMLElement, index = 0) {
   fireEvent.focus(input);
 }
 
-describe('Field', () => {
+afterEach(() => {
+  cleanup();
+});
+
+describe('DateField', () => {
+  afterEach(() => {
+    cleanup();
+  });
   const datePickList = [
     'date',
     'dateWeek',
@@ -25,8 +38,8 @@ describe('Field', () => {
   ];
   datePickList.forEach((valueType) => {
     it(`📅 ${valueType} base use`, async () => {
-      const fn = jest.fn();
-      const openChangeFn = jest.fn();
+      const fn = vi.fn();
+      const openChangeFn = vi.fn();
       const { container } = render(
         <Field
           mode="edit"
@@ -88,8 +101,8 @@ describe('Field', () => {
   ];
   dateRangePickList.forEach((valueType) => {
     it(`📅 ${valueType} base use`, async () => {
-      const onChangeFn = jest.fn();
-      const openChangeFn = jest.fn();
+      const onChangeFn = vi.fn();
+      const openChangeFn = vi.fn();
       const { container } = render(
         <Field
           mode="edit"
@@ -146,7 +159,7 @@ describe('Field', () => {
   });
 
   it(`📅  RangePicker support format is function`, async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const html = render(
       <Field
         mode="read"
@@ -160,8 +173,26 @@ describe('Field', () => {
       />,
     );
 
-    expect(html.baseElement.innerHTML).toBe(
-      '<div><div><div>2016-11-22 15:22:44</div><div>2016-11-23 15:22:44</div></div></div>',
+    expect(html.baseElement.textContent).toBe(
+      '2016-11-22 15:22:442016-11-23 15:22:44',
     );
+  });
+
+  it(`📅  DatePicker support format is Array`, async () => {
+    const fn = vi.fn();
+    const html = render(
+      <Field
+        mode="read"
+        fieldProps={{
+          format: ['YYYY-MM-DD', 'YYYYMMDD'],
+        }}
+        onChange={fn}
+        text={dayjs()}
+        light
+        valueType="date"
+      />,
+    );
+
+    expect(html.baseElement.innerHTML).toBe('<div><div>2016-11-22</div></div>');
   });
 });

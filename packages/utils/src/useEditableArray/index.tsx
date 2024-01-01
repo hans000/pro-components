@@ -2,7 +2,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { useIntl } from '@ant-design/pro-provider';
 import type { FormInstance, FormProps } from 'antd';
-import { Form, message, Popconfirm } from 'antd';
+import { Form, Popconfirm, message } from 'antd';
 import type { NamePath } from 'antd/lib/form/interface';
 import useLazyKVMap from 'antd/lib/table/hooks/useLazyKVMap';
 import type { GetRowKey } from 'antd/lib/table/interface';
@@ -137,6 +137,11 @@ export type RowEditableConfig<DataType> = {
   cancelText?: React.ReactNode;
   /** 删除一行的文字 */
   deleteText?: React.ReactNode;
+  /**
+   * 解决分页带来的 FormItem namePath 使用错误的 index 作为路径
+   * @link https://github.com/ant-design/pro-components/issues/7790
+   */
+  getRealIndex?: (record: DataType) => number;
 };
 export type ActionTypeText<T> = {
   deleteText?: React.ReactNode;
@@ -203,7 +208,7 @@ export function editableRowByKey<RecordType>(
         typeof record === 'object' &&
         childrenColumnName in record
       ) {
-        dig(record[childrenColumnName] || [], recordKey, eachIndex);
+        dig((record as any)[childrenColumnName] || [], recordKey, eachIndex);
       }
       const newRecord = {
         ...record,
@@ -269,7 +274,7 @@ export function editableRowByKey<RecordType>(
       if (value.map_row_parentKey && value.map_row_key) {
         const { map_row_parentKey, map_row_key, ...rest } = value;
         if (kvArrayMap.has(map_row_key)) {
-          rest[childrenColumnName] = kvArrayMap.get(map_row_key);
+          (rest as any)[childrenColumnName] = kvArrayMap.get(map_row_key);
         }
         if (!kvArrayMap.has(map_row_parentKey)) {
           kvArrayMap.set(map_row_parentKey, []);
@@ -333,21 +338,21 @@ export function SaveEditableAction<T>(
         .filter(Boolean) as string[];
       setLoading(true);
       await form.validateFields(namePath, {
-        // @ts-expect-error
         recursive: true,
       });
 
       const fields =
-        context.getFieldFormatValue?.(namePath) || form.getFieldValue(namePath);
+        context?.getFieldFormatValue?.(namePath) ||
+        form.getFieldValue(namePath);
       // 处理 dataIndex 为数组的情况
       if (Array.isArray(recordKey) && recordKey.length > 1) {
         // 获取 namepath
         const [, ...recordKeyPath] = recordKey;
         // 将目标值获取出来并设置到 fields 当中
         const curValue = get(fields, recordKeyPath as string[]);
-        set(fields, recordKeyPath, curValue);
+        set(fields, recordKeyPath as (number | string)[], curValue);
       }
-      const data = isMapEditor ? set({}, namePath, fields, true) : fields;
+      const data = isMapEditor ? set({}, namePath, fields) : fields;
 
       // 获取数据并保存
       const res = await onSave?.(
@@ -481,14 +486,14 @@ const CancelEditableAction: React.FC<ActionRenderConfig<any> & { row: any }> = (
           .flat(1)
           .filter(Boolean) as string[];
         const fields =
-          context.getFieldFormatValue?.(namePath) ||
-          form.getFieldValue(namePath);
+          context?.getFieldFormatValue?.(namePath) ||
+          form?.getFieldValue(namePath);
         const record = isMapEditor ? set({}, namePath, fields) : fields;
         const res = await onCancel?.(recordKey, record, row, newLineConfig);
         await cancelEditable(recordKey);
         /** 重置为默认值，不然编辑的行会丢掉 */
         form.setFieldsValue({
-          [recordKey as React.Key]: isMapEditor ? get(row, namePath) : row,
+          [`${recordKey as React.Key}`]: isMapEditor ? get(row, namePath) : row,
         });
         return res;
       }}
@@ -564,8 +569,11 @@ export function useEditableArray<RecordType>(
           recordKeyToString(props.getRowKey(record, -1))?.toString(),
           key,
         );
-        if (props.childrenColumnName && record[props.childrenColumnName]) {
-          loopGetKey(record[props.childrenColumnName], key);
+        if (
+          props.childrenColumnName &&
+          (record as any)[props.childrenColumnName]
+        ) {
+          loopGetKey((record as any)[props.childrenColumnName], key);
         }
       });
     };
@@ -1022,7 +1030,7 @@ export function useEditableArray<RecordType>(
       setEditableRowKeys,
       deletePopconfirmMessage:
         props.deletePopconfirmMessage ||
-        `${intl.getMessage('deleteThisLine', '删除此行')}?`,
+        `${intl.getMessage('deleteThisLine', '删除此项')}?`,
     };
 
     const renderResult = defaultActionRender<RecordType>(row, config);
@@ -1057,6 +1065,7 @@ export function useEditableArray<RecordType>(
     newLineRecord: newLineRecordCache,
     preEditableKeys: editableKeysRef,
     onValuesChange,
+    getRealIndex: props.getRealIndex,
   };
 }
 

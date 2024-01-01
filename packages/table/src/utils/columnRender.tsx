@@ -5,7 +5,7 @@ import type {
   ProTableEditableFnType,
   UseEditableUtilType,
 } from '@ant-design/pro-utils';
-import { genCopyable, isNil, LabelIconTip } from '@ant-design/pro-utils';
+import { LabelIconTip, genCopyable, isNil } from '@ant-design/pro-utils';
 import get from 'rc-util/lib/utils/get';
 import React from 'react';
 import { isMergeCell } from '.';
@@ -54,8 +54,8 @@ export const renderColumnsTitle = (item: ProColumns<any>) => {
   );
 };
 
-/** 判断可不可编辑 */
-function isEditableCell<T>(
+/** 判断是否为不可编辑的单元格 */
+function isNotEditableCell<T>(
   text: any,
   rowData: T,
   index: number,
@@ -114,7 +114,8 @@ export function columnRender<T>({
 
   const renderTextStr = renderText(text, rowData, index, action as ActionType);
   const mode =
-    isEditable && !isEditableCell(text, rowData, index, columnProps?.editable)
+    isEditable &&
+    !isNotEditableCell(text, rowData, index, columnProps?.editable)
       ? 'edit'
       : 'read';
 
@@ -154,6 +155,8 @@ export function columnRender<T>({
             display: 'flex',
             alignItems: 'center',
             gap: marginSM,
+            justifyContent:
+              columnProps.align === 'center' ? 'center' : 'flex-start',
           }}
         >
           {editableUtils.actionRender({

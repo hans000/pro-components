@@ -1,6 +1,6 @@
 import { MenuOutlined } from '@ant-design/icons';
 import { DragSortTable } from '@ant-design/pro-table';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { waitForWaitTime } from '../util';
 
 async function dragAndDrop(cell: Element) {
@@ -29,7 +29,7 @@ const offsetWidth = 'offsetWidth';
   el.getBoundingClientRect mock
 */
 const mockGetBoundingClientRect = (element: any, index: number) =>
-  jest.spyOn(element, 'getBoundingClientRect').mockImplementation(() => ({
+  vi.spyOn(element, 'getBoundingClientRect').mockImplementation(() => ({
     bottom: 0,
     height,
     left: 0,
@@ -39,6 +39,10 @@ const mockGetBoundingClientRect = (element: any, index: number) =>
     x: 0,
     y: index * height,
   }));
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('dragSort', () => {
   const originalOffsetHeight = Object.getOwnPropertyDescriptor(
@@ -75,7 +79,7 @@ describe('dragSort', () => {
   });
 
   it('🔥 [dragSort] render drag sort default handle by dragSortKey', async () => {
-    const onDragSortEndFn = jest.fn();
+    const onDragSortEndFn = vi.fn();
     type DataSourceItemStruct = {
       id: string;
       name: string;
@@ -111,6 +115,7 @@ describe('dragSort', () => {
           },
         ]}
         onDragSortEnd={(data) => {
+          //@ts-ignore
           onDragSortEndFn(data[0].name);
           console.log(data);
         }}
@@ -160,7 +165,7 @@ describe('dragSort', () => {
         name: 'kiner',
       },
     ];
-    const callback = jest.fn();
+    const callback = vi.fn();
     const dragHandleRender = (rowData: any, idx: any) => {
       callback(rowData.name, idx);
       return (
@@ -226,7 +231,7 @@ describe('dragSort', () => {
         {idx + 1} - {rowData.name}
       </>
     );
-    const callback = jest.fn();
+    const callback = vi.fn();
     const { container } = render(
       <DragSortTable
         size="small"

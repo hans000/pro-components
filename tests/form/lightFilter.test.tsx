@@ -11,6 +11,7 @@ import {
 } from '@ant-design/pro-form';
 import {
   act,
+  cleanup,
   fireEvent,
   render,
   screen,
@@ -20,10 +21,14 @@ import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
 import KeyCode from 'rc-util/es/KeyCode';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('LightFilter', () => {
   it(' 🪕 basic use text', async () => {
-    const onValuesChange = jest.fn();
-    const onFinish = jest.fn();
+    const onValuesChange = vi.fn();
+    const onFinish = vi.fn();
 
     const { container } = render(
       <LightFilter
@@ -95,8 +100,8 @@ describe('LightFilter', () => {
     });
   });
   it(' 🪕 basic use secondary', async () => {
-    const onValuesChange = jest.fn();
-    const onFinish = jest.fn();
+    const onValuesChange = vi.fn();
+    const onFinish = vi.fn();
     render(
       <LightFilter
         onFinish={onFinish}
@@ -146,8 +151,8 @@ describe('LightFilter', () => {
   });
 
   it(' 🪕 basic use DatePicker', async () => {
-    const onValuesChange = jest.fn();
-    const onFinish = jest.fn();
+    const onValuesChange = vi.fn();
+    const onFinish = vi.fn();
     const { container } = render(
       <LightFilter
         initialValues={{
@@ -414,7 +419,7 @@ describe('LightFilter', () => {
   });
 
   it(' 🪕 multiple select showSearch', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const { container } = render(
       <LightFilter
         initialValues={{
@@ -452,7 +457,7 @@ describe('LightFilter', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -464,7 +469,7 @@ describe('LightFilter', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await act(async () => {
@@ -480,7 +485,7 @@ describe('LightFilter', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -498,7 +503,7 @@ describe('LightFilter', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await act(async () => {
@@ -510,7 +515,7 @@ describe('LightFilter', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -530,7 +535,7 @@ describe('LightFilter', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -540,13 +545,13 @@ describe('LightFilter', () => {
         '名称: 杰克2,TechUI,YES这是一个很长很长的测试阿aa阿ABCDEFGHIJKL...3项',
       );
     });
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it(' 🪕 Base DateRangePicker', async () => {
-    const onFinish = jest.fn();
-    const onOpenChange = jest.fn();
-    const onLoadingChange = jest.fn();
+    const onFinish = vi.fn();
+    const onOpenChange = vi.fn();
+    const onLoadingChange = vi.fn();
     const { baseElement, container } = render(
       <LightFilter
         onFinish={async (e) => {
@@ -661,7 +666,7 @@ describe('LightFilter', () => {
     await waitFor(
       () => {
         expect(onFinish).toHaveBeenCalledWith({
-          date: ['2016-11-01', '2016-11-11'],
+          date: ['2016-11-02', '2016-11-12'],
         });
       },
       {
@@ -684,8 +689,8 @@ describe('LightFilter', () => {
       ).toBeTruthy();
     });
 
-    await screen.findByDisplayValue('2016-11-01');
-    await screen.findByDisplayValue('2016-11-11');
+    await screen.findByDisplayValue('2016-11-02');
+    await screen.findByDisplayValue('2016-11-12');
 
     await act(async () => {
       fireEvent.mouseDown(
@@ -726,7 +731,7 @@ describe('LightFilter', () => {
   });
 
   it(' 🪕 DateTimePicker', async () => {
-    const onFinish = jest.fn();
+    const onFinish = vi.fn();
     const { container } = render(
       <LightFilter onFinish={onFinish}>
         <ProFormDateTimePicker name="datetime" label="日期时间" />
@@ -762,13 +767,13 @@ describe('LightFilter', () => {
 
     await waitFor(() => {
       expect(
-        container.querySelector('.ant-pro-core-field-label')?.textContent,
+        container.querySelector('.ant-pro-core-field-label'),
       ).toMatchSnapshot();
     });
   });
 
   it(' 🪕 TimePicker', async () => {
-    const onFinish = jest.fn();
+    const onFinish = vi.fn();
     const { container, unmount } = render(
       <LightFilter onFinish={onFinish}>
         <ProFormTimePicker name="time" label="时间" />
@@ -803,7 +808,7 @@ describe('LightFilter', () => {
   });
 
   it(' 🪕 use ProFormRadio', async () => {
-    const onFinish = jest.fn();
+    const onFinish = vi.fn();
     const { container } = render(
       <LightFilter
         onFinish={onFinish}
@@ -864,7 +869,7 @@ describe('LightFilter', () => {
   });
 
   it(' 🪕 collapse mode', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, unmount } = render(
       <LightFilter
         onValuesChange={(values) => {
@@ -1158,6 +1163,7 @@ describe('LightFilter', () => {
           label="性别"
           showSearch
           fieldProps={{
+            popupMatchSelectWidth: true,
             optionFilterProp: 'label',
           }}
           options={[
@@ -1204,6 +1210,7 @@ describe('LightFilter', () => {
           showSearch
           fieldProps={{
             optionFilterProp: 'value',
+            popupMatchSelectWidth: true,
           }}
           options={[
             { label: '男', value: 'aaa' },

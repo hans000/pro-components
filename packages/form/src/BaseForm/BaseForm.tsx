@@ -8,10 +8,10 @@ import type {
   SearchTransformKeyFn,
 } from '@ant-design/pro-utils';
 import {
+  ProFormContext,
   conversionMomentValue,
   isDeepEqualReact,
   nanoid,
-  ProFormContext,
   runFunction,
   transformKeySubmitValue,
   useFetchData,
@@ -39,12 +39,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import FieldContext from '../FieldContext';
 import type { SubmitterProps } from '../components';
 import { Submitter } from '../components';
 import { FormListContext } from '../components/List';
-import FieldContext from '../FieldContext';
 import { GridContext, useGridHelpers } from '../helpers';
-import type { FieldProps, GroupProps, ProFormGridConfig } from '../typing';
+import type {
+  FieldProps,
+  ProFormGridConfig,
+  ProFormGroupProps,
+} from '../typing';
 import { EditOrReadOnlyContext } from './EditOrReadOnlyContext';
 
 export type CommonFormProps<
@@ -63,7 +67,7 @@ export type CommonFormProps<
    * submitter={{ render:(props,dom)=> [...dom.reverse()]}}
    *
    * @example 修改提交和重置按钮文字
-   * submitter={{ searchConfig: { submitText: '提交2',restText: '重置2'}}}
+   * submitter={{ searchConfig: { submitText: '提交2',resetText: '重置2'}}}
    */
   submitter?:
     | SubmitterProps<{
@@ -140,6 +144,7 @@ export type CommonFormProps<
    * @example  dateFormatter={(value)=>value.format("YYYY-MM-DD")}
    */
   dateFormatter?:
+    | (string & {})
     | 'string'
     | 'number'
     | ((value: dayjs.Dayjs, valueType: string) => string | number)
@@ -183,7 +188,7 @@ export type CommonFormProps<
   readonly?: boolean;
 } & ProFormGridConfig;
 
-export type BaseFormProps<T = Record<string, any>> = {
+export type BaseFormProps<T = Record<string, any>, U = Record<string, any>> = {
   contentRender?: (
     items: React.ReactNode[],
     submitter: React.ReactElement<SubmitterProps> | undefined,
@@ -194,13 +199,13 @@ export type BaseFormProps<T = Record<string, any>> = {
   /** 表单初始化完成，form已经存在，可以进行赋值的操作了 */
   onInit?: (values: T, form: ProFormInstance<any>) => void;
   formItemProps?: FormItemProps;
-  groupProps?: GroupProps;
+  groupProps?: ProFormGroupProps;
   /** 是否回车提交 */
   isKeyPressSubmit?: boolean;
   /** Form 组件的类型，内部使用 */
   formComponentType?: 'DrawerForm' | 'ModalForm' | 'QueryFilter';
 } & Omit<FormProps, 'onFinish'> &
-  CommonFormProps<T>;
+  CommonFormProps<T, U>;
 
 const genParams = (
   syncUrl: BaseFormProps<any>['syncToUrl'],
@@ -229,8 +234,8 @@ const covertFormName = (name?: NamePath) => {
   return [name];
 };
 
-function BaseFormComponents<T = Record<string, any>>(
-  props: BaseFormProps<T> & {
+function BaseFormComponents<T = Record<string, any>, U = Record<string, any>>(
+  props: BaseFormProps<T, U> & {
     loading: boolean;
     onUrlSearchChange: (value: Record<string, string | number>) => void;
     transformKey: (values: any, omit: boolean, parentKey?: NamePath) => any;
@@ -249,7 +254,7 @@ function BaseFormComponents<T = Record<string, any>>(
     form,
     loading,
     formComponentType,
-    extraUrlParams = {},
+    extraUrlParams = {} as Record<string, any>,
     syncToUrl,
     onUrlSearchChange,
     onReset,
@@ -390,7 +395,7 @@ function BaseFormComponents<T = Record<string, any>>(
             }, extraUrlParams);
 
             /** 在同步到 url 上时对参数进行转化 */
-            onUrlSearchChange(genParams(syncToUrl, params, 'set'));
+            onUrlSearchChange(genParams(syncToUrl, params || {}, 'set'));
           }
         }}
         submitButtonProps={{
@@ -486,9 +491,11 @@ function BaseFormComponents<T = Record<string, any>>(
 /** 自动的formKey 防止重复 */
 let requestFormCacheId = 0;
 
-function BaseForm<T = Record<string, any>>(props: BaseFormProps<T>) {
+function BaseForm<T = Record<string, any>, U = Record<string, any>>(
+  props: BaseFormProps<T, U>,
+) {
   const {
-    extraUrlParams = {},
+    extraUrlParams = {} as Record<string, any>,
     syncToUrl,
     isKeyPressSubmit,
     syncToUrlAsImportant = false,
@@ -534,7 +541,7 @@ function BaseForm<T = Record<string, any>>(props: BaseFormProps<T>) {
   useEffect(() => {
     requestFormCacheId += 0;
   }, []);
-  const [initialData] = useFetchData({
+  const [initialData] = useFetchData<T, U>({
     request,
     params,
     proFieldKey: formKey,
@@ -549,6 +556,10 @@ function BaseForm<T = Record<string, any>>(props: BaseFormProps<T>) {
         [`> div:not(${token.proComponentsCls}-form-light-filter)`]: {
           '.pro-field': {
             maxWidth: '100%',
+            '@media screen and (max-width: 575px)': {
+              // 减少了 form 的 padding
+              maxWidth: 'calc(93vw - 48px)',
+            },
             // 适用于短数字，短文本或者选项
             '&-xs': {
               width: 104,
@@ -632,10 +643,16 @@ function BaseForm<T = Record<string, any>>(props: BaseFormProps<T>) {
 
   useEffect(() => {
     if (!syncToUrl) return;
-    setUrlSearch({
-      ...urlSearch,
-      ...extraUrlParams,
-    });
+    setUrlSearch(
+      genParams(
+        syncToUrl,
+        {
+          ...urlSearch,
+          ...extraUrlParams,
+        },
+        'set',
+      ),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extraUrlParams, syncToUrl]);
 
@@ -783,7 +800,7 @@ function BaseForm<T = Record<string, any>>(props: BaseFormProps<T>) {
               className={classNames(props.className, prefixCls, hashId)}
               onFinish={onFinish}
             >
-              <BaseFormComponents
+              <BaseFormComponents<T, U>
                 transformKey={transformKey}
                 autoComplete="off"
                 loading={loading}
@@ -803,5 +820,5 @@ function BaseForm<T = Record<string, any>>(props: BaseFormProps<T>) {
   );
 }
 
-export type { FormProps, ProFormInstance, FormItemProps, FormInstance };
 export { BaseForm };
+export type { FormInstance, FormItemProps, FormProps, ProFormInstance };

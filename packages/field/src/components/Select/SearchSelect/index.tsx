@@ -2,7 +2,7 @@ import type { RequestOptionsType } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Select } from 'antd';
 
-import type { LabeledValue } from 'antd/lib/select';
+import type { DefaultOptionType, LabeledValue } from 'antd/lib/select';
 import classNames from 'classnames';
 import React, {
   useContext,
@@ -11,8 +11,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-
-const { Option, OptGroup } = Select;
 
 // 支持 key, value, label，兼容 UserSearch 中只填写了 key 的情况。
 export type KeyLabel = Partial<LabeledValue> & RequestOptionsType;
@@ -154,10 +152,12 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
   });
 
   const getMergeValue: SelectProps<any>['onChange'] = (value, option) => {
-    if (Array.isArray(value) && value.length > 0) {
+    if (Array.isArray(value) && Array.isArray(option) && value.length > 0) {
       // 多选情况且用户有选择
       return value.map((item, index) => {
-        const optionItem = option?.[index];
+        const optionItem = (option as DefaultOptionType[])?.[
+          index
+        ] as DefaultOptionType;
         const dataItem = optionItem?.['data-item'] || {};
         return {
           ...dataItem,
@@ -168,12 +168,14 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
     return [];
   };
 
-  const renderOptions = (mapOptions: RequestOptionsType[]) => {
-    return mapOptions.map((item) => {
+  const genOptions = (
+    mapOptions: RequestOptionsType[],
+  ): DefaultOptionType[] => {
+    return mapOptions.map((item, index) => {
       const {
-        disabled: itemDisable,
         className: itemClassName,
         optionType,
+        ...resetItem
       } = item as RequestOptionsType;
 
       const label = item[labelPropsName];
@@ -181,26 +183,26 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
       const itemOptions = item[optionsPropsName] ?? [];
 
       if (optionType === 'optGroup' || item.options) {
-        return (
-          <OptGroup key={value} label={label}>
-            {renderOptions(itemOptions)}
-          </OptGroup>
-        );
+        return {
+          label: label,
+          ...resetItem,
+          data_title: label,
+          title: label,
+          key: value ?? label?.toString(),
+          children: genOptions(itemOptions),
+        } as DefaultOptionType;
       }
 
-      return (
-        <Option
-          {...item}
-          value={value!}
-          key={value || label?.toString()}
-          disabled={itemDisable}
-          data-item={item}
-          className={`${prefixCls}-option ${itemClassName || ''}`}
-          label={label}
-        >
-          {optionItemRender?.(item as any) || label}
-        </Option>
-      );
+      return {
+        title: label,
+        ...resetItem,
+        data_title: label,
+        value: value ?? index,
+        key: value ?? label?.toString(),
+        'data-item': item,
+        className: `${prefixCls}-option ${itemClassName || ''}`.trim(),
+        label: optionItemRender?.(item as any) || label,
+      } as DefaultOptionType;
     });
   };
   return (
@@ -223,6 +225,35 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
         }
       }}
       {...restProps}
+      filterOption={
+        restProps.filterOption == false
+          ? false
+          : (inputValue, option) => {
+              if (
+                restProps.filterOption &&
+                typeof restProps.filterOption === 'function'
+              ) {
+                return restProps.filterOption(inputValue, {
+                  ...option,
+                  label: option?.data_title,
+                });
+              }
+              return !!(
+                option?.data_title
+                  ?.toString()
+                  .toLowerCase()
+                  .includes(inputValue.toLowerCase()) ||
+                option?.label
+                  ?.toString()
+                  .toLowerCase()
+                  .includes(inputValue.toLowerCase()) ||
+                option?.value
+                  ?.toString()
+                  .toLowerCase()
+                  .includes(inputValue.toLowerCase())
+              );
+            }
+      } // 这里使用pro-components的过滤逻辑
       onSearch={
         showSearch
           ? (value) => {
@@ -247,7 +278,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
           return;
         }
 
-        if (mode !== 'multiple') {
+        if (mode !== 'multiple' && !Array.isArray(optionList)) {
           // 单选情况且用户选择了选项
           const dataItem = optionList && optionList['data-item'];
           // 如果value值为空则是清空时产生的回调,直接传值就可以了
@@ -271,9 +302,8 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
         }
         onFocus?.(e);
       }}
-    >
-      {renderOptions(options || [])}
-    </Select>
+      options={genOptions(options || [])}
+    />
   );
 };
 

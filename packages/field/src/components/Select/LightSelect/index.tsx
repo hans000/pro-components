@@ -11,6 +11,7 @@ import type { ProFieldLightProps } from '../../../index';
 export type LightSelectProps = {
   label?: string;
   placeholder?: any;
+  valueMaxLength?: number;
 } & ProFieldLightProps;
 
 /**
@@ -61,6 +62,7 @@ const LightSelect: React.ForwardRefRenderFunction<
     labelTrigger,
     optionFilterProp,
     optionLabelProp = '',
+    valueMaxLength = 41,
     ...restProps
   } = props;
   const { placeholder = label } = props;
@@ -98,7 +100,7 @@ const LightSelect: React.ForwardRefRenderFunction<
   });
 
   const valueMap: Record<string, string> = useMemo(() => {
-    const values = {};
+    const values = {} as Record<string, any>;
     options?.forEach((item) => {
       const optionLabel = item[optionLabelProp] || item[labelPropsName];
       const optionValue = item[valuePropsName];
@@ -137,6 +139,7 @@ const LightSelect: React.ForwardRefRenderFunction<
       }}
     >
       <Select
+        popupMatchSelectWidth={false}
         {...restProps}
         allowClear={allowClear}
         value={value}
@@ -161,7 +164,7 @@ const LightSelect: React.ForwardRefRenderFunction<
                 <div style={{ margin: '4px 8px' }}>
                   <Input
                     value={keyword}
-                    allowClear={allowClear}
+                    allowClear={!!allowClear}
                     onChange={(e) => {
                       setKeyword(e.target.value);
                       onSearch?.(e.target.value);
@@ -219,12 +222,13 @@ const LightSelect: React.ForwardRefRenderFunction<
         placeholder={placeholder}
         disabled={disabled}
         bordered={bordered}
-        allowClear={allowClear}
+        allowClear={!!allowClear}
         value={filterValue || value?.label || value}
         onClear={() => {
           onChange?.(undefined, undefined as any);
         }}
         ref={lightLabel}
+        valueMaxLength={valueMaxLength}
       />
     </div>,
   );

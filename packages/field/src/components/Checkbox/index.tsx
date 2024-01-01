@@ -1,17 +1,22 @@
-﻿import { useStyle } from '@ant-design/pro-utils';
-import { Checkbox, ConfigProvider, Space, Spin } from 'antd';
+﻿import {
+  objectToMap,
+  proFieldParsingText,
+  useStyle,
+} from '@ant-design/pro-utils';
+import { Checkbox, ConfigProvider, Form, Spin } from 'antd';
 import type { CheckboxGroupProps } from 'antd/lib/checkbox';
 import classNames from 'classnames';
 import React, { useContext, useImperativeHandle, useRef } from 'react';
 import type { ProFieldFC } from '../../index';
 import type { FieldSelectProps } from '../Select';
-import { ObjToMap, proFieldParsingText, useFieldFetchData } from '../Select';
+import { useFieldFetchData } from '../Select';
 export type GroupProps = {
   layout?: 'horizontal' | 'vertical';
   options?: CheckboxGroupProps['options'];
 } & FieldSelectProps;
 
 // 兼容代码-----------
+import { useToken } from '@ant-design/pro-provider';
 import 'antd/lib/checkbox/style';
 //----------------------
 /**
@@ -26,11 +31,23 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
 ) => {
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const layoutClassName = getPrefixCls('pro-field-checkbox');
+  const status = Form.Item?.useStatus?.();
   const [loading, options, fetchData] = useFieldFetchData(rest);
+
   // css
   const { wrapSSR, hashId } = useStyle('Checkbox', (token) => {
     return {
       [`.${layoutClassName}`]: {
+        '&-error': {
+          span: {
+            color: token.colorError,
+          },
+        },
+        '&-warning': {
+          span: {
+            color: token.colorWarning,
+          },
+        },
         '&-vertical': {
           //ant design 5
           [`&${token.antCls}-checkbox-group`]: {
@@ -50,6 +67,8 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
       },
     };
   });
+
+  const { token } = useToken?.();
   const checkBoxRef = useRef();
   useImperativeHandle(
     ref,
@@ -73,7 +92,7 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
 
     const dom = proFieldParsingText(
       rest.text,
-      ObjToMap(rest.valueEnum || optionsValueEnum),
+      objectToMap(rest.valueEnum || optionsValueEnum),
     );
 
     if (render) {
@@ -81,7 +100,18 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
         render(rest.text, { mode, ...rest.fieldProps }, <>{dom}</>) ?? null
       );
     }
-    return <Space>{dom}</Space>;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: token.marginSM,
+        }}
+      >
+        {dom}
+      </div>
+    );
   }
 
   if (mode === 'edit') {
@@ -92,13 +122,21 @@ const FieldCheckbox: ProFieldFC<GroupProps> = (
           rest.fieldProps?.className,
           hashId,
           `${layoutClassName}-${layout}`,
+          {
+            [`${layoutClassName}-error`]: status?.status === 'error',
+            [`${layoutClassName}-warning`]: status?.status === 'warning',
+          },
         )}
         options={options}
       />,
     );
     if (renderFormItem) {
       return (
-        renderFormItem(rest.text, { mode, ...rest.fieldProps }, dom) ?? null
+        renderFormItem(
+          rest.text,
+          { mode, ...rest.fieldProps, options, loading },
+          dom,
+        ) ?? null
       );
     }
     return dom;

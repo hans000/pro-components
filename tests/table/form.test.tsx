@@ -1,11 +1,21 @@
 import ProTable from '@ant-design/pro-table';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import type { FormInstance } from 'antd';
 import React from 'react';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('BasicTable Search', () => {
   it('🎏 table type=form', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const { container } = render(
       <ProTable
         type="form"
@@ -61,7 +71,7 @@ describe('BasicTable Search', () => {
   });
 
   it('🎏 table support initialValue', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     render(
       <ProTable
         size="small"
@@ -103,7 +113,7 @@ describe('BasicTable Search', () => {
   });
 
   it('🎏 table support initialValues', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     render(
       <ProTable
         size="small"
@@ -149,7 +159,7 @@ describe('BasicTable Search', () => {
   });
 
   it('🎏 table type=form and formRef', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const ref = React.createRef<FormInstance | undefined>();
     const { container } = render(
       <ProTable

@@ -6,6 +6,7 @@ import { BetaSchemaForm } from '@ant-design/pro-form';
 import { ProProvider } from '@ant-design/pro-provider';
 import {
   act,
+  cleanup,
   fireEvent,
   render,
   screen,
@@ -66,6 +67,10 @@ const columns: ProFormColumnsType<any>[] = [
   },
 ];
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('SchemaForm', () => {
   it('😊 SchemaForm support columns', async () => {
     const { container } = render(<BetaSchemaForm columns={columns} />);
@@ -74,9 +79,9 @@ describe('SchemaForm', () => {
   });
 
   it('😊 SchemaForm support dependencies', async () => {
-    const requestFn = jest.fn();
-    const fieldPropsFn = jest.fn();
-    const formItemPropsFn = jest.fn();
+    const requestFn = vi.fn();
+    const fieldPropsFn = vi.fn();
+    const formItemPropsFn = vi.fn();
     const { container } = render(
       <BetaSchemaForm
         columns={[
@@ -123,15 +128,15 @@ describe('SchemaForm', () => {
     await waitFor(() => {
       expect(requestFn).toBeCalledWith('qixian');
       expect(formItemPropsFn).toBeCalledTimes(2);
-      expect(fieldPropsFn).toBeCalledTimes(4);
+      expect(fieldPropsFn).toBeCalledTimes(2);
     });
   });
 
   it('😊 SchemaForm support shouldUpdate as true', async () => {
-    const fieldPropsFn = jest.fn();
-    const formItemPropsFn = jest.fn();
-    const renderFormItemFn = jest.fn();
-    const onValuesChangeFn = jest.fn();
+    const fieldPropsFn = vi.fn();
+    const formItemPropsFn = vi.fn();
+    const renderFormItemFn = vi.fn();
+    const onValuesChangeFn = vi.fn();
     const { container } = render(
       <BetaSchemaForm
         columns={[
@@ -174,18 +179,18 @@ describe('SchemaForm', () => {
     });
 
     await waitFor(() => {
-      expect(renderFormItemFn).toBeCalledTimes(6);
-      expect(fieldPropsFn).toBeCalledTimes(2);
-      expect(formItemPropsFn).toBeCalledTimes(2);
+      expect(renderFormItemFn).toBeCalledTimes(5);
+      expect(fieldPropsFn).toBeCalledTimes(1);
+      expect(formItemPropsFn).toBeCalledTimes(1);
       expect(onValuesChangeFn).toBeCalled();
     });
   });
 
   it('😊 SchemaForm support shouldUpdate as function', async () => {
-    const fieldPropsFn = jest.fn();
-    const formItemPropsFn = jest.fn();
-    const renderFormItemFn = jest.fn();
-    const shouldUpdateFn = jest.fn();
+    const fieldPropsFn = vi.fn();
+    const formItemPropsFn = vi.fn();
+    const renderFormItemFn = vi.fn();
+    const shouldUpdateFn = vi.fn();
     const { container } = render(
       <BetaSchemaForm
         shouldUpdate={(value: any, oldValue?: any) => {
@@ -234,8 +239,8 @@ describe('SchemaForm', () => {
 
     await waitFor(() => {
       expect(shouldUpdateFn).toBeCalledTimes(0);
-      expect(fieldPropsFn).toBeCalledTimes(3);
-      expect(formItemPropsFn).toBeCalledTimes(3);
+      expect(fieldPropsFn).toBeCalledTimes(1);
+      expect(formItemPropsFn).toBeCalledTimes(1);
       expect(renderFormItemFn).toBeCalledTimes(4);
     });
 
@@ -247,8 +252,8 @@ describe('SchemaForm', () => {
     // Although shouldUpdate returns false, but using dependencies will still update
     await waitFor(() => {
       expect(renderFormItemFn).toBeCalledTimes(5);
-      expect(formItemPropsFn).toBeCalledTimes(4);
-      expect(fieldPropsFn).toBeCalledTimes(4);
+      expect(formItemPropsFn).toBeCalledTimes(2);
+      expect(fieldPropsFn).toBeCalledTimes(2);
       expect(shouldUpdateFn).toBeCalledTimes(1);
     });
 
@@ -259,18 +264,18 @@ describe('SchemaForm', () => {
     });
 
     await waitFor(() => {
-      expect(renderFormItemFn).toBeCalledTimes(7);
-      expect(formItemPropsFn).toBeCalledTimes(5);
-      expect(fieldPropsFn).toBeCalledTimes(5);
+      expect(renderFormItemFn).toBeCalledTimes(6);
+      expect(formItemPropsFn).toBeCalledTimes(3);
+      expect(fieldPropsFn).toBeCalledTimes(3);
       expect(shouldUpdateFn).toBeCalledTimes(2);
       expect(shouldUpdateFn).toBeCalledWith(true);
     });
   });
 
   it('😊 SchemaForm columns do not interfere with each other', async () => {
-    const fieldPropsFn = jest.fn();
-    const formItemPropsFn = jest.fn();
-    const renderFormItemFn = jest.fn();
+    const fieldPropsFn = vi.fn();
+    const formItemPropsFn = vi.fn();
+    const renderFormItemFn = vi.fn();
     const { container } = render(
       <BetaSchemaForm
         shouldUpdate={false}
@@ -503,7 +508,7 @@ describe('SchemaForm', () => {
   });
 
   it('😊 SchemaForm support ProFormDependency', async () => {
-    const onFinish = jest.fn();
+    const onFinish = vi.fn();
     const { container } = render(
       <BetaSchemaForm
         onFinish={onFinish}
@@ -580,7 +585,7 @@ describe('SchemaForm', () => {
       state: string;
     };
 
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const curColumns: ProFormColumnsType<DataItem>[] = [
       {
@@ -601,7 +606,7 @@ describe('SchemaForm', () => {
         ],
       },
     ];
-    const onFinish = jest.fn();
+    const onFinish = vi.fn();
     const wrapper = render(
       <BetaSchemaForm
         shouldUpdate={false}
@@ -628,7 +633,7 @@ describe('SchemaForm', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await act(async () => {
@@ -636,7 +641,7 @@ describe('SchemaForm', () => {
     });
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await waitFor(async () => {
@@ -656,14 +661,14 @@ describe('SchemaForm', () => {
     });
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(async () => {
       expect((await wrapper.findAllByText('请填写列表')).length).toBe(1);
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   ['ModalForm', 'DrawerForm'].forEach((layoutType) => {
@@ -736,7 +741,7 @@ describe('SchemaForm', () => {
     'QueryFilter',
   ].forEach((layoutType) => {
     it(`😊 When SchemaForm's layoutType property is ${layoutType}, make sure it is valid to get the form instance through formRef`, async () => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
       const formColumns = [
         [
           {
@@ -801,7 +806,7 @@ describe('SchemaForm', () => {
         });
 
         act(() => {
-          jest.runOnlyPendingTimers();
+          vi.runOnlyPendingTimers();
         });
 
         const stepsValue = {
@@ -817,13 +822,13 @@ describe('SchemaForm', () => {
             stepsValue,
           );
         });
-        jest.useRealTimers();
+        vi.useRealTimers();
       }
     });
   });
 
   it('test custom component should not rerender when other field change', () => {
-    const fibonacci = jest.fn();
+    const fibonacci = vi.fn();
 
     const ExpensiveCustomComp = React.memo<{
       value: any;

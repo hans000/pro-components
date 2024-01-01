@@ -1,7 +1,7 @@
 import { DownOutlined } from '@ant-design/icons';
 import { ProProvider } from '@ant-design/pro-provider';
-import { menuOverlayCompatible } from '@ant-design/pro-utils';
-import { Dropdown, Space, Tabs } from 'antd';
+import { compareVersions, menuOverlayCompatible } from '@ant-design/pro-utils';
+import { Dropdown, Space, Tabs, version } from 'antd';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import React, { useContext } from 'react';
@@ -81,7 +81,6 @@ const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
   if (type === 'tab') {
     return (
       <Tabs
-        //@ts-ignore
         items={items.map((item) => ({
           ...item,
           key: item.key?.toString(),
@@ -89,11 +88,18 @@ const HeaderMenu: React.FC<ListToolBarHeaderMenuProps> = (props) => {
         activeKey={activeItem.key as string}
         onTabClick={(key) => setActiveKey(key)}
       >
-        {items?.map((item, index) => {
-          return (
-            <Tabs.TabPane {...item} key={item.key || index} tab={item.label} />
-          );
-        })}
+        {compareVersions(version, '4.23.0') < 0
+          ? items?.map((item, index) => {
+              /* 如果版本低于 4.23.0，不支持 items */
+              return (
+                <Tabs.TabPane
+                  {...item}
+                  key={item.key || index}
+                  tab={item.label}
+                />
+              );
+            })
+          : null}
       </Tabs>
     );
   }

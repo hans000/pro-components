@@ -1,10 +1,10 @@
 import type { GenerateStyle } from '@ant-design/pro-provider';
 import { ProProvider } from '@ant-design/pro-provider';
 import type { AvatarProps, SiderProps } from 'antd';
-import { Avatar, Layout, Menu, Space } from 'antd';
+import { Avatar, Layout, Menu, Space, version } from 'antd';
 import type { ItemType } from 'antd/lib/menu/hooks/useItems';
 import classNames from 'classnames';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
 import React, { useContext, useMemo } from 'react';
 import type { WithFalse } from '../../typing';
 import { AppsLogoComponents, defaultRenderLogo } from '../AppsLogoComponents';
@@ -16,7 +16,22 @@ import { BaseMenu } from './BaseMenu';
 import type { SiderMenuToken } from './style/stylish';
 import { useStylish } from './style/stylish';
 
-const { Sider } = Layout;
+const _SafetyWarningProvider: FC<{ children: ReactNode }> = React.memo(
+  (props) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        `[pro-layout] SiderMenu required antd@^4.24.15 || antd@^5.11.2 for access the menu context, please upgrade your antd version (current ${version}).`,
+      );
+    }
+
+    return <>{props.children}</>;
+  },
+);
+
+const {
+  Sider,
+  _InternalSiderContext: SiderContext = { Provider: _SafetyWarningProvider },
+} = Layout;
 
 export type HeaderRenderKey = 'menuHeaderRender' | 'headerTitleRender';
 
@@ -32,7 +47,7 @@ export const renderLogoAndTitle = (
   renderKey: HeaderRenderKey = 'menuHeaderRender',
 ): React.ReactNode => {
   const { logo, title, layout } = props;
-  const renderFunction = props[renderKey || ''];
+  const renderFunction = props[renderKey as 'menuHeaderRender'];
   if (renderFunction === false) {
     return null;
   }
@@ -67,6 +82,10 @@ export type SiderMenuProps = {
   logo?: React.ReactNode;
   /** 相关品牌的列表 */
   appList?: AppListProps;
+  appListRender?: (
+    props: AppListProps,
+    defaultDom: React.ReactNode,
+  ) => React.ReactNode;
   /** 相关品牌的列表项 点击事件，当事件存在时，appList 内配置的 url 不在自动跳转 */
   itemClick?: (
     item: AppItemProps,
@@ -79,8 +98,9 @@ export type SiderMenuProps = {
     AvatarProps & {
       title?: React.ReactNode;
       render?: (
-        props: AvatarProps,
+        avatarProps: AvatarProps,
         defaultDom: React.ReactNode,
+        props: SiderMenuProps,
       ) => React.ReactNode;
     }
   >;
@@ -248,7 +268,7 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
         <BaseMenu
           {...props}
           key="base-menu"
-          mode="inline"
+          mode={collapsed && !isMobile ? 'vertical' : 'inline'}
           handleOpenChange={onOpenChange}
           style={{
             width: '100%',
@@ -274,12 +294,14 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
     const { title, render, ...rest } = avatarProps;
     const dom = (
       <div className={`${baseClassName}-actions-avatar`}>
-        <Avatar size={28} {...rest} />
+        {rest?.src || rest?.srcSet || rest.icon || rest.children ? (
+          <Avatar size={28} {...rest} />
+        ) : null}
         {avatarProps.title && !collapsed && <span>{title}</span>}
       </div>
     );
     if (render) {
-      return render(avatarProps, dom);
+      return render(avatarProps, dom, props);
     }
     return dom;
   }, [avatarProps, baseClassName, collapsed]);
@@ -298,7 +320,7 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
             hashId,
           ])}
         >
-          {actionsRender?.(props).map((item, index) => {
+          {actionsRender?.(props as HeaderViewProps).map((item, index) => {
             return (
               <div
                 key={index}
@@ -414,44 +436,46 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
       >
         {menuRenderDom}
       </div>
-      {links ? (
-        <div className={`${baseClassName}-links ${hashId}`.trim()}>
-          <Menu
-            inlineIndent={16}
-            className={`${baseClassName}-link-menu ${hashId}`.trim()}
-            selectedKeys={[]}
-            openKeys={[]}
-            theme={theme}
-            mode="inline"
-            items={linksMenuItems}
-          />
-        </div>
-      ) : null}
-      {showSiderExtraDom && (
-        <>
-          {actionAreaDom}
-          {!actionsDom && rightContentRender ? (
-            <div
-              className={classNames(`${baseClassName}-actions`, hashId, {
-                [`${baseClassName}-actions-collapsed`]: collapsed,
-              })}
-            >
-              {rightContentRender?.(props)}
-            </div>
-          ) : null}
-        </>
-      )}
-      {menuFooterDom && (
-        <div
-          className={classNames([
-            `${baseClassName}-footer`,
-            hashId,
-            { [`${baseClassName}-footer-collapsed`]: collapsed },
-          ])}
-        >
-          {menuFooterDom}
-        </div>
-      )}
+      <SiderContext.Provider value={{}}>
+        {links ? (
+          <div className={`${baseClassName}-links ${hashId}`.trim()}>
+            <Menu
+              inlineIndent={16}
+              className={`${baseClassName}-link-menu ${hashId}`.trim()}
+              selectedKeys={[]}
+              openKeys={[]}
+              theme={theme}
+              mode="inline"
+              items={linksMenuItems}
+            />
+          </div>
+        ) : null}
+        {showSiderExtraDom && (
+          <>
+            {actionAreaDom}
+            {!actionsDom && rightContentRender ? (
+              <div
+                className={classNames(`${baseClassName}-actions`, hashId, {
+                  [`${baseClassName}-actions-collapsed`]: collapsed,
+                })}
+              >
+                {rightContentRender?.(props)}
+              </div>
+            ) : null}
+          </>
+        )}
+        {menuFooterDom && (
+          <div
+            className={classNames([
+              `${baseClassName}-footer`,
+              hashId,
+              { [`${baseClassName}-footer-collapsed`]: collapsed },
+            ])}
+          >
+            {menuFooterDom}
+          </div>
+        )}
+      </SiderContext.Provider>
     </>
   );
 
@@ -470,6 +494,7 @@ const SiderMenu: React.FC<SiderMenuProps & PrivateSiderMenuProps> = (props) => {
           }}
         />
       )}
+
       <Sider
         collapsible
         trigger={null}

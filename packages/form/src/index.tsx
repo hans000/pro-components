@@ -8,6 +8,8 @@ import 'antd/lib/row/style';
 import 'antd/lib/steps/style';
 import 'antd/lib/tabs/style';
 import 'antd/lib/upload/style';
+import { GridContext } from './helpers';
+import type { ProFormGroupProps } from './typing';
 //----------------------
 export { ProFormContext } from '@ant-design/pro-utils';
 export type {
@@ -17,6 +19,7 @@ export type {
   LightWrapperProps,
   ProFormInstance,
 } from './BaseForm';
+export { FieldContext } from './FieldContext';
 export * from './components';
 export type {
   FormListActionType,
@@ -40,12 +43,12 @@ export type {
   ProFormUploadDraggerProps,
 } from './components';
 export { FormListContext } from './components/List';
-export { FieldContext } from './FieldContext';
 export * from './layouts';
 export type {
   LightFilterFooterRender,
   ProFormFieldItemProps as ProFormItemProps,
 } from './typing';
-export { ProForm };
+export { GridContext, ProForm };
+export type { ProFormGroupProps as GroupProps };
 
 export default ProForm;

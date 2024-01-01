@@ -87,7 +87,7 @@ renderFormItem: (
 };
 ```
 
-`renderFormItem` 的定义, 具体的值可以打开控制台查看。
+`renderFormItem` 的定义，具体的值可以打开控制台查看。
 
 ```tsx | pure
  renderFormItem?: (
@@ -116,7 +116,7 @@ renderFormItem: (
 
 - 你不应该用 setState，可以使用 form.setFieldsValue 来动态改变表单值。
 
-#### 为什么设置 defaultValue 不生效？#
+#### 为什么设置 defaultValue 不生效？\#
 
 因为 ProTable 子组件会转为受控模式。因而 defaultValue 不会生效。你需要在 Form 上通过 initialValues 设置默认值。
 
@@ -178,17 +178,14 @@ const enLocale = {
 };
 
 // 生成 intl 对象
+import { ProProvider } from '@ant-design/pro-components';
 const enUSIntl = createIntl('en_US', enUS);
-import { ConfigProvider } from '@ant-design/pro-provide';
+const values = useContext(ProProvider)
 
 // 使用
-<ConfigProvider
-  value={{
-    intl: enUSIntl,
-  }}
->
+<ProProvider.Provider value={{ ...values, intl: enUSIntl }}>
   <ProTable />
-</ConfigProvider>;
+</ProProvider.Provider>;
 ```
 
 <code src="../demos/intl.tsx"  background="var(--main-bg-color)" title="国际化相关的配置"></code>

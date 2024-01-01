@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { WaterMark } from '@ant-design/pro-components';
-import { act, render } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('WaterMark', () => {
   it('test image watermark', async () => {
@@ -46,7 +50,7 @@ describe('WaterMark', () => {
   });
 
   it('test image watermark', async () => {
-    const spy = jest.spyOn(global.console, 'error').mockImplementation();
+    const spy = vi.spyOn(global.console, 'error');
     const createElement = document.createElement.bind(document);
     // @ts-ignore
     document.createElement = (tagName: string) => {
@@ -69,8 +73,7 @@ describe('WaterMark', () => {
       </WaterMark>,
     );
 
-    // @ts-ignore
-    expect(console.error.mock.calls).toEqual([['当前环境不支持Canvas']]);
+    expect(spy.mock.calls).toEqual([['当前环境不支持Canvas']]);
     unmount();
     spy.mockRestore();
   });

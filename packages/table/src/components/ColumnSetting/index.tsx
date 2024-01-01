@@ -17,16 +17,11 @@ import type { ColumnsState } from '../../Store/Provide';
 import { TableContext } from '../../Store/Provide';
 import type { ProColumns } from '../../typing';
 import { genColumnKey } from '../../utils/index';
+import type { SettingOptionType } from '../ToolBar';
 import { useStyle } from './style';
 
-type ColumnSettingProps<T = any> = {
+type ColumnSettingProps<T = any> = SettingOptionType & {
   columns: TableColumnType<T>[];
-  draggable?: boolean;
-  checkable?: boolean;
-  extra?: React.ReactNode;
-  checkedReset?: boolean;
-  children?: React.ReactNode;
-  listsHeight?: number;
 };
 
 const ToolTipIcon: React.FC<{
@@ -65,8 +60,9 @@ const CheckboxListItem: React.FC<{
   className?: string;
   title?: React.ReactNode;
   fixed?: boolean | 'left' | 'right';
+  showListItemOption?: boolean;
   isLeaf?: boolean;
-}> = ({ columnKey, isLeaf, title, className, fixed }) => {
+}> = ({ columnKey, isLeaf, title, className, fixed, showListItemOption }) => {
   const intl = useIntl();
   const { hashId } = useContext(ProProvider);
 
@@ -103,7 +99,7 @@ const CheckboxListItem: React.FC<{
       <div className={`${className}-list-item-title ${hashId}`.trim()}>
         {title}
       </div>
-      {!isLeaf ? dom : null}
+      {showListItemOption && !isLeaf ? dom : null}
     </span>
   );
 };
@@ -114,12 +110,14 @@ const CheckboxList: React.FC<{
   title: string;
   draggable: boolean;
   checkable: boolean;
+  showListItemOption: boolean;
   showTitle?: boolean;
   listHeight?: number;
 }> = ({
   list,
   draggable,
   checkable,
+  showListItemOption,
   className,
   showTitle = true,
   title: listTitle,
@@ -191,7 +189,7 @@ const CheckboxList: React.FC<{
       const targetIndex = newColumns.findIndex(
         (columnKey) => columnKey === targetId,
       );
-      const isDownWard = dropPosition > findIndex;
+      const isDownWard = dropPosition >= findIndex;
       if (findIndex < 0) return;
       const targetItem = newColumns[findIndex];
       newColumns.splice(findIndex, 1);
@@ -226,7 +224,7 @@ const CheckboxList: React.FC<{
       if (treeDataConfig.map?.get(key)?.children) {
         treeDataConfig.map
           .get(key)
-          ?.children?.forEach((item) => loopSetShow(item.key));
+          ?.children?.forEach((item) => loopSetShow(item.key as string));
       }
       newColumnMap[key] = newSetting;
     };
@@ -237,6 +235,7 @@ const CheckboxList: React.FC<{
   if (!show) {
     return null;
   }
+
   const listDom = (
     <Tree
       itemHeight={24}
@@ -265,8 +264,9 @@ const CheckboxList: React.FC<{
           <CheckboxListItem
             className={className}
             {...node}
+            showListItemOption={showListItemOption}
             title={runFunction(node.title, node)}
-            columnKey={node.key}
+            columnKey={node.key as string}
           />
         );
       }}
@@ -296,8 +296,16 @@ const GroupCheckboxList: React.FC<{
   className?: string;
   draggable: boolean;
   checkable: boolean;
+  showListItemOption: boolean;
   listsHeight?: number;
-}> = ({ localColumns, className, draggable, checkable, listsHeight }) => {
+}> = ({
+  localColumns,
+  className,
+  draggable,
+  checkable,
+  showListItemOption,
+  listsHeight,
+}) => {
   const { hashId } = useContext(ProProvider);
   const rightList: (ProColumns<any> & { index?: number })[] = [];
   const leftList: (ProColumns<any> & { index?: number })[] = [];
@@ -334,6 +342,7 @@ const GroupCheckboxList: React.FC<{
         list={leftList}
         draggable={draggable}
         checkable={checkable}
+        showListItemOption={showListItemOption}
         className={className}
         listHeight={listsHeight}
       />
@@ -342,6 +351,7 @@ const GroupCheckboxList: React.FC<{
         list={list}
         draggable={draggable}
         checkable={checkable}
+        showListItemOption={showListItemOption}
         title={intl.getMessage('tableToolBar.noFixedTitle', '不固定')}
         showTitle={showLeft || showRight}
         className={className}
@@ -352,6 +362,7 @@ const GroupCheckboxList: React.FC<{
         list={rightList}
         draggable={draggable}
         checkable={checkable}
+        showListItemOption={showListItemOption}
         className={className}
         listHeight={listsHeight}
       />
@@ -387,7 +398,7 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
    * @param show
    */
   const setAllSelectAction = useRefFunction((show: boolean = true) => {
-    const columnKeyMap = {};
+    const columnKeyMap = {} as Record<string, any>;
     const loopColumns = (columns: any) => {
       columns.forEach(({ key, fixed, index, children, disable }: any) => {
         const columnKey = genColumnKey(key, index);
@@ -446,18 +457,22 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
       arrow={false}
       title={
         <div className={`${className}-title ${hashId}`.trim()}>
-          <Checkbox
-            indeterminate={indeterminate}
-            checked={
-              unCheckedKeys.length === 0 &&
-              unCheckedKeys.length !== localColumns.length
-            }
-            onChange={(e) => {
-              checkedAll(e);
-            }}
-          >
-            {intl.getMessage('tableToolBar.columnDisplay', '列展示')}
-          </Checkbox>
+          {props.checkable === false ? (
+            <div />
+          ) : (
+            <Checkbox
+              indeterminate={indeterminate}
+              checked={
+                unCheckedKeys.length === 0 &&
+                unCheckedKeys.length !== localColumns.length
+              }
+              onChange={(e) => {
+                checkedAll(e);
+              }}
+            >
+              {intl.getMessage('tableToolBar.columnDisplay', '列展示')}
+            </Checkbox>
+          )}
           {checkedReset ? (
             <a
               onClick={clearClick}
@@ -480,6 +495,7 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
         <GroupCheckboxList
           checkable={props.checkable ?? true}
           draggable={props.draggable ?? true}
+          showListItemOption={props.showListItemOption ?? true}
           className={className}
           localColumns={localColumns}
           listsHeight={props.listsHeight}
@@ -490,7 +506,7 @@ function ColumnSetting<T>(props: ColumnSettingProps<T>) {
         <Tooltip
           title={intl.getMessage('tableToolBar.columnSetting', '列设置')}
         >
-          <SettingOutlined />
+          {props.settingIcon ?? <SettingOutlined />}
         </Tooltip>
       )}
     </Popover>,

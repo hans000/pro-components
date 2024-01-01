@@ -51,6 +51,7 @@ const TopNavHeader: React.FC<TopNavHeaderProps> = (
     renderKey,
   );
   const { token } = useContext(ProProvider);
+
   const contentDom = useMemo(() => {
     const defaultDom = (
       <ConfigProvider // @ts-ignore
@@ -58,53 +59,57 @@ const TopNavHeader: React.FC<TopNavHeaderProps> = (
           hashed: isNeedOpenHash(),
           components: {
             Layout: {
-              colorBgHeader: 'transparent',
-              colorBgBody: 'transparent',
+              headerBg: 'transparent',
+              bodyBg: 'transparent',
             },
             Menu: {
               ...coverToNewToken({
                 colorItemBg:
-                  token?.layout?.header?.colorBgHeader || 'transparent',
+                  token.layout?.header?.colorBgHeader || 'transparent',
                 colorSubItemBg:
-                  token?.layout?.header?.colorBgHeader || 'transparent',
-                radiusItem: 4,
+                  token.layout?.header?.colorBgHeader || 'transparent',
+                radiusItem: token.borderRadius,
                 colorItemBgSelected:
-                  token?.layout?.header?.colorBgMenuItemSelected ||
+                  token.layout?.header?.colorBgMenuItemSelected ||
                   token?.colorBgTextHover,
-                colorItemBgActive:
-                  token?.layout?.header?.colorBgMenuItemHover ||
+                itemHoverBg:
+                  token.layout?.header?.colorBgMenuItemHover ||
                   token?.colorBgTextHover,
                 colorItemBgSelectedHorizontal:
-                  token?.layout?.header?.colorBgMenuItemSelected ||
+                  token.layout?.header?.colorBgMenuItemSelected ||
                   token?.colorBgTextHover,
                 colorActiveBarWidth: 0,
                 colorActiveBarHeight: 0,
                 colorActiveBarBorderSize: 0,
                 colorItemText:
-                  token?.layout?.header?.colorTextMenu ||
+                  token.layout?.header?.colorTextMenu ||
                   token?.colorTextSecondary,
                 colorItemTextHoverHorizontal:
-                  token?.layout?.header?.colorTextMenuActive ||
-                  token?.colorText,
+                  token.layout?.header?.colorTextMenuActive || token?.colorText,
                 colorItemTextSelectedHorizontal:
-                  token?.layout?.header?.colorTextMenuSelected ||
+                  token.layout?.header?.colorTextMenuSelected ||
                   token?.colorTextBase,
                 horizontalItemBorderRadius: 4,
                 colorItemTextHover:
-                  token?.layout?.header?.colorTextMenuActive ||
+                  token.layout?.header?.colorTextMenuActive ||
                   'rgba(0, 0, 0, 0.85)',
                 horizontalItemHoverBg:
-                  token?.layout?.header?.colorBgMenuItemHover ||
+                  token.layout?.header?.colorBgMenuItemHover ||
                   'rgba(0, 0, 0, 0.04)',
                 colorItemTextSelected:
-                  token?.layout?.header?.colorTextMenuSelected ||
+                  token.layout?.header?.colorTextMenuSelected ||
                   'rgba(0, 0, 0, 1)',
+                popupBg: token?.colorBgElevated,
+                subMenuItemBg: token?.colorBgElevated,
+                darkSubMenuItemBg: 'transparent',
+                // @ts-expect-error
+                darkPopupBg: token?.colorBgElevated,
               }),
             },
           },
           token: {
             colorBgElevated:
-              token?.layout?.header?.colorBgHeader || 'transparent',
+              token.layout?.header?.colorBgHeader || 'transparent',
           },
         }}
       >
@@ -128,7 +133,26 @@ const TopNavHeader: React.FC<TopNavHeaderProps> = (
       return headerContentRender(props, defaultDom);
     }
     return defaultDom;
-  }, [props, prefixCls, hashId, headerContentRender]);
+  }, [
+    token.layout?.header?.colorBgHeader,
+    token.layout?.header?.colorBgMenuItemSelected,
+    token.layout?.header?.colorBgMenuItemHover,
+    token.layout?.header?.colorTextMenu,
+    token.layout?.header?.colorTextMenuActive,
+    token.layout?.header?.colorTextMenuSelected,
+    token.layout?.header?.colorBgMenuElevated,
+    token.borderRadius,
+    token?.colorBgTextHover,
+    token?.colorTextSecondary,
+    token?.colorText,
+    token?.colorTextBase,
+    token.colorBgElevated,
+    dark,
+    props,
+    prefixCls,
+    hashId,
+    headerContentRender,
+  ]);
 
   return wrapSSR(
     <div
@@ -140,7 +164,7 @@ const TopNavHeader: React.FC<TopNavHeaderProps> = (
       <div
         ref={ref}
         className={classNames(`${prefixCls}-main`, hashId, {
-          [`${prefixCls}-wide`]: contentWidth === 'Fixed',
+          [`${prefixCls}-wide`]: contentWidth === 'Fixed' && layout === 'top',
         })}
       >
         {headerDom && (

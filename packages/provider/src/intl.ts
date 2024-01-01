@@ -7,6 +7,7 @@ import enUS from './locale/en_US';
 import esES from './locale/es_ES';
 import faIR from './locale/fa_IR';
 import frFR from './locale/fr_FR';
+import heIL from './locale/he_IL';
 import hrHR from './locale/hr_HR';
 import idID from './locale/id_ID';
 import itIT from './locale/it_IT';
@@ -21,6 +22,7 @@ import skSK from './locale/sk_SK';
 import srRS from './locale/sr_RS';
 import thTH from './locale/th_TH';
 import trTR from './locale/tr_TR';
+import ukUA from './locale/uk_UA';
 import viVN from './locale/vi_VN';
 import zhCN from './locale/zh_CN';
 import zhTW from './locale/zh_TW';
@@ -98,6 +100,8 @@ const hrHRIntl = createIntl('hr_', hrHR);
 const thTHIntl = createIntl('th_TH', thTH);
 const csCZIntl = createIntl('cs_cz', csCZ);
 const skSKIntl = createIntl('sk_SK', skSK);
+const heILIntl = createIntl('he_IL', heIL);
+const ukUAIntl = createIntl('uk_UA', ukUA);
 
 const intlMap = {
   'mn-MN': mnMNIntl,
@@ -126,6 +130,8 @@ const intlMap = {
   'th-TH': thTHIntl,
   'cs-CZ': csCZIntl,
   'sk-SK': skSKIntl,
+  'he-IL': heILIntl,
+  'uk-UA': ukUAIntl,
 };
 
 const intlMapKeys = Object.keys(intlMap);
@@ -144,32 +150,34 @@ export const findIntlKeyByAntdLocaleKey = <T extends string>(localeKey?: T) => {
 };
 
 export {
-  mnMNIntl,
   arEGIntl,
-  enUSIntl,
-  enGBIntl,
-  zhCNIntl,
-  viVNIntl,
-  itITIntl,
-  jaJPIntl,
-  esESIntl,
   caESIntl,
-  ruRUIntl,
-  srRSIntl,
-  msMYIntl,
-  zhTWIntl,
-  frFRIntl,
-  ptBRIntl,
-  koKRIntl,
-  idIDIntl,
-  deDEIntl,
-  faIRIntl,
-  trTRIntl,
-  plPLIntl,
-  hrHRIntl,
-  thTHIntl,
   csCZIntl,
-  skSKIntl,
+  deDEIntl,
+  enGBIntl,
+  enUSIntl,
+  esESIntl,
+  faIRIntl,
+  frFRIntl,
+  heILIntl,
+  hrHRIntl,
+  idIDIntl,
   intlMap,
   intlMapKeys,
+  itITIntl,
+  jaJPIntl,
+  koKRIntl,
+  mnMNIntl,
+  msMYIntl,
+  plPLIntl,
+  ptBRIntl,
+  ruRUIntl,
+  skSKIntl,
+  srRSIntl,
+  thTHIntl,
+  trTRIntl,
+  ukUAIntl,
+  viVNIntl,
+  zhCNIntl,
+  zhTWIntl,
 };

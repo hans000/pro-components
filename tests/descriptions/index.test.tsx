@@ -1,10 +1,17 @@
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProCoreActionType } from '@ant-design/pro-utils';
-import { act, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
 import { Button, Input } from 'antd';
 import React from 'react';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('descriptions', () => {
+  afterEach(() => {
+    cleanup();
+  });
   it('🥩 descriptions render valueEnum when data = 0', async () => {
     const { container } = render(
       <ProDescriptions
@@ -36,7 +43,7 @@ describe('descriptions', () => {
   });
 
   it('🎏 onLoadingChange test', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     render(
       <ProDescriptions
         size="small"
@@ -61,7 +68,7 @@ describe('descriptions', () => {
   });
 
   it('🎏 loading test', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const html = render(
       <ProDescriptions
         columns={[
@@ -82,7 +89,7 @@ describe('descriptions', () => {
     );
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     await waitFor(() => {
@@ -112,7 +119,7 @@ describe('descriptions', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     await waitFor(() => {
@@ -120,12 +127,12 @@ describe('descriptions', () => {
       expect(!!html.baseElement.querySelector('.ant-skeleton')).toBeFalsy();
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('🥩 test reload', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const actionRef = React.createRef<ProCoreActionType>();
     const Reload = () => {
       return (
@@ -178,7 +185,7 @@ describe('descriptions', () => {
     const html = render(<Reload />);
 
     await act(() => {
-      return jest.runOnlyPendingTimers();
+      return vi.runOnlyPendingTimers();
     });
 
     await html.findAllByText('这是一段文本');
@@ -200,12 +207,12 @@ describe('descriptions', () => {
       expect(fn).toBeCalledTimes(2);
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('🥩 test reload by params', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const html = render(
       <ProDescriptions
         title="高级定义列表 request"
@@ -235,7 +242,7 @@ describe('descriptions', () => {
     await html.findAllByText('这是一段文本');
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(() => {
@@ -276,7 +283,7 @@ describe('descriptions', () => {
     });
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await html.findAllByText('这是一段文本');
@@ -285,11 +292,11 @@ describe('descriptions', () => {
       expect(fn).toBeCalledTimes(2);
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('🥩 test request error', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     render(
       <ProDescriptions

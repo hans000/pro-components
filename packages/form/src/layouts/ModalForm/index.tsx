@@ -17,11 +17,11 @@ import { createPortal } from 'react-dom';
 import type { CommonFormProps, ProFormInstance } from '../../BaseForm';
 import { BaseForm } from '../../BaseForm';
 
-export type ModalFormProps<T = Record<string, any>> = Omit<
-  FormProps<T>,
-  'onFinish' | 'title'
-> &
-  CommonFormProps<T> & {
+export type ModalFormProps<
+  T = Record<string, any>,
+  U = Record<string, any>,
+> = Omit<FormProps<T>, 'onFinish' | 'title'> &
+  CommonFormProps<T, U> & {
     /**
      * 接收任意值，返回 真值 会关掉这个抽屉
      *
@@ -69,7 +69,7 @@ export type ModalFormProps<T = Record<string, any>> = Omit<
     width?: ModalProps['width'];
   };
 
-function ModalForm<T = Record<string, any>>({
+function ModalForm<T = Record<string, any>, U = Record<string, any>>({
   children,
   trigger,
   onVisibleChange,
@@ -82,10 +82,10 @@ function ModalForm<T = Record<string, any>>({
   visible: propVisible,
   open: propsOpen,
   ...rest
-}: ModalFormProps<T>) {
+}: ModalFormProps<T, U>) {
   noteOnce(
     // eslint-disable-next-line @typescript-eslint/dot-notation
-    !rest['footer'] || !modalProps?.footer,
+    !(rest as any)['footer'] || !modalProps?.footer,
     'ModalForm 是一个 ProForm 的特殊布局，如果想自定义按钮，请使用 submit.render 自定义。',
   );
 
@@ -260,7 +260,7 @@ function ModalForm<T = Record<string, any>>({
           ) : null
         }
       >
-        <BaseForm
+        <BaseForm<T, U>
           formComponentType="ModalForm"
           layout="vertical"
           {...rest}

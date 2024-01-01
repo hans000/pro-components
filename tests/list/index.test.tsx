@@ -1,13 +1,14 @@
 import ProList, { BaseProList } from '@ant-design/pro-list';
 import {
   act,
+  cleanup,
   fireEvent,
   render as reactRender,
   screen,
   waitFor,
 } from '@testing-library/react';
 import { Tag } from 'antd';
-import type { ReactText } from 'react';
+import type { Key } from 'react';
 import { useState } from 'react';
 import PaginationDemo from '../../packages/list/src/demos/pagination';
 import { waitForWaitTime } from '../util';
@@ -18,6 +19,10 @@ type DataSourceType = {
     text: string;
   };
 };
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('List', () => {
   it('🚏 base use', async () => {
@@ -66,6 +71,12 @@ describe('List', () => {
           },
           description: {
             dataIndex: ['desc', 'text'],
+          },
+          xxx: {
+            dataIndex: ['desc', 'text'],
+          },
+          subTitle: {
+            title: 'desc text',
           },
         }}
       />,
@@ -176,11 +187,11 @@ describe('List', () => {
   });
 
   it('🚏 expandable', async () => {
-    const onExpand = jest.fn();
+    const onExpand = vi.fn();
     const Wrapper = () => {
-      const [expandedRowKeys, onExpandedRowsChange] = useState<
-        readonly ReactText[]
-      >([]);
+      const [expandedRowKeys, onExpandedRowsChange] = useState<readonly Key[]>(
+        [],
+      );
       return (
         <ProList
           dataSource={[
@@ -216,11 +227,11 @@ describe('List', () => {
   });
 
   it('🚏 expandable support expandRowByClick', async () => {
-    const onExpand = jest.fn();
+    const onExpand = vi.fn();
     const Wrapper = () => {
-      const [expandedRowKeys, onExpandedRowsChange] = useState<
-        readonly ReactText[]
-      >([]);
+      const [expandedRowKeys, onExpandedRowsChange] = useState<readonly Key[]>(
+        [],
+      );
       return (
         <ProList
           dataSource={[
@@ -295,9 +306,9 @@ describe('List', () => {
 
   it('🚏 expandable with expandedRowRender', async () => {
     const Wrapper = () => {
-      const [expandedRowKeys, onExpandedRowsChange] = useState<
-        readonly ReactText[]
-      >([]);
+      const [expandedRowKeys, onExpandedRowsChange] = useState<readonly Key[]>(
+        [],
+      );
       return (
         <ProList
           dataSource={[
@@ -344,7 +355,7 @@ describe('List', () => {
   });
 
   it('🚏 expandable with expandIcon', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const Wrapper = () => {
       return (
         <ProList
@@ -465,7 +476,7 @@ describe('List', () => {
   });
 
   it('🚏 filter and request', async () => {
-    const onRequest = jest.fn();
+    const onRequest = vi.fn();
     const { container, findByText, baseElement } = reactRender(
       <ProList<any, { title: string }>
         metas={{
@@ -532,8 +543,8 @@ describe('List', () => {
   });
 
   it('🚏 ProList support onRow', async () => {
-    const onClick = jest.fn();
-    const onMouseEnter = jest.fn();
+    const onClick = vi.fn();
+    const onMouseEnter = vi.fn();
     const { container } = reactRender(
       <ProList<DataSourceType>
         dataSource={[
@@ -782,9 +793,10 @@ describe('List', () => {
       html.queryByText('修复')?.click();
     });
   });
+
   it('🚏 trigger list item event when has grid prop', async () => {
-    const fn1 = jest.fn();
-    const fn2 = jest.fn();
+    const fn1 = vi.fn();
+    const fn2 = vi.fn();
     const html = reactRender(
       <ProList
         grid={{ gutter: 16, column: 2 }}
@@ -829,15 +841,22 @@ describe('List', () => {
 
     act(() => {
       fireEvent.mouseEnter(
-        html.baseElement.querySelector('.ant-pro-list-row-card .ant-pro-card')!,
+        html.baseElement.querySelector(
+          '.ant-pro-list-row-card .ant-pro-checkcard',
+        )!,
         {},
       );
       fireEvent.click(
-        html.baseElement.querySelector('.ant-pro-list-row-card .ant-pro-card')!,
+        html.baseElement.querySelector(
+          '.ant-pro-list-row-card .ant-pro-checkcard',
+        )!,
         {},
       );
     });
-    expect(fn1).toBeCalledWith('我是名称');
-    expect(fn2).toBeCalledWith('我是名称');
+
+    await waitFor(() => {
+      expect(fn1).toBeCalledWith('我是名称');
+      expect(fn2).toBeCalledWith('我是名称');
+    });
   });
 });

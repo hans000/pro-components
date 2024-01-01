@@ -1,14 +1,24 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`BasicLayout base use 1`] = `
+exports[`BasicLayout > ActionsContent support contentRender 1`] = `
+<div>
+  <div
+    class="ant-pro-global-header-right-content"
+    style="min-width: auto; height: 100%;"
+  >
+    <div
+      style="height: 100%;"
+    />
+  </div>
+</div>
+`;
+
+exports[`BasicLayout > base use 1`] = `
 <div>
   <div
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
   >
     <div
-      class="ant-pro-layout-bg-list"
-    />
-    <section
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
     >
@@ -234,20 +244,17 @@ exports[`BasicLayout base use 1`] = `
           </div>
         </main>
       </div>
-    </section>
+    </div>
   </div>
 </div>
 `;
 
-exports[`BasicLayout content is text 1`] = `
+exports[`BasicLayout > content is text 1`] = `
 <div>
   <div
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
   >
     <div
-      class="ant-pro-layout-bg-list"
-    />
-    <section
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
     >
@@ -494,7 +501,7 @@ exports[`BasicLayout content is text 1`] = `
           </div>
         </main>
       </div>
-    </section>
+    </div>
   </div>
 </div>
 `;

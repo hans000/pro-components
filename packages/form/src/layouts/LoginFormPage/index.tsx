@@ -57,7 +57,17 @@ export type LoginFormPageProps<T> = {
    * @example  backgroundImageUrl="xxx.svg"
    */
   backgroundImageUrl?: string;
+  /**
+   * @name 登录页面的背景视频，可以用它来设置一个背景，优先级高于 backgroundImageUrl
+   *
+   * @example  backgroundImageUrl="xxx.svg"
+   */
+  backgroundVideoUrl?: string;
   children?: React.ReactNode | React.ReactNode[];
+
+  containerStyle?: React.CSSProperties;
+  mainStyle?: React.CSSProperties;
+  otherStyle?: React.CSSProperties;
 } & ProFormProps<T>;
 
 export function LoginFormPage<T = Record<string, any>>(
@@ -67,12 +77,16 @@ export function LoginFormPage<T = Record<string, any>>(
     logo,
     message,
     style,
-    activityConfig = {},
+    activityConfig,
     backgroundImageUrl,
+    backgroundVideoUrl,
     title,
     subTitle,
     actions,
     children,
+    containerStyle,
+    otherStyle,
+    mainStyle,
     ...proFormProps
   } = props;
 
@@ -104,7 +118,7 @@ export function LoginFormPage<T = Record<string, any>>(
   const { wrapSSR, hashId } = useStyle(baseClassName);
 
   const getCls = (className: string) =>
-    `${baseClassName}-${className} ${hashId}`;
+    `${baseClassName}-${className} ${hashId}`.trim();
 
   /** 生成logo 的dom，如果是string 设置为图片 如果是个 dom 就原样保留 */
   const logoDom = useMemo(() => {
@@ -120,54 +134,94 @@ export function LoginFormPage<T = Record<string, any>>(
       className={classNames(baseClassName, hashId)}
       style={{
         ...style,
+        position: 'relative',
         backgroundImage: `url("${backgroundImageUrl}")`,
       }}
     >
-      <div className={getCls('notice')}>
-        {activityConfig && (
-          <div
-            className={getCls('notice-activity')}
-            style={activityConfig.style}
-          >
-            {activityConfig.title && (
-              <div className={getCls('notice-activity-title')}>
-                {' '}
-                {activityConfig.title}{' '}
-              </div>
-            )}
-            {activityConfig.subTitle && (
-              <div className={getCls('notice-activity-subTitle')}>
-                {' '}
-                {activityConfig.subTitle}{' '}
-              </div>
-            )}
-            {activityConfig.action && (
-              <div className={getCls('notice-activity-action')}>
-                {' '}
-                {activityConfig.action}{' '}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-      <div className={getCls('container')}>
-        <div className={getCls('top')}>
-          {title || logoDom ? (
-            <div className={getCls('header')}>
-              {logoDom ? (
-                <span className={getCls('logo')}>{logoDom}</span>
-              ) : null}
-              {title ? <span className={getCls('title')}>{title}</span> : null}
-            </div>
-          ) : null}
-          {subTitle ? <div className={getCls('desc')}>{subTitle}</div> : null}
+      {backgroundVideoUrl ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            overflow: 'hidden',
+            height: '100%',
+            zIndex: 1,
+            pointerEvents: 'none',
+          }}
+        >
+          <video
+            src={backgroundVideoUrl}
+            controls={false}
+            autoPlay
+            playsInline
+            loop
+            muted={true}
+            crossOrigin="anonymous"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
         </div>
-        <div className={getCls('main')}>
-          <ProForm isKeyPressSubmit {...proFormProps} submitter={submitter}>
-            {message}
-            {children}
-          </ProForm>
-          {actions ? <div className={getCls('other')}>{actions}</div> : null}
+      ) : null}
+      <div className={classNames(baseClassName, hashId)}>
+        <div className={getCls('notice')}>
+          {activityConfig && (
+            <div
+              className={getCls('notice-activity')}
+              style={activityConfig.style}
+            >
+              {activityConfig.title && (
+                <div className={getCls('notice-activity-title')}>
+                  {' '}
+                  {activityConfig.title}{' '}
+                </div>
+              )}
+              {activityConfig.subTitle && (
+                <div className={getCls('notice-activity-subTitle')}>
+                  {activityConfig.subTitle}
+                </div>
+              )}
+              {activityConfig.action && (
+                <div className={getCls('notice-activity-action')}>
+                  {activityConfig.action}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div className={getCls('left')}>
+          <div className={getCls('container')} style={containerStyle}>
+            <div className={getCls('top')}>
+              {title || logoDom ? (
+                <div className={getCls('header')}>
+                  {logoDom ? (
+                    <span className={getCls('logo')}>{logoDom}</span>
+                  ) : null}
+                  {title ? (
+                    <span className={getCls('title')}>{title}</span>
+                  ) : null}
+                </div>
+              ) : null}
+              {subTitle ? (
+                <div className={getCls('desc')}>{subTitle}</div>
+              ) : null}
+            </div>
+            <div className={getCls('main')} style={mainStyle}>
+              <ProForm isKeyPressSubmit {...proFormProps} submitter={submitter}>
+                {message}
+                {children}
+              </ProForm>
+              {actions ? (
+                <div className={getCls('other')} style={otherStyle}>
+                  {actions}
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
     </div>,

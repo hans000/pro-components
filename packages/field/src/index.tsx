@@ -4,17 +4,18 @@ import type {
   ProRenderFieldPropsType,
 } from '@ant-design/pro-provider';
 import ProConfigContext from '@ant-design/pro-provider';
-import type {
+import {
+  omitUndefined,
+  pickProProps,
   ProFieldRequestData,
   ProFieldTextType,
   ProFieldValueObjectType,
   ProFieldValueType,
+  useDeepCompareMemo,
+  useRefFunction,
 } from '@ant-design/pro-utils';
-import { omitUndefined, pickProProps } from '@ant-design/pro-utils';
 import { Avatar } from 'antd';
-// import type {RangeInputNumberProps,ExtraProps as } from './components/DigitRange'
-import { noteOnce } from 'rc-util/lib/warning';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import FieldCascader from './components/Cascader';
 import FieldCheckbox from './components/Checkbox';
 import FieldCode from './components/Code';
@@ -37,7 +38,6 @@ import FieldRate from './components/Rate';
 import FieldSecond from './components/Second';
 import FieldSegmented from './components/Segmented';
 import FieldSelect, {
-  proFieldParsingText,
   proFieldParsingValueEnumToArray,
 } from './components/Select';
 import FieldSlider from './components/Slider';
@@ -62,8 +62,6 @@ dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekday);
-
-const REQUEST_VALUE_TYPE = ['select', 'radio', 'radioButton', 'checkbook'];
 
 export type ProFieldMoneyProps = FieldMoneyProps;
 
@@ -236,28 +234,6 @@ const defaultRenderText = (
       );
     }
   }
-
-  const needValueEnum = REQUEST_VALUE_TYPE.includes(valueType as string);
-  const hasValueEnum = !!(
-    props.valueEnum ||
-    props.request ||
-    props.options ||
-    props.fieldProps?.options
-  );
-
-  noteOnce(
-    !needValueEnum || hasValueEnum,
-    `如果设置了 valueType 为 ${REQUEST_VALUE_TYPE.join(
-      ',',
-    )}中任意一个，则需要配置options，request, valueEnum 其中之一，否则无法生成选项。`,
-  );
-
-  noteOnce(
-    !needValueEnum || hasValueEnum,
-    `If you set valueType to any of ${REQUEST_VALUE_TYPE.join(
-      ',',
-    )}, you need to configure options, request or valueEnum.`,
-  );
 
   /** 如果是金额的值 */
   if (valueType === 'money') {
@@ -594,23 +570,22 @@ const defaultRenderText = (
   return <FieldText text={dataValue as string} {...props} />;
 };
 
-export { defaultRenderText };
-export type { ProFieldValueType, FieldMoneyProps };
 export {
-  FieldPercent,
-  FieldIndexColumn,
-  FieldProgress,
-  FieldMoney,
-  FieldDatePicker,
-  FieldRangePicker,
+  defaultRenderText,
   FieldCode,
-  FieldTimePicker,
-  FieldText,
-  FieldStatus,
+  FieldDatePicker,
+  FieldIndexColumn,
+  FieldMoney,
+  FieldPercent,
+  FieldProgress,
+  FieldRangePicker,
   FieldSelect,
-  proFieldParsingText,
+  FieldStatus,
+  FieldText,
+  FieldTimePicker,
   proFieldParsingValueEnumToArray,
 };
+export type { FieldMoneyProps, ProFieldValueType };
 
 /** ProField 的类型 */
 export type ProFieldPropsType = {
@@ -630,70 +605,68 @@ const ProFieldComponent: React.ForwardRefRenderFunction<
     renderFormItem,
     value,
     readonly,
+    fieldProps: restFieldProps,
     ...rest
   },
   ref: any,
 ) => {
   const context = useContext(ProConfigContext);
 
-  const fieldProps = useMemo(() => {
+  const onChangeCallBack = useRefFunction((...restParams: any[]) => {
+    restFieldProps?.onChange?.(...restParams);
+    onChange?.(...restParams);
+  });
+
+  const fieldProps: any = useDeepCompareMemo(() => {
     return (
-      (value !== undefined || onChange || rest?.fieldProps) && {
+      (value !== undefined || restFieldProps) && {
         value,
         // fieldProps 优先级更高，在类似 LightFilter 场景下需要覆盖默认的 value 和 onChange
-        ...omitUndefined(rest?.fieldProps),
-        onChange: (...restParams: any[]) => {
-          rest?.fieldProps?.onChange?.(...restParams);
-          onChange?.(...restParams);
-        },
+        ...omitUndefined(restFieldProps),
+        onChange: onChangeCallBack,
       }
     );
-  }, [value, onChange, rest?.fieldProps]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, restFieldProps, onChangeCallBack]);
 
-  return (
-    <React.Fragment>
-      {defaultRenderText(
-        mode === 'edit'
-          ? fieldProps?.value ?? text ?? ''
-          : text ?? fieldProps?.value ?? '',
-        valueType || 'text',
+  const renderedDom = defaultRenderText(
+    mode === 'edit'
+      ? fieldProps?.value ?? text ?? ''
+      : text ?? fieldProps?.value ?? '',
+    valueType || 'text',
+    omitUndefined({
+      ref,
+      ...rest,
+      mode: readonly ? 'read' : mode,
+      renderFormItem: renderFormItem
+        ? (curText: any, props: ProFieldFCRenderProps, dom: JSX.Element) => {
+            const { placeholder: _placeholder, ...restProps } = props;
+            const newDom = renderFormItem(curText, restProps, dom);
+            // renderFormItem 之后的dom可能没有props，这里会帮忙注入一下
+            if (React.isValidElement(newDom))
+              return React.cloneElement(newDom, {
+                ...fieldProps,
+                ...((newDom.props as any) || {}),
+              });
+            return newDom;
+          }
+        : undefined,
+      placeholder: renderFormItem
+        ? undefined
+        : rest?.placeholder ?? fieldProps?.placeholder,
+      fieldProps: pickProProps(
         omitUndefined({
-          ref,
-          ...rest,
-          mode: readonly ? 'read' : mode,
-          renderFormItem: renderFormItem
-            ? (
-                curText: any,
-                props: ProFieldFCRenderProps,
-                dom: JSX.Element,
-              ) => {
-                const { placeholder: _placeholder, ...restProps } = props;
-                const newDom = renderFormItem(curText, restProps, dom);
-                // renderFormItem 之后的dom可能没有props，这里会帮忙注入一下
-                if (React.isValidElement(newDom))
-                  return React.cloneElement(newDom, {
-                    ...fieldProps,
-                    ...((newDom.props as any) || {}),
-                  });
-                return newDom;
-              }
-            : undefined,
+          ...fieldProps,
           placeholder: renderFormItem
             ? undefined
             : rest?.placeholder ?? fieldProps?.placeholder,
-          fieldProps: pickProProps(
-            omitUndefined({
-              ...fieldProps,
-              placeholder: renderFormItem
-                ? undefined
-                : rest?.placeholder ?? fieldProps?.placeholder,
-            }),
-          ),
         }),
-        context.valueTypeMap || {},
-      )}
-    </React.Fragment>
+      ),
+    }),
+    context.valueTypeMap || {},
   );
+
+  return <React.Fragment>{renderedDom}</React.Fragment>;
 };
 
 export const ProField = React.forwardRef(

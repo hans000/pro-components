@@ -3,7 +3,7 @@ import React from 'react';
 import type { AppItemProps, AppListProps } from './types';
 
 /**
- * simple模式渲染logo的方式
+ * simple 模式渲染logo的方式
  *
  * @param logo
  * @param title
@@ -69,10 +69,13 @@ export const SimpleContent: React.FC<{
               // eslint-disable-next-line react/no-array-index-key
               key={index}
               className={`${baseClassName}-content-list-item ${hashId}`.trim()}
+              onClick={(e) => {
+                e.stopPropagation();
+                itemClick?.(app);
+              }}
             >
               <a
                 href={itemClick ? 'javascript:;' : app.url}
-                onClick={() => itemClick?.(app)}
                 target={app.target}
                 rel="noreferrer"
               >

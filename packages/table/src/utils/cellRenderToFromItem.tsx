@@ -7,8 +7,8 @@ import type {
   UseEditableUtilType,
 } from '@ant-design/pro-utils';
 import {
-  getFieldPropsOrFormItemProps,
   InlineErrorFormItem,
+  getFieldPropsOrFormItemProps,
   runFunction,
 } from '@ant-design/pro-utils';
 import { Form } from 'antd';
@@ -20,8 +20,8 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import type { ProColumnType } from '../index';
 import type { ContainerType } from '../Store/Provide';
+import type { ProColumnType } from '../index';
 
 const SHOW_EMPTY_TEXT_LIST = ['', null, undefined];
 
@@ -76,16 +76,21 @@ const CellRenderFromItem = <T,>(props: CellRenderFromItemProps<T>) => {
     recordKey,
     subName,
     proFieldProps,
+    editableUtils,
   } = props;
 
   const editableForm = ProForm.useFormInstance();
 
   const key = recordKey || index;
+  const realIndex = useMemo(
+    () => editableUtils?.getRealIndex?.(rowData) ?? index,
+    [editableUtils, index, rowData],
+  );
   const [formItemName, setName] = useState<React.Key[]>(() =>
     spellNamePath(
       prefixName,
       prefixName ? subName : [],
-      prefixName ? index : key,
+      prefixName ? realIndex : key,
       columnProps?.key ?? columnProps?.dataIndex ?? index,
     ),
   );
@@ -98,7 +103,7 @@ const CellRenderFromItem = <T,>(props: CellRenderFromItemProps<T>) => {
     const value = spellNamePath(
       prefixName,
       prefixName ? subName : [],
-      prefixName ? index : key,
+      prefixName ? realIndex : key,
       columnProps?.key ?? columnProps?.dataIndex ?? index,
     );
     if (value.join('-') !== formItemName.join('-')) setName(value);
@@ -111,6 +116,7 @@ const CellRenderFromItem = <T,>(props: CellRenderFromItemProps<T>) => {
     key,
     subName,
     formItemName,
+    realIndex,
   ]);
 
   const needProps = useMemo(
@@ -187,9 +193,7 @@ const CellRenderFromItem = <T,>(props: CellRenderFromItemProps<T>) => {
           type: 'table',
         },
         {
-          defaultRender: () => (
-            <InlineItem {...formItemProps}>{fieldDom}</InlineItem>
-          ),
+          defaultRender: () => <>{fieldDom}</>,
           type: 'form',
           recordKey,
           record: {
@@ -238,7 +242,7 @@ const CellRenderFromItem = <T,>(props: CellRenderFromItemProps<T>) => {
         noStyle
         shouldUpdate={(pre, next) => {
           if (pre === next) return false;
-          const shouldName = [rowName].flat(1);
+          const shouldName = [rowName].flat(1) as (string | number | symbol)[];
           try {
             return (
               JSON.stringify(get(pre, shouldName)) !==

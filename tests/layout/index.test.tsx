@@ -5,12 +5,22 @@ import {
 } from '@ant-design/icons';
 import { ProLayout } from '@ant-design/pro-components';
 import { LoginForm, ProFormText } from '@ant-design/pro-form';
-import { act, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { Button, ConfigProvider } from 'antd';
 import en_US from 'antd/lib/locale/en_US';
 import React, { useState } from 'react';
 import { waitForWaitTime } from '../util';
 import { bigDefaultProps } from './defaultProps';
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('BasicLayout', () => {
   beforeEach(() => {
@@ -21,7 +31,17 @@ describe('BasicLayout', () => {
   });
   beforeAll(() => {
     process.env.NODE_ENV = 'TEST';
-    process.env.USE_MEDIA = 'md';
+    const matchMediaSpy = vi.spyOn(window, 'matchMedia');
+    matchMediaSpy.mockImplementation(
+      (query) =>
+        ({
+          addListener: (cb: (e: { matches: boolean }) => void) => {
+            cb({ matches: query === '(min-width: 768px)' });
+          },
+          removeListener: vi.fn(),
+          matches: query === '(min-width: 768px)',
+        } as any),
+    );
   });
   it('🥩 base use', async () => {
     const html = render(<ProLayout />);
@@ -84,7 +104,7 @@ describe('BasicLayout', () => {
     expect(
       getComputedStyle(
         wrapper.baseElement.querySelector<HTMLDivElement>(
-          'section.ant-layout div.ant-pro-layout-container',
+          'div.ant-layout div.ant-pro-layout-container',
         )!,
       )?.padding,
     ).toBe('');
@@ -105,7 +125,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 support appList', async () => {
-    const itemClicking = jest.fn();
+    const itemClicking = vi.fn();
     const wrapper = render(
       <ProLayout
         appList={[
@@ -204,7 +224,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 appList icon is simple', async () => {
-    const itemClicking = jest.fn();
+    const itemClicking = vi.fn();
     const wrapper = render(
       <ProLayout
         appList={[
@@ -247,22 +267,22 @@ describe('BasicLayout', () => {
             children: [
               {
                 title: '工具',
-                icon: 'https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',
+                icon: 'w',
                 url: 'https://www.yuque.com/',
               },
               {
                 title: '前端应用框架',
-                icon: 'https://img.alicdn.com/tfs/TB1zomHwxv1gK0jSZFFXXb0sXXa-200-200.png',
+                icon: () => (
+                  <img src="https://img.alicdn.com/tfs/TB1zomHwxv1gK0jSZFFXXb0sXXa-200-200.png" />
+                ),
                 url: 'https://umijs.org/zh-CN/docs',
               },
               {
-                icon: 'https://gw.alipayobjects.com/zos/bmw-prod/8a74c1d3-16f3-4719-be63-15e467a68a24/km0cv8vn_w500_h500.png',
                 title: 'qiankun',
                 url: 'https://qiankun.umijs.org/',
               },
               {
-                icon: 'https://gw.alipayobjects.com/zos/rmsportal/LFooOLwmxGLsltmUjTAP.svg',
-                title: 'Kitchen ',
+                title: <div>Kitchen</div>,
                 url: 'https://kitchen.alipay.com/',
               },
               {
@@ -344,6 +364,7 @@ describe('BasicLayout', () => {
         colorTextMenuSelected: null,
         colorBgHeader: null,
         colorHeaderTitle: null,
+        colorBgScrollHeader: null,
         colorTextMenuActive: null,
         colorTextMenu: null,
         colorBgMenuItemHover: null,
@@ -353,7 +374,10 @@ describe('BasicLayout', () => {
         colorTextCollapsedButton: null,
         colorTextCollapsedButtonHover: null,
       },
-      pageContainer: null,
+      pageContainer: {
+        paddingBlockPageContainerContent: null,
+        paddingInlinePageContainerContent: null,
+      },
     };
     const wrapper = render(
       <ProLayout
@@ -364,6 +388,7 @@ describe('BasicLayout', () => {
             src: 'https://gw.alipayobjects.com/zos/antfincdn/tQVPs1q2X%26/yonghushenfen.png',
           },
         ]}
+        isChildrenLayout
         navTheme="realDark"
         colorPrimary="#1890ff"
         {...bigDefaultProps}
@@ -446,18 +471,72 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 do not render footer', async () => {
-    const wrapper = render(<ProLayout footerRender={false} />);
-    await waitForWaitTime(100);
-    const footer = wrapper.baseElement.querySelector<HTMLDivElement>('footer');
-    expect(footer).toBeFalsy();
+    const wrapper = render(<ProLayout title="title" footerRender={false} />);
+
+    await wrapper.findByText('title');
+
+    await waitFor(() => {
+      const footer =
+        wrapper.baseElement.querySelector<HTMLDivElement>('footer');
+      expect(footer).toBeFalsy();
+    });
+
     wrapper.unmount();
   });
 
-  it('🥩 do not render footer', async () => {
-    const wrapper = render(<ProLayout footerRender={false} />);
-    await waitForWaitTime(100);
-    const footer = wrapper.baseElement.querySelector<HTMLDivElement>('footer');
-    expect(footer).toBeFalsy();
+  it('🥩 header support fixed-header-scroll', async () => {
+    const ref = React.createRef<HTMLDivElement>();
+    const wrapper = render(
+      <ConfigProvider
+        getTargetContainer={() => {
+          return ref.current!;
+        }}
+      >
+        <div ref={ref}>
+          <ProLayout
+            layout="mix"
+            fixedHeader
+            title="fixed-header-scroll"
+            stylish={{
+              header: () => {
+                return {
+                  opacity: 0.9,
+                };
+              },
+            }}
+          />
+        </div>
+      </ConfigProvider>,
+    );
+
+    await wrapper.findByText('fixed-header-scroll');
+
+    act(() => {
+      ref.current!.scrollTop = 400;
+      fireEvent.scroll(ref.current!, {});
+    });
+
+    await waitFor(() => {
+      expect(
+        !!wrapper.baseElement.querySelector(
+          '.ant-pro-layout-header-fixed-header-scroll',
+        ),
+      ).toBeTruthy();
+    });
+
+    act(() => {
+      ref.current!.scrollTop = 0;
+      fireEvent.scroll(ref.current!, {});
+    });
+
+    await waitFor(() => {
+      expect(
+        !!wrapper.baseElement.querySelector(
+          '.ant-pro-layout-header-fixed-header-scroll',
+        ),
+      ).toBeFalsy();
+    });
+
     wrapper.unmount();
   });
 
@@ -504,7 +583,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 use onLogoClick', async () => {
-    const onLogoClick = jest.fn();
+    const onLogoClick = vi.fn();
     const wrapper = render(
       <ProLayout
         siderWidth={undefined}
@@ -545,7 +624,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 onCollapse', async () => {
-    const onCollapse = jest.fn();
+    const onCollapse = vi.fn();
     const wrapper = render(<ProLayout onCollapse={onCollapse} />);
     await waitForWaitTime(100);
     act(() => {
@@ -864,7 +943,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 onPageChange', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const wrapper = render(
       <ProLayout
         onPageChange={onPageChange}
@@ -911,7 +990,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 onMenuHeaderClick', async () => {
-    const onMenuHeaderClick = jest.fn();
+    const onMenuHeaderClick = vi.fn();
     const wrapper = render(
       <ProLayout
         pageTitleRender={false}
@@ -933,7 +1012,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 renderPageTitle return value should is string', async () => {
-    const renderPageTitle = jest.fn();
+    const renderPageTitle = vi.fn();
     render(
       <ProLayout
         // @ts-expect-error
@@ -1380,7 +1459,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 BasicLayout menu support onSelect', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const Demo = () => {
       const [pathname, setPathname] = useState('/admin/sub-page1');
       return (
@@ -1458,7 +1537,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 ProLayout support menu.request', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const actionRef = React.createRef<
       | {
           reload: () => void;
@@ -1535,7 +1614,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 ProLayout support menu.params', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const defaultMenu = {
       locale: false,
       params: {},
@@ -1833,7 +1912,9 @@ describe('BasicLayout', () => {
           const locales = {
             'menu.home': '主页',
           };
-          return locales[id] ? locales[id] : (defaultMessage as string);
+          return locales[id as 'menu.home']
+            ? locales[id as 'menu.home']
+            : (defaultMessage as string);
         }}
       />,
     );
@@ -1867,7 +1948,6 @@ describe('BasicLayout', () => {
         </ProLayout>
       </ConfigProvider>,
     );
-
     expect(
       html.container.querySelector('.ant-btn.ant-btn-primary.ant-btn-lg')
         ?.textContent,
@@ -1888,7 +1968,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 siderMenu should restore openKeys when collapsed is false', async () => {
-    const onCollapse = jest.fn();
+    const onCollapse = vi.fn();
     const html = render(
       <ProLayout
         {...bigDefaultProps}
@@ -1936,7 +2016,7 @@ describe('BasicLayout', () => {
   });
 
   it('🥩 ProLayout support suppressSiderWhenMenuEmpty', async () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     let serviceData = [
       {
         path: '/',

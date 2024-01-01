@@ -1,6 +1,5 @@
-import { Card, Skeleton } from 'antd';
-import React from 'react';
-import useMediaQuery from 'use-media-antd-query';
+import { Card, Grid, Skeleton } from 'antd';
+import React, { useMemo } from 'react';
 import { Line, PageHeaderSkeleton } from '../List';
 
 export type DescriptionsPageSkeletonProps = {
@@ -104,8 +103,24 @@ const DescriptionsItemSkeleton: React.FC<{
   size?: number;
   active?: boolean;
 }> = ({ size, active }) => {
-  const colSize = useMediaQuery();
-  const arraySize = size === undefined ? MediaQueryKeyEnum[colSize] || 3 : size;
+  const defaultCol = useMemo(
+    () => ({
+      lg: true,
+      md: true,
+      sm: false,
+      xl: false,
+      xs: false,
+      xxl: false,
+    }),
+    [],
+  );
+  const col = Grid.useBreakpoint() || defaultCol;
+
+  const colSize =
+    Object.keys(col).filter((key) => col[key as 'lg'] === true)[0] || 'md';
+
+  const arraySize =
+    size === undefined ? MediaQueryKeyEnum[colSize as 'md'] || 3 : size;
   return (
     <div
       style={{
@@ -163,8 +178,23 @@ export const TableItemSkeleton = ({
   active: boolean;
   header?: boolean;
 }) => {
-  const colSize = useMediaQuery();
-  const arraySize = MediaQueryKeyEnum[colSize] || 3;
+  const defaultCol = useMemo(
+    () => ({
+      lg: true,
+      md: true,
+      sm: false,
+      xl: false,
+      xs: false,
+      xxl: false,
+    }),
+    [],
+  );
+  const col = Grid.useBreakpoint() || defaultCol;
+
+  const colSize =
+    Object.keys(col).filter((key) => col[key as 'md'] === true)[0] || 'md';
+
+  const arraySize = MediaQueryKeyEnum[colSize as 'md'] || 3;
   return (
     <>
       <div

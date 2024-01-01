@@ -2,6 +2,175 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.43](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.42...@ant-design/pro-list@2.5.43) (2023-12-12)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.42](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.41...@ant-design/pro-list@2.5.42) (2023-11-22)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.41](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.40...@ant-design/pro-list@2.5.41) (2023-11-20)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.40](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.39...@ant-design/pro-list@2.5.40) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.39](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.38...@ant-design/pro-list@2.5.39) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.38](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.37...@ant-design/pro-list@2.5.38) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.37](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.36...@ant-design/pro-list@2.5.37) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.36](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.35...@ant-design/pro-list@2.5.36) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.35](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.34...@ant-design/pro-list@2.5.35) (2023-11-14)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.34](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.33...@ant-design/pro-list@2.5.34) (2023-11-01)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.33](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.32...@ant-design/pro-list@2.5.33) (2023-10-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.32](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.31...@ant-design/pro-list@2.5.32) (2023-10-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.31](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.30...@ant-design/pro-list@2.5.31) (2023-10-24)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.30](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.29...@ant-design/pro-list@2.5.30) (2023-10-19)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.29](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.28...@ant-design/pro-list@2.5.29) (2023-10-13)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.28](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.27...@ant-design/pro-list@2.5.28) (2023-10-11)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.27](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.26...@ant-design/pro-list@2.5.27) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.26](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.25...@ant-design/pro-list@2.5.26) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.25](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.24...@ant-design/pro-list@2.5.25) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.24](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.23...@ant-design/pro-list@2.5.24) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.23](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.22...@ant-design/pro-list@2.5.23) (2023-09-25)
+
+### Bug Fixes
+
+- **layout:** 统一 PageContainer 计算到 styles.ts 中 ([#7699](https://github.com/ant-design/pro-components/issues/7699)) ([ed5c61c](https://github.com/ant-design/pro-components/commit/ed5c61ced2bda9e0f6bab22f3c942792eec682b6))
+
+## [2.5.22](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.21...@ant-design/pro-list@2.5.22) (2023-09-19)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.21](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.20...@ant-design/pro-list@2.5.21) (2023-09-18)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.20](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.19...@ant-design/pro-list@2.5.20) (2023-09-18)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.19](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.18...@ant-design/pro-list@2.5.19) (2023-09-14)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.18](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.17...@ant-design/pro-list@2.5.18) (2023-09-07)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.17](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.16...@ant-design/pro-list@2.5.17) (2023-09-06)
+
+### Bug Fixes
+
+- remove stringify ([25d2c42](https://github.com/ant-design/pro-components/commit/25d2c42a0bda673a0b40b5ae56bd0a852998ecd1))
+
+## [2.5.16](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.15...@ant-design/pro-list@2.5.16) (2023-08-30)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.15](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.14...@ant-design/pro-list@2.5.15) (2023-08-29)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.14](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.13...@ant-design/pro-list@2.5.14) (2023-08-28)
+
+### Bug Fixes
+
+- **form:** fix FormItem name is null，but has data error ([#7583](https://github.com/ant-design/pro-components/issues/7583)) ([f8514e3](https://github.com/ant-design/pro-components/commit/f8514e33e57dd448398a34a2ecd76baf6e0a36d9))
+
+## [2.5.13](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.12...@ant-design/pro-list@2.5.13) (2023-08-17)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.12](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.11...@ant-design/pro-list@2.5.12) (2023-08-10)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.10...@ant-design/pro-list@2.5.11) (2023-08-04)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.9...@ant-design/pro-list@2.5.10) (2023-07-31)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.8...@ant-design/pro-list@2.5.9) (2023-07-31)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.7...@ant-design/pro-list@2.5.8) (2023-07-24)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.6...@ant-design/pro-list@2.5.7) (2023-07-19)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.5...@ant-design/pro-list@2.5.6) (2023-07-19)
+
+### Bug Fixes
+
+- **form:** select use options ([59d5e72](https://github.com/ant-design/pro-components/commit/59d5e72b3cd57d4d91ce2a0e0b6abde1f68f37cf))
+- **list:** ProList card support on checked ([2a0257e](https://github.com/ant-design/pro-components/commit/2a0257e476555323bf6813c4a3648c6a08dbb63d))
+
+## [2.5.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.4...@ant-design/pro-list@2.5.5) (2023-07-14)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.3...@ant-design/pro-list@2.5.4) (2023-07-04)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
 ## [2.5.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.2...@ant-design/pro-list@2.5.3) (2023-06-30)
 
 **Note:** Version bump only for package @ant-design/pro-list
@@ -154,7 +323,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Features
 
-- **components:** support antd@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
+- **components:** support antd\@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
 
 ## [2.1.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.1.1...@ant-design/pro-list@2.1.2) (2023-02-28)
 
@@ -363,7 +532,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **form:** 优化 ProList 类型描述,支持用户字段提示 ([#5807](https://github.com/ant-design/pro-components/issues/5807)) ([333bcfd](https://github.com/ant-design/pro-components/commit/333bcfd8d8ab4d729bf908b060593545973e4e3d))
+- **form:** 优化 ProList 类型描述，支持用户字段提示 ([#5807](https://github.com/ant-design/pro-components/issues/5807)) ([333bcfd](https://github.com/ant-design/pro-components/commit/333bcfd8d8ab4d729bf908b060593545973e4e3d))
 
 ## [2.0.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.0.2...@ant-design/pro-list@2.0.3) (2022-09-02)
 
@@ -1056,7 +1225,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **prolist:** title&description wordBreak ([#3059](https://github.com/ant-design/pro-components/issues/3059)) ([e84ced5](https://github.com/ant-design/pro-components/commit/e84ced54cf6128c79bf71b67f35d32bbba8cb9a1))
+- **prolist:** title\&description wordBreak ([#3059](https://github.com/ant-design/pro-components/issues/3059)) ([e84ced5](https://github.com/ant-design/pro-components/commit/e84ced54cf6128c79bf71b67f35d32bbba8cb9a1))
 
 ## [1.10.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@1.10.0...@ant-design/pro-list@1.10.1) (2021-06-18)
 

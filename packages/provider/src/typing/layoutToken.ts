@@ -32,7 +32,8 @@ export type BaseLayoutDesignToken = {
     menuHeight: number;
     colorBgMenuItemCollapsedElevated: string;
     colorMenuItemDivider: string;
-    colorBgMenuItemHover: string;
+    colorBgMenuItemHover: string; // 鼠标悬浮态
+    colorBgMenuItemActive: string; // 激活态
     colorBgMenuItemSelected: string;
     colorTextMenuSelected: string;
     colorTextMenuItemHover: string;
@@ -55,6 +56,7 @@ export type BaseLayoutDesignToken = {
     colorBgScrollHeader: string;
     colorHeaderTitle: string;
     colorBgMenuItemHover: string;
+    colorBgMenuElevated: string;
     colorBgMenuItemSelected: string;
     colorTextMenuSelected: string;
     colorTextMenuActive: string;
@@ -125,6 +127,10 @@ export const getLayoutDesignToken: (
       colorHeaderTitle: antdToken.colorText,
       colorBgMenuItemHover: setAlpha(antdToken.colorTextBase, 0.03),
       colorBgMenuItemSelected: 'transparent',
+      colorBgMenuElevated:
+        finalDesignTokens?.header?.colorBgHeader !== 'rgba(255, 255, 255, 0.6)'
+          ? finalDesignTokens.header?.colorBgHeader
+          : antdToken.colorBgElevated,
       colorTextMenuSelected: setAlpha(antdToken.colorTextBase, 0.95),
       colorBgRightActionsItemHover: setAlpha(antdToken.colorTextBase, 0.03),
       colorTextRightActionsItem: antdToken.colorTextTertiary,
@@ -159,7 +165,7 @@ export const getLayoutDesignToken: (
       paddingInlinePageContainerContent:
         finalDesignTokens.pageContainer?.marginInlinePageContainerContent || 40,
       paddingBlockPageContainerContent:
-        finalDesignTokens.pageContainer?.marginBlockPageContainerContent || 24,
+        finalDesignTokens.pageContainer?.marginBlockPageContainerContent || 32,
       colorBgPageContainerFixed: antdToken.colorBgElevated,
       ...finalDesignTokens.pageContainer,
     },

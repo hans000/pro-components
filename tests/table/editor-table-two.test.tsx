@@ -6,7 +6,13 @@ import type {
 } from '@ant-design/pro-components';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { EditableProTable } from '@ant-design/pro-table';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { Button, Input, InputNumber } from 'antd';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, { useRef } from 'react';
@@ -21,7 +27,7 @@ type DataSourceType = {
   }[];
   state?: string;
   time?: {
-    created_at?: string;
+    created_at?: number;
   };
   children?: DataSourceType[];
 };
@@ -32,7 +38,7 @@ const defaultData: DataSourceType[] = [
     title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
     labels: [{ name: 'bug', color: 'error' }],
     time: {
-      created_at: '1590486176000',
+      created_at: 1590486176000,
     },
     state: 'processing',
   },
@@ -41,7 +47,7 @@ const defaultData: DataSourceType[] = [
     title: '🐛 [BUG]无法创建工程npm create umi',
     labels: [{ name: 'bug', color: 'error' }],
     time: {
-      created_at: '1590481162000',
+      created_at: 1590481162000,
     },
     state: 'closed',
   },
@@ -51,7 +57,7 @@ const defaultData: DataSourceType[] = [
     labels: [{ name: 'question', color: 'success' }],
     state: 'open',
     time: {
-      created_at: '1590479665000',
+      created_at: 1590479665000,
     },
     children: [
       {
@@ -60,7 +66,7 @@ const defaultData: DataSourceType[] = [
         labels: [{ name: 'question', color: 'success' }],
         state: 'closed',
         time: {
-          created_at: '1590479665000',
+          created_at: 1590479665000,
         },
         children: [
           {
@@ -69,7 +75,7 @@ const defaultData: DataSourceType[] = [
             labels: [{ name: 'question', color: 'success' }],
             state: 'closed',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
           },
         ],
@@ -224,9 +230,14 @@ const EditorProTableDemo = (
     />
   );
 };
+
+afterEach(() => {
+  cleanup();
+});
+
 describe('EditorProTable 2', () => {
   it('📝 EditableProTable controlled will trigger onchange', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -245,7 +256,7 @@ describe('EditorProTable 2', () => {
             title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -284,7 +295,7 @@ describe('EditorProTable 2', () => {
         id: '624748504',
         title: '🐛 [BUG]yarn install命令',
         labels: [{ name: 'bug', color: 'error' }],
-        time: { created_at: '1590486176000' },
+        time: { created_at: 1590486176000 },
         state: 'processing',
         index: undefined,
       });
@@ -292,7 +303,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 EditableProTable render input controlled will trigger onchange', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -333,7 +344,7 @@ describe('EditorProTable 2', () => {
             title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -375,7 +386,7 @@ describe('EditorProTable 2', () => {
         id: '624748504',
         title: '🐛 [BUG]yarn install命令',
         labels: [{ name: 'bug', color: 'error' }],
-        time: { created_at: '1590486176000' },
+        time: { created_at: 1590486176000 },
         state: 'processing',
         index: undefined,
       });
@@ -383,7 +394,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 EditableProTable render ProFromText controlled will trigger onchange ', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -424,7 +435,7 @@ describe('EditorProTable 2', () => {
             title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -458,7 +469,7 @@ describe('EditorProTable 2', () => {
         id: '624748504',
         title: 'yarn install命令',
         labels: [{ name: 'bug', color: 'error' }],
-        time: { created_at: '1590486176000' },
+        time: { created_at: 1590486176000 },
         state: 'processing',
         index: undefined,
       });
@@ -466,7 +477,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 EditableProTable support name', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <ProForm
         initialValues={{
@@ -476,7 +487,7 @@ describe('EditorProTable 2', () => {
               title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
               labels: [{ name: 'bug', color: 'error' }],
               time: {
-                created_at: '1590486176000',
+                created_at: 1590486176000,
               },
               state: 'processing',
             },
@@ -522,7 +533,7 @@ describe('EditorProTable 2', () => {
             id: '624748504',
             title: '🐛 [BUG]yarn install命令',
             labels: [{ name: 'bug', color: 'error' }],
-            time: { created_at: '1590486176000' },
+            time: { created_at: 1590486176000 },
             state: 'processing',
             index: undefined,
           },
@@ -532,7 +543,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 EditableProTable support name and setRowData', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     let i = 0;
     const formRef = React.createRef<EditableFormInstance<any>>();
     const wrapper = render(
@@ -544,7 +555,7 @@ describe('EditorProTable 2', () => {
               title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
               labels: [{ name: 'bug', color: 'error' }],
               time: {
-                created_at: '1590486176000',
+                created_at: 1590486176000,
               },
               state: 'processing',
             },
@@ -569,7 +580,7 @@ describe('EditorProTable 2', () => {
                     });
                   }}
                 >
-                  动态设置此行
+                  动态设置此项
                 </a>,
               ];
             },
@@ -611,24 +622,25 @@ describe('EditorProTable 2', () => {
     });
 
     await waitFor(() => {
-      return wrapper.findAllByText('动态设置此行');
+      return wrapper.findAllByText('动态设置此项');
     });
 
     act(() => {
-      fireEvent.click(wrapper.getByText('动态设置此行'));
+      fireEvent.click(wrapper.getByText('动态设置此项'));
     });
     await waitFor(() => {
       return wrapper.findByDisplayValue('动态设置的title' + i);
     });
-
-    expect(formRef.current?.getFieldValue('table').length).toEqual(2);
+    await waitFor(() => {
+      expect(formRef.current?.getFieldValue?.('table').length).toEqual(2);
+    });
   });
 
   it('📝 EditableProTable ensures that xxxProps are functions also executed', async () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    const formItemPropsFn = jest.fn();
-    const fieldPropsFn = jest.fn();
+    const formItemPropsFn = vi.fn();
+    const fieldPropsFn = vi.fn();
 
     const currentlyColumns: ProColumns<DataSourceType>[] = [
       {
@@ -678,7 +690,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 sub-column values are correct in the form', async () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const currentlyColumns: ProColumns<DataSourceType>[] = [
       {
@@ -765,7 +777,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onEditorChange', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         onEditorChange={(keys) => {
@@ -787,7 +799,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onValuesChange', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -804,7 +816,7 @@ describe('EditorProTable 2', () => {
             title: 'install命令',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -843,8 +855,8 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 EditableProTable columns support dependencies', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -882,7 +894,7 @@ describe('EditorProTable 2', () => {
             title: 'install命令',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -905,7 +917,7 @@ describe('EditorProTable 2', () => {
     });
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await waitFor(
@@ -916,11 +928,11 @@ describe('EditorProTable 2', () => {
         timeout: 1000,
       },
     );
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('📝 support onValuesChange when is string key', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -932,7 +944,7 @@ describe('EditorProTable 2', () => {
             title: 'install',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -970,7 +982,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support newRecordType = dataSource', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1005,8 +1017,8 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onValueChange when newRecordType = cache', async () => {
-    const fn = jest.fn();
-    const onValueChangeFn = jest.fn();
+    const fn = vi.fn();
+    const onValueChangeFn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1082,7 +1094,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onValueChange when has name', async () => {
-    const onValueChangeFn = jest.fn();
+    const onValueChangeFn = vi.fn();
     const actionRef = React.createRef<ActionType | undefined>();
     const wrapper = render(
       <ProForm
@@ -1175,7 +1187,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onValuesChange and recordCreatorProps', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const newLineId = Date.now();
     const wrapper = render(
       <EditableProTable<DataSourceType>
@@ -1349,7 +1361,7 @@ describe('EditorProTable 2', () => {
             title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -1412,7 +1424,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support cancel click render false', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         onEditorChange={(keys) => {
@@ -1450,7 +1462,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 type=single, only edit one rows', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         defaultKeys={[624748504]}
@@ -1490,7 +1502,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 edit tree data table', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo onSave={fn} dataSource={[defaultData[2]]} />,
     );
@@ -1535,7 +1547,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 type=multiple, edit multiple rows', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         type="multiple"
@@ -1559,7 +1571,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onSave', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         hideRules
@@ -1609,8 +1621,8 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onDelete', async () => {
-    const fn = jest.fn();
-    jest.useFakeTimers();
+    const fn = vi.fn();
+    vi.useFakeTimers();
     const wrapper = render(
       <EditorProTableDemo
         hideRules
@@ -1628,7 +1640,7 @@ describe('EditorProTable 2', () => {
         .click();
     });
 
-    await act(async () => jest.runOnlyPendingTimers());
+    await act(async () => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(
@@ -1644,7 +1656,7 @@ describe('EditorProTable 2', () => {
       wrapper.queryAllByText('删除').at(0)?.click();
     });
 
-    await act(async () => jest.runOnlyPendingTimers());
+    await act(async () => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(fn).not.toBeCalled();
@@ -1654,19 +1666,19 @@ describe('EditorProTable 2', () => {
       wrapper.queryAllByText('确 定').at(0)?.click();
     });
 
-    await act(async () => jest.runOnlyPendingTimers());
+    await act(async () => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(fn).toBeCalledWith(624691229);
     });
     wrapper.unmount();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('📝 support onSave when add newLine', async () => {
-    const onSave = jest.fn();
-    const onDataSourceChange = jest.fn();
-    jest.useFakeTimers();
+    const onSave = vi.fn();
+    const onDataSourceChange = vi.fn();
+    vi.useFakeTimers();
     const wrapper = render(
       <EditorProTableDemo
         hideRules
@@ -1683,7 +1695,7 @@ describe('EditorProTable 2', () => {
         .click();
     });
 
-    await act(async () => jest.runOnlyPendingTimers());
+    await act(async () => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect.any(
@@ -1706,7 +1718,7 @@ describe('EditorProTable 2', () => {
       (await wrapper.queryAllByText('添加一行数据')).at(0)?.click();
     });
 
-    await act(async () => jest.runOnlyPendingTimers());
+    await act(async () => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(onSave).toBeCalledWith(624691229);
@@ -1716,7 +1728,7 @@ describe('EditorProTable 2', () => {
       expect(onDataSourceChange).toBeCalledWith(3);
     });
 
-    jest.useRealTimers();
+    vi.useRealTimers();
     wrapper.unmount();
   });
 
@@ -1758,7 +1770,7 @@ describe('EditorProTable 2', () => {
             title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -1820,7 +1832,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onSave support false', async () => {
-    const onSaveFn = jest.fn();
+    const onSaveFn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         hideRules
@@ -1865,7 +1877,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onCancel', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(<EditorProTableDemo onCancel={(key) => fn(key)} />);
     await wrapper.findAllByText('编辑');
     act(() => {
@@ -1895,7 +1907,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onCancel support false', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         onCancel={async (key) => {
@@ -1978,7 +1990,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onDelete dom render', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         onDelete={async (key) => {
@@ -2019,7 +2031,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support onDelete return false', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo
         onDelete={async (key) => {
@@ -2056,7 +2068,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support form rules', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditorProTableDemo onSave={(key, row) => fn(row.title)} />,
     );
@@ -2122,7 +2134,7 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support add line for start', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(<EditorProTableDemo position="top" onSave={fn} />);
     await wrapper.findAllByText('编辑');
 
@@ -2185,9 +2197,9 @@ describe('EditorProTable 2', () => {
   });
 
   it('📝 support add line for bottom', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(<EditorProTableDemo onSave={fn} />);
-    await wrapper.findByText('增加一行');
+    await wrapper.findAllByText('增加一行');
 
     await waitFor(() => {
       expect(
@@ -2311,7 +2323,7 @@ describe('EditorProTable 2', () => {
 
   it('📝 support add line when single line edit when keys', async () => {
     const wrapper = render(<EditorProTableDemo editorRowKeys={[624748504]} />);
-    await wrapper.findByText('增加一行');
+    await wrapper.findAllByText('增加一行');
     await waitFor(() => {
       expect(
         wrapper.container
@@ -2347,7 +2359,7 @@ describe('EditorProTable 2', () => {
 
   it('📝 support add line when single line edit', async () => {
     const wrapper = render(<EditorProTableDemo />);
-    await wrapper.findByText('增加一行');
+    await wrapper.findAllByText('增加一行');
     await waitFor(
       () => {
         expect(

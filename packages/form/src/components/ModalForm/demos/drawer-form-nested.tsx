@@ -7,7 +7,7 @@ import {
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Button, message, Space } from 'antd';
+import { Button, Space, message } from 'antd';
 import { useRef } from 'react';
 
 const waitTime = (time: number = 100) => {
@@ -33,6 +33,7 @@ export default () => {
         }>
           title="新建表单"
           formRef={formRef}
+          width={600}
           trigger={
             <Button type="primary">
               <PlusOutlined />

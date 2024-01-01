@@ -8,6 +8,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
   arrayMove,
   SortableContext,
@@ -16,7 +17,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { TableComponents } from 'rc-table/lib/interface';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useCallback, useContext, useMemo } from 'react';
 
 const SortableItemContextValue = createContext<{
   handle: React.ReactNode;
@@ -109,7 +110,11 @@ const SortableItemCell = React.memo((props: any) => {
 
 export interface UseDragSortOptions<T> {
   dataSource?: T[];
-  onDragSortEnd?: (newDataSource: T[]) => Promise<void> | void;
+  onDragSortEnd?: (
+    beforeIndex: number,
+    afterIndex: number,
+    newDataSource: T[],
+  ) => Promise<void> | void;
   dragSortKey?: string;
   components?: TableComponents<T>;
   rowKey: any;
@@ -120,20 +125,26 @@ const SortContainer = (p: any) => <tbody {...p} />;
 
 export function useDragSort<T>(props: UseDragSortOptions<T>) {
   const { dataSource = [], onDragSortEnd, DragHandle, dragSortKey } = props;
-
   const sensors = useSensors(useSensor(PointerSensor), useSensor(MouseSensor));
 
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (over?.id?.toString() && active.id !== over?.id) {
-      const newData = arrayMove<T>(
-        dataSource || [],
-        parseInt(active.id as string),
-        parseInt(over.id as string),
-      );
-      onDragSortEnd?.(newData || []);
-    }
-  }
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (over?.id?.toString() && active.id !== over?.id) {
+        const newData = arrayMove<T>(
+          dataSource || [],
+          parseInt(active.id as string),
+          parseInt(over.id as string),
+        );
+        onDragSortEnd?.(
+          parseInt(active.id as string),
+          parseInt(over.id as string),
+          newData || [],
+        );
+      }
+    },
+    [dataSource, onDragSortEnd],
+  );
 
   const DraggableContainer = useRefFunction((p: any) => (
     <SortableContext
@@ -176,10 +187,11 @@ export function useDragSort<T>(props: UseDragSortOptions<T>) {
     };
   }
 
-  return {
-    DndContext: (contextProps: any) => {
+  const memoDndContext = useMemo(
+    () => (contextProps: any) => {
       return (
         <DndContext
+          modifiers={[restrictToVerticalAxis]}
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
@@ -188,6 +200,11 @@ export function useDragSort<T>(props: UseDragSortOptions<T>) {
         </DndContext>
       );
     },
+    [handleDragEnd, sensors],
+  );
+
+  return {
+    DndContext: memoDndContext,
     components,
   };
 }

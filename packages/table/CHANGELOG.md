@@ -2,6 +2,226 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.13.12](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.11...@ant-design/pro-table@3.13.12) (2023-12-12)
+
+### Bug Fixes
+
+- **layout:** slove DensityIcon setting not work ([#7942](https://github.com/ant-design/pro-components/issues/7942)) ([f51ee6a](https://github.com/ant-design/pro-components/commit/f51ee6a80f2b8b5973261a2f5899fa757a838681))
+- **table:** DragSortTable --- Reorder columns by dragging and dropping columns will have issues when the table has fixed columns first ([#7936](https://github.com/ant-design/pro-components/issues/7936)) ([38a5cbc](https://github.com/ant-design/pro-components/commit/38a5cbc930ba70c78f71f60abd8e206f14984f83)), closes [#7631](https://github.com/ant-design/pro-components/issues/7631)
+- **table:** remove unless code ([#7954](https://github.com/ant-design/pro-components/issues/7954)) ([c6b6ae3](https://github.com/ant-design/pro-components/commit/c6b6ae3a985ec00cf3e3e1f318425af167187ac6))
+
+## [3.13.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.10...@ant-design/pro-table@3.13.11) (2023-11-22)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.9...@ant-design/pro-table@3.13.10) (2023-11-20)
+
+### Bug Fixes
+
+- **table:** slove editable wrapper by null initvalue ([#7900](https://github.com/ant-design/pro-components/issues/7900)) ([c9cad09](https://github.com/ant-design/pro-components/commit/c9cad091682eeb3b0901f7e7dcbf9f5583ea31dd))
+
+## [3.13.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.8...@ant-design/pro-table@3.13.9) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.7...@ant-design/pro-table@3.13.8) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.6...@ant-design/pro-table@3.13.7) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.5...@ant-design/pro-table@3.13.6) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.4...@ant-design/pro-table@3.13.5) (2023-11-15)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.3...@ant-design/pro-table@3.13.4) (2023-11-14)
+
+### Bug Fixes
+
+- **table:** less render function ([b314a37](https://github.com/ant-design/pro-components/commit/b314a37b2c3de7afeba877d07963403b4ebc8a3d))
+
+## [3.13.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.2...@ant-design/pro-table@3.13.3) (2023-11-01)
+
+### Bug Fixes
+
+- **table:** 修复不能单独展示 filter 的问题 ([b77b5d4](https://github.com/ant-design/pro-components/commit/b77b5d4a91aaf6f7e229c80350ea0d6ee656ff30))
+- update table.md ([#7818](https://github.com/ant-design/pro-components/issues/7818)) ([fb385c3](https://github.com/ant-design/pro-components/commit/fb385c30d60a35e165ac765ab3dea7534c24aa90))
+
+## [3.13.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.1...@ant-design/pro-table@3.13.2) (2023-10-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.13.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.13.0...@ant-design/pro-table@3.13.1) (2023-10-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+# [3.13.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.15...@ant-design/pro-table@3.13.0) (2023-10-24)
+
+### Features
+
+- **table:** expose `index` in `onDragSortEnd` ([#7803](https://github.com/ant-design/pro-components/issues/7803)) ([8a0786a](https://github.com/ant-design/pro-components/commit/8a0786a2cfe5c738b4928a0c11db247c1438f945))
+
+## [3.12.15](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.14...@ant-design/pro-table@3.12.15) (2023-10-19)
+
+### Bug Fixes
+
+- **table:** 修复 EditableProTable 实时编辑表格存在 name 属性且有分页的时候，渲染的数据总是为第一页 ([#7794](https://github.com/ant-design/pro-components/issues/7794)) ([eda3b82](https://github.com/ant-design/pro-components/commit/eda3b8263e4889a930a9e5655f75dc9a6fe06a00))
+
+## [3.12.14](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.13...@ant-design/pro-table@3.12.14) (2023-10-13)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.13](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.12...@ant-design/pro-table@3.12.13) (2023-10-11)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.12](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.11...@ant-design/pro-table@3.12.12) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.10...@ant-design/pro-table@3.12.11) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.9...@ant-design/pro-table@3.12.10) (2023-09-26)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.8...@ant-design/pro-table@3.12.9) (2023-09-26)
+
+### Bug Fixes
+
+- **table:** unuse Tab.TabPanel ([#7731](https://github.com/ant-design/pro-components/issues/7731)) ([344729c](https://github.com/ant-design/pro-components/commit/344729c1c2c2d328738bc0a7af899236d5668f41))
+
+## [3.12.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.7...@ant-design/pro-table@3.12.8) (2023-09-25)
+
+### Bug Fixes
+
+- **layout:** 统一 PageContainer 计算到 styles.ts 中 ([#7699](https://github.com/ant-design/pro-components/issues/7699)) ([ed5c61c](https://github.com/ant-design/pro-components/commit/ed5c61ced2bda9e0f6bab22f3c942792eec682b6))
+- **table:** 修复 editableFormRef hooks 未正确传递 deps 依赖导致 value 取值不是最新 ([#7707](https://github.com/ant-design/pro-components/issues/7707)) ([f93ebed](https://github.com/ant-design/pro-components/commit/f93ebed9ad8aede82bf854b7cc5afbc7a4373f53))
+
+## [3.12.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.6...@ant-design/pro-table@3.12.7) (2023-09-19)
+
+### Bug Fixes
+
+- **layout:** unuse Tab.TabPanel ([6dd59a2](https://github.com/ant-design/pro-components/commit/6dd59a22b46696aa3d89680b7c2635b75be60aaf))
+- **table:** 修复 ColumnSetting Tree 组件 title 过长导致强制换行的问题 ([08ded31](https://github.com/ant-design/pro-components/commit/08ded31326c3139865d5c291745ecb2c7659f67b))
+
+## [3.12.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.5...@ant-design/pro-table@3.12.6) (2023-09-18)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.4...@ant-design/pro-table@3.12.5) (2023-09-18)
+
+### Bug Fixes
+
+- **table:** EditableProTable reset FormItem grid ([c53ecce](https://github.com/ant-design/pro-components/commit/c53ecce5d82553f952b19db22903970f13a586a5))
+
+## [3.12.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.3...@ant-design/pro-table@3.12.4) (2023-09-14)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.2...@ant-design/pro-table@3.12.3) (2023-09-07)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.12.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.1...@ant-design/pro-table@3.12.2) (2023-09-06)
+
+### Bug Fixes
+
+- **table:** sortConfig 值为 undefined 时与默认值 {} 不一致，会导致翻页时再次触发 request 请求 ([#7616](https://github.com/ant-design/pro-components/issues/7616)) ([c51be62](https://github.com/ant-design/pro-components/commit/c51be62a7045abdee73467985c9d9a61835751ee))
+- remove stringify ([25d2c42](https://github.com/ant-design/pro-components/commit/25d2c42a0bda673a0b40b5ae56bd0a852998ecd1))
+
+## [3.12.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.12.0...@ant-design/pro-table@3.12.1) (2023-08-30)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+# [3.12.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.11.1...@ant-design/pro-table@3.12.0) (2023-08-29)
+
+### Bug Fixes
+
+- **form:** 解决因 stringify 导致死循环的问题 ([#7599](https://github.com/ant-design/pro-components/issues/7599)) ([d1ab1d1](https://github.com/ant-design/pro-components/commit/d1ab1d1a256cfe41beba7f69abf3588de7dbd446))
+- ProColumnGroupType => ProColumns ([#7601](https://github.com/ant-design/pro-components/issues/7601)) ([5aba49e](https://github.com/ant-design/pro-components/commit/5aba49e3bc1d87c844e4f2def5878ae3c8f9e916))
+
+### Features
+
+- **table:** table columns setting add fixable config ([#7586](https://github.com/ant-design/pro-components/issues/7586)) ([b869c7a](https://github.com/ant-design/pro-components/commit/b869c7ac6a3c29e08f6f2621dacaa411f1d901b6))
+
+## [3.11.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.11.0...@ant-design/pro-table@3.11.1) (2023-08-28)
+
+### Bug Fixes
+
+- **form:** fix FormItem name is null，but has data error ([#7583](https://github.com/ant-design/pro-components/issues/7583)) ([f8514e3](https://github.com/ant-design/pro-components/commit/f8514e33e57dd448398a34a2ecd76baf6e0a36d9))
+
+# [3.11.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.6...@ant-design/pro-table@3.11.0) (2023-08-17)
+
+### Features
+
+- **table:** custom `toolbar` icon ([#7521](https://github.com/ant-design/pro-components/issues/7521)) ([f3669e0](https://github.com/ant-design/pro-components/commit/f3669e063fda949b130ae432c3c2556ca196349c))
+
+## [3.10.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.5...@ant-design/pro-table@3.10.6) (2023-08-10)
+
+### Bug Fixes
+
+- **table:** DragSortTable 每次 render 执行时 Table DOM 会销毁重建新的 DOM ([#7490](https://github.com/ant-design/pro-components/issues/7490)) ([481d7a2](https://github.com/ant-design/pro-components/commit/481d7a2aa1494af787c7cc81a6f074a1bd5068df))
+
+## [3.10.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.4...@ant-design/pro-table@3.10.5) (2023-08-04)
+
+### Bug Fixes
+
+- **table:** restrict movement to only the vertical axis. ([5a8f9fb](https://github.com/ant-design/pro-components/commit/5a8f9fb9127cc58972b279fc3577b240b5b8b445))
+
+## [3.10.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.3...@ant-design/pro-table@3.10.4) (2023-07-31)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.10.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.2...@ant-design/pro-table@3.10.3) (2023-07-31)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.10.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.1...@ant-design/pro-table@3.10.2) (2023-07-24)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+## [3.10.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.10.0...@ant-design/pro-table@3.10.1) (2023-07-19)
+
+**Note:** Version bump only for package @ant-design/pro-table
+
+# [3.10.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.9.1...@ant-design/pro-table@3.10.0) (2023-07-19)
+
+### Bug Fixes
+
+- **table:** dataSource support string list ([7b81b4c](https://github.com/ant-design/pro-components/commit/7b81b4c8ae247ccc4198ef597a9ae58d83ab697a))
+- **table:** fix renderFormItem render twice render time ([c3b8ffd](https://github.com/ant-design/pro-components/commit/c3b8ffd62f2100789e749907b5aef84c6966c528))
+- **table:** Fix the columnsSetting styling issue in controlling column state when the table header is too long ([5b746b3](https://github.com/ant-design/pro-components/commit/5b746b3cfef9a2da021d963d8c723e5a9b9b829a))
+- **table:** Fix the issue of actionref not being synchronized ([2160fb8](https://github.com/ant-design/pro-components/commit/2160fb846bcfe41809a37dfe6e1cc3fce1d211e7))
+- **table:** Fix the issue where align="center" is not working ([db6fc65](https://github.com/ant-design/pro-components/commit/db6fc655b9994826238bb6b63588467ff8c6a6f8))
+- **table:** params change awaly reload fetch ([b147a16](https://github.com/ant-design/pro-components/commit/b147a16cd5d15bf6aad383683d9ffecdf1861e1d))
+- **table:** Protable support EXPAND\_COLUMN and SELECTION\_COLUMN ([3454347](https://github.com/ant-design/pro-components/commit/34543475aaf00f7a73b2bcd148021fc7eb13bba9))
+- **table:** when checkable=false, no render all select boxs ([5421e41](https://github.com/ant-design/pro-components/commit/5421e41671afc084d6ba6cdb992e5320e72c2f8d))
+
+### Features
+
+- **table:** ProTable support optionsRender ([8b56b6a](https://github.com/ant-design/pro-components/commit/8b56b6ae20aa21d80ad8bb4c17239a5bf9192f0b))
+
+## [3.9.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.9.0...@ant-design/pro-table@3.9.1) (2023-07-14)
+
+### Bug Fixes
+
+- **table:** export edito pro table props ([#7330](https://github.com/ant-design/pro-components/issues/7330)) ([011de57](https://github.com/ant-design/pro-components/commit/011de5789393a6c2dd68d4f970053139f2d5ea40))
+
+# [3.9.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.8.3...@ant-design/pro-table@3.9.0) (2023-07-04)
+
+### Features
+
+- **table:** add support of custom render serch form ([#7307](https://github.com/ant-design/pro-components/issues/7307)) ([7f83ae0](https://github.com/ant-design/pro-components/commit/7f83ae084d0ed48aca9c978b13053dda801c6898))
+
 ## [3.8.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.8.2...@ant-design/pro-table@3.8.3) (2023-06-30)
 
 ### Bug Fixes
@@ -55,7 +275,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **components:** fix useToken no supoort antd@4 的问题 ([58b96e9](https://github.com/ant-design/pro-components/commit/58b96e91632c0c84c429d5384c13ee6f3146e017))
+- **components:** fix useToken no supoort antd\@4 的问题 ([58b96e9](https://github.com/ant-design/pro-components/commit/58b96e91632c0c84c429d5384c13ee6f3146e017))
 
 ## [3.7.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.7.5...@ant-design/pro-table@3.7.6) (2023-06-12)
 
@@ -144,7 +364,7 @@ All notable changes to this project will be documented in this file. See [Conven
 ### Bug Fixes
 
 - **table:** new fetch function ([#6923](https://github.com/ant-design/pro-components/issues/6923)) ([275e9c1](https://github.com/ant-design/pro-components/commit/275e9c108ec939f13dbea002b5d287a074fce42e))
-- **table:** 修复当 loading 为对象时,pro-table 无法接管 loading 状态,必须手动控制的问题 ([#6962](https://github.com/ant-design/pro-components/issues/6962)) ([59bdd1a](https://github.com/ant-design/pro-components/commit/59bdd1ab39b581e8b2ebeedf14943ce35bcd9f9c))
+- **table:** 修复当 loading 为对象时，pro-table 无法接管 loading 状态，必须手动控制的问题 ([#6962](https://github.com/ant-design/pro-components/issues/6962)) ([59bdd1a](https://github.com/ant-design/pro-components/commit/59bdd1ab39b581e8b2ebeedf14943ce35bcd9f9c))
 
 ## [3.6.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.6.0...@ant-design/pro-table@3.6.1) (2023-03-27)
 
@@ -186,7 +406,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Features
 
-- **components:** support antd@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
+- **components:** support antd\@5.4.0 ([#6730](https://github.com/ant-design/pro-components/issues/6730)) ([1ac506f](https://github.com/ant-design/pro-components/commit/1ac506f8e46a30089437cdfe58a5f96447c39f7a))
 - **layout:** add ProHelp components ([#6654](https://github.com/ant-design/pro-components/issues/6654)) ([b1a175c](https://github.com/ant-design/pro-components/commit/b1a175c9ecbdf24a26f1cf34e10a92da05ab2b9c)), closes [#6671](https://github.com/ant-design/pro-components/issues/6671) [#6676](https://github.com/ant-design/pro-components/issues/6676)
 
 ### Reverts
@@ -197,7 +417,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **table:** ProTable 组件 toolbar menu 属性为 tab 时抖动问题([#6584](https://github.com/ant-design/pro-components/issues/6584)) ([#6641](https://github.com/ant-design/pro-components/issues/6641)) ([14301f0](https://github.com/ant-design/pro-components/commit/14301f0200c69fbc1c656105c0e35e5824e0c6c8))
+- **table:** ProTable 组件 toolbar menu 属性为 tab 时抖动问题 ([#6584](https://github.com/ant-design/pro-components/issues/6584)) ([#6641](https://github.com/ant-design/pro-components/issues/6641)) ([14301f0](https://github.com/ant-design/pro-components/commit/14301f0200c69fbc1c656105c0e35e5824e0c6c8))
 - **table:** selectedRows 拿不到最新的值 ([#6671](https://github.com/ant-design/pro-components/issues/6671)) ([38595ba](https://github.com/ant-design/pro-components/commit/38595ba3a2c34fac8e02ad81535f2b4d026f0184))
 - remove debugger ([#6634](https://github.com/ant-design/pro-components/issues/6634)) ([328af05](https://github.com/ant-design/pro-components/commit/328af0593cdef0b5a8c5099d88bba43f829cf4ef))
 
@@ -239,9 +459,9 @@ All notable changes to this project will be documented in this file. See [Conven
 ### Bug Fixes
 
 - **table:** fix cancelEditable will reset value error ([40fba50](https://github.com/ant-design/pro-components/commit/40fba50d987cfcbf1dd37d0593c88123b04dfbb7))
-- **Table:** 列配置子项 disable 时，“固定”按钮点击无效 ([#6475](https://github.com/ant-design/pro-components/issues/6475)) ([fd6aaed](https://github.com/ant-design/pro-components/commit/fd6aaed341337cd9804235b3a4accab16f4d16a3))
+- **Table:** 列配置子项 disable 时，“固定” 按钮点击无效 ([#6475](https://github.com/ant-design/pro-components/issues/6475)) ([fd6aaed](https://github.com/ant-design/pro-components/commit/fd6aaed341337cd9804235b3a4accab16f4d16a3))
 - **Table:** 列配置子项 disable 时，无法拖动调整顺序 ([#6476](https://github.com/ant-design/pro-components/issues/6476)) ([6c4744e](https://github.com/ant-design/pro-components/commit/6c4744ed0249bc5681bf63f3bde42c54b8eb6894))
-- **Table:** 列配置点击“列展示”全选操作时，顺序排列和 disable 状态异常 ([#6477](https://github.com/ant-design/pro-components/issues/6477)) ([458db48](https://github.com/ant-design/pro-components/commit/458db48df13e742859ba608387740b2acb5890ff))
+- **Table:** 列配置点击 “列展示” 全选操作时，顺序排列和 disable 状态异常 ([#6477](https://github.com/ant-design/pro-components/issues/6477)) ([458db48](https://github.com/ant-design/pro-components/commit/458db48df13e742859ba608387740b2acb5890ff))
 
 ## [3.2.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@3.2.10...@ant-design/pro-table@3.2.11) (2023-01-06)
 
@@ -616,7 +836,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 - **form:** remove HOC when light=false ([5862557](https://github.com/ant-design/pro-components/commit/586255754db878c0c9efa4755ec7469e5cf0c386))
 - **table:** method coverRowKey 关于 at 兼容性问题修复 ([#5473](https://github.com/ant-design/pro-components/issues/5473)) ([154af3e](https://github.com/ant-design/pro-components/commit/154af3ed67baf2eaff45f08289518ae787c3812a))
-- ’添加一行数据'国际化问题 ([#5469](https://github.com/ant-design/pro-components/issues/5469)) ([85cc727](https://github.com/ant-design/pro-components/commit/85cc7275bb58e52e84f25594952d9612742102a0))
+- ’添加一行数据 ' 国际化问题 ([#5469](https://github.com/ant-design/pro-components/issues/5469)) ([85cc727](https://github.com/ant-design/pro-components/commit/85cc7275bb58e52e84f25594952d9612742102a0))
 
 # [2.77.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@2.76.4...@ant-design/pro-table@2.77.0) (2022-06-30)
 
@@ -732,7 +952,7 @@ All notable changes to this project will be documented in this file. See [Conven
 ### Features
 
 - **form:** 提交表单时，禁用取消按钮和右上角关闭按钮，直到 onFinish 异步回调执行完成 ([#5078](https://github.com/ant-design/pro-components/issues/5078)) ([ff1a4e0](https://github.com/ant-design/pro-components/commit/ff1a4e07df6a42282cf392fb5992d1afa25b7b48))
-- **table:** reinitialize umountRef for react@18 strict mode ([#5085](https://github.com/ant-design/pro-components/issues/5085)) ([8a4652a](https://github.com/ant-design/pro-components/commit/8a4652a143088eee3205195824c7f5720796c020))
+- **table:** reinitialize umountRef for react\@18 strict mode ([#5085](https://github.com/ant-design/pro-components/issues/5085)) ([8a4652a](https://github.com/ant-design/pro-components/commit/8a4652a143088eee3205195824c7f5720796c020))
 
 ## [2.71.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@2.71.6...@ant-design/pro-table@2.71.7) (2022-04-18)
 
@@ -1193,7 +1413,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Features
 
-- 工具栏-列设置-新增 slot ([#3808](https://github.com/ant-design/pro-components/issues/3808)) ([a08fff3](https://github.com/ant-design/pro-components/commit/a08fff317b516c466aab96027bda4614185ff91c))
+- 工具栏 - 列设置 - 新增 slot ([#3808](https://github.com/ant-design/pro-components/issues/3808)) ([a08fff3](https://github.com/ant-design/pro-components/commit/a08fff317b516c466aab96027bda4614185ff91c))
 
 # [2.55.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@2.54.5...@ant-design/pro-table@2.55.0) (2021-10-08)
 
@@ -1255,7 +1475,7 @@ All notable changes to this project will be documented in this file. See [Conven
 ### Bug Fixes
 
 - **form:** if valueType need request, note need request ([#3575](https://github.com/ant-design/pro-components/issues/3575)) ([41bb815](https://github.com/ant-design/pro-components/commit/41bb81540408659256da329fe0eb02e5c1583ea5))
-- **Form:** 当原先在 url 中存在的字段被删除时，应该讲 params 中的该字段设置为 undefined,以便触发 url 同步删除 ([#3558](https://github.com/ant-design/pro-components/issues/3558)) ([cbce2f8](https://github.com/ant-design/pro-components/commit/cbce2f8f6df5b1d19f29424368867c118941579a)), closes [Form#3547](https://github.com/Form/issues/3547) [#3547](https://github.com/ant-design/pro-components/issues/3547)
+- **Form:** 当原先在 url 中存在的字段被删除时，应该讲 params 中的该字段设置为 undefined, 以便触发 url 同步删除 ([#3558](https://github.com/ant-design/pro-components/issues/3558)) ([cbce2f8](https://github.com/ant-design/pro-components/commit/cbce2f8f6df5b1d19f29424368867c118941579a)), closes [Form#3547](https://github.com/Form/issues/3547) [#3547](https://github.com/ant-design/pro-components/issues/3547)
 - **utils:** remove array move ([#3571](https://github.com/ant-design/pro-components/issues/3571)) ([f77f6e2](https://github.com/ant-design/pro-components/commit/f77f6e2d7ac041a7804af1aaa3612068bc539c0d))
 - **utils:** use array-move latest version ([12ea1ff](https://github.com/ant-design/pro-components/commit/12ea1ffd6c421ad3ff2140cf9e7ff81a93b1174d))
 - EditableTable 的类型 ValueType 提示补充 ([#3559](https://github.com/ant-design/pro-components/issues/3559)) ([cc3a87e](https://github.com/ant-design/pro-components/commit/cc3a87edfa043064293a5ededc771741b2e4c414))
@@ -1895,7 +2115,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **table:** 设置 pageSize 后,查询或重置没获取最新的 pageSize ([#1352](https://github.com/ant-design/pro-components/issues/1352)) ([535d93a](https://github.com/ant-design/pro-components/commit/535d93a5da4861a3901750b88e04f4728acfb20b))
+- **table:** 设置 pageSize 后，查询或重置没获取最新的 pageSize ([#1352](https://github.com/ant-design/pro-components/issues/1352)) ([535d93a](https://github.com/ant-design/pro-components/commit/535d93a5da4861a3901750b88e04f4728acfb20b))
 
 ## [2.16.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@2.16.1...@ant-design/pro-table@2.16.2) (2020-12-17)
 
@@ -2215,7 +2435,7 @@ All notable changes to this project will be documented in this file. See [Conven
 - **table:** 搜索项如果只选择起始日期时，会出现 Invalid Date ([#123](https://github.com/ant-design/pro-components/issues/123)) ([a8c26e2](https://github.com/ant-design/pro-components/commit/a8c26e26167d91a08ebcf15fea63bd7692196764))
 - iteration key ([6b63e42](https://github.com/ant-design/pro-components/commit/6b63e425ae8ee5d65fb6e3cb7e52c6808d2d848b))
 - 修复 ci 问题 ([b8b8048](https://github.com/ant-design/pro-components/commit/b8b80482b17d21f0535aca15dfdd04e4e84f212b))
-- 删掉不用的代码,避免干扰 ([9f93a2e](https://github.com/ant-design/pro-components/commit/9f93a2e4cb8515c1d629e695c7c9e4fb21af6526))
+- 删掉不用的代码，避免干扰 ([9f93a2e](https://github.com/ant-design/pro-components/commit/9f93a2e4cb8515c1d629e695c7c9e4fb21af6526))
 - 补上 API ([0c775dc](https://github.com/ant-design/pro-components/commit/0c775dc7da0f6bea32798ff41ee40012eaca30c5))
 
 # [2.5.0-beta.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-table@1.0.0-beta.3...@ant-design/pro-table@2.5.0-beta.1) (2020-07-30)

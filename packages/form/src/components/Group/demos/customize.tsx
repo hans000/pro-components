@@ -35,12 +35,12 @@ const initialValue = {
   copyIconProps: {
     show: true,
     Icon: 'CopyOutlined',
-    tooltipText: '复制此行',
+    tooltipText: '复制此项',
   },
   deleteIconProps: {
     show: true,
     Icon: 'DeleteOutlined',
-    tooltipText: '删除此行',
+    tooltipText: '删除此项',
   },
   creatorButtonProps: {
     show: true,
@@ -100,15 +100,17 @@ const Demo = () => {
             setJson(JSON.stringify(values));
 
             if (values?.copyIconProps?.Icon) {
-              values.copyIconProps.Icon = IconMap[values?.copyIconProps?.Icon];
+              values.copyIconProps.Icon =
+                IconMap[values?.copyIconProps?.Icon as 'PlusOutlined'];
             }
 
             if (values?.deleteIconProps?.Icon) {
               values.deleteIconProps.Icon =
-                IconMap[values?.deleteIconProps?.Icon];
+                IconMap[values?.deleteIconProps?.Icon as 'PlusOutlined'];
             }
             if (values?.creatorButtonProps?.icon) {
-              const Icon = IconMap[values?.creatorButtonProps?.icon];
+              const Icon =
+                IconMap[values?.creatorButtonProps?.icon as 'PlusOutlined'];
               values.creatorButtonProps.icon = <Icon />;
             }
             setStateValue(values);
@@ -144,7 +146,7 @@ const Demo = () => {
                       label="图标"
                       request={async () => {
                         return Object.keys(IconMap).map((value) => {
-                          const Icon = IconMap[value];
+                          const Icon = IconMap[value as 'PlusOutlined'];
                           return {
                             label: <Icon />,
                             value,
@@ -221,7 +223,7 @@ const Demo = () => {
                       label="图标"
                       request={async () => {
                         return Object.keys(IconMap).map((value) => {
-                          const Icon = IconMap[value];
+                          const Icon = IconMap[value as 'PlusOutlined'];
                           return {
                             label: <Icon />,
                             value,
@@ -264,7 +266,7 @@ const Demo = () => {
                       label="图标"
                       request={async () => {
                         return Object.keys(IconMap).map((value) => {
-                          const Icon = IconMap[value];
+                          const Icon = IconMap[value as 'PlusOutlined'];
                           return {
                             label: <Icon />,
                             value,

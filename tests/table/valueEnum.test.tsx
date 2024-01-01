@@ -1,6 +1,6 @@
 import ProProvider from '@ant-design/pro-provider';
 import ProTable from '@ant-design/pro-table';
-import { act, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
 import { Input } from 'antd';
 import { useContext } from 'react';
 import { waitForWaitTime } from '../util';
@@ -47,6 +47,10 @@ const Demo = () => {
   );
 };
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('Table valueEnum', () => {
   it('🎏 dynamic enum test', async () => {
     const html = render(
@@ -56,6 +60,7 @@ describe('Table valueEnum', () => {
           {
             title: '状态',
             dataIndex: 'status',
+            valueType: 'select',
             valueEnum: {},
             fieldProps: {
               open: true,
@@ -73,7 +78,9 @@ describe('Table valueEnum', () => {
         rowKey="key"
       />,
     );
-    await waitForWaitTime(1200);
+    await waitFor(() => {
+      return html.findAllByText('2');
+    });
 
     act(() => {
       html.rerender(
@@ -91,6 +98,7 @@ describe('Table valueEnum', () => {
           columns={[
             {
               title: '状态',
+              valueType: 'select',
               dataIndex: 'status',
               valueEnum: {
                 0: { text: '关闭', status: 'Default' },
@@ -106,7 +114,11 @@ describe('Table valueEnum', () => {
         />,
       );
     });
-    await waitForWaitTime(200);
+
+    await waitFor(() => {
+      return html.findAllByText('已上线');
+    });
+
     act(() => {
       html.baseElement
         .querySelector<HTMLDivElement>('form.ant-form div.ant-select')
@@ -119,6 +131,9 @@ describe('Table valueEnum', () => {
         )?.textContent,
       ).toBe('01关闭运行中已上线异常');
     });
+
+    console.log(html.baseElement.querySelector('table')?.innerHTML);
+
     expect(
       html.baseElement.querySelector<HTMLDivElement>('td.ant-table-cell')
         ?.textContent,
@@ -132,7 +147,7 @@ describe('Table valueEnum', () => {
   });
 
   it('🎏 dynamic request', async () => {
-    const request = jest.fn();
+    const request = vi.fn();
     render(
       <ProTable
         size="small"
@@ -140,6 +155,7 @@ describe('Table valueEnum', () => {
           {
             title: '状态',
             dataIndex: 'status',
+            valueType: 'select',
             valueEnum: {},
             fieldProps: {
               open: true,

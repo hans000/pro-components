@@ -26,7 +26,7 @@ type DataSourceType = {
   }[];
   state?: string;
   time?: {
-    created_at?: string;
+    created_at?: number;
   };
   children?: DataSourceType[];
 };
@@ -37,7 +37,7 @@ const defaultData: DataSourceType[] = [
     title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
     labels: [{ name: 'bug', color: 'error' }],
     time: {
-      created_at: '1590486176000',
+      created_at: 1590486176000,
     },
     state: 'processing',
   },
@@ -46,7 +46,7 @@ const defaultData: DataSourceType[] = [
     title: '🐛 [BUG]无法创建工程npm create umi',
     labels: [{ name: 'bug', color: 'error' }],
     time: {
-      created_at: '1590481162000',
+      created_at: 1590481162000,
     },
     state: 'closed',
   },
@@ -56,7 +56,7 @@ const defaultData: DataSourceType[] = [
     labels: [{ name: 'question', color: 'success' }],
     state: 'open',
     time: {
-      created_at: '1590479665000',
+      created_at: 1590479665000,
     },
     children: [
       {
@@ -65,7 +65,7 @@ const defaultData: DataSourceType[] = [
         labels: [{ name: 'question', color: 'success' }],
         state: 'closed',
         time: {
-          created_at: '1590479665000',
+          created_at: 1590479665000,
         },
         children: [
           {
@@ -74,7 +74,7 @@ const defaultData: DataSourceType[] = [
             labels: [{ name: 'question', color: 'success' }],
             state: 'closed',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
           },
         ],
@@ -155,6 +155,10 @@ const columns: ProColumns<DataSourceType>[] = [
   },
 ];
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('EditorProTable', () => {
   afterEach(() => {
     cleanup();
@@ -173,7 +177,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable support pagination', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -209,7 +213,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable addEditRecord is null will throw Error', async () => {
-    const spy = jest.spyOn(global.console, 'warn').mockImplementation();
+    const spy = vi.spyOn(global.console, 'warn');
     const actionRef = React.createRef<ActionType>();
     const wrapper = render(
       <EditableProTable<DataSourceType>
@@ -240,8 +244,8 @@ describe('EditorProTable', () => {
   it('📝 EditableProTable saveEditable should save and quit editing', async () => {
     const actionRef = React.createRef<ActionType>();
     let changedDataSource: DataSourceType[] = [];
-    jest.useFakeTimers();
-    const onChange = jest.fn((value) => {
+    vi.useFakeTimers();
+    const onChange = vi.fn((value) => {
       changedDataSource = value;
     });
     const wrapper = render(
@@ -288,7 +292,7 @@ describe('EditorProTable', () => {
           },
         );
       });
-      await act(() => jest.runOnlyPendingTimers());
+      await act(() => vi.runOnlyPendingTimers());
 
       await wrapper.findAllByDisplayValue(inputValue);
     };
@@ -299,7 +303,7 @@ describe('EditorProTable', () => {
     });
     // should exist validation error
 
-    await act(() => jest.runOnlyPendingTimers());
+    await act(() => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(
@@ -325,7 +329,7 @@ describe('EditorProTable', () => {
       return actionRef.current?.saveEditable(624748504);
     });
 
-    await act(() => jest.runOnlyPendingTimers());
+    await act(() => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(onChange).toBeCalled();
@@ -342,7 +346,7 @@ describe('EditorProTable', () => {
       return actionRef.current?.saveEditable(0);
     });
 
-    await act(() => jest.runOnlyPendingTimers());
+    await act(() => vi.runOnlyPendingTimers());
 
     await waitFor(() => {
       expect(onChange).toBeCalled();
@@ -353,12 +357,12 @@ describe('EditorProTable', () => {
     await waitFor(() => {
       expect(changedDataSource[0]?.title).toBe('test value2');
     });
-    jest.useRealTimers();
+    vi.useRealTimers();
     wrapper.unmount();
   });
 
   it('📝 EditableProTable add support children column', async () => {
-    const onchange = jest.fn();
+    const onchange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -385,7 +389,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -394,7 +398,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -416,7 +420,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add support nested children column', async () => {
-    const onchange = jest.fn();
+    const onchange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -448,7 +452,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -457,7 +461,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -479,7 +483,7 @@ describe('EditorProTable', () => {
   });
 
   it("📝 EditableProTable can't find record by parentKey", async () => {
-    const onchange = jest.fn();
+    const onchange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -509,7 +513,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -518,7 +522,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -540,7 +544,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add support parentKey when newRecordType = cache', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -760,7 +764,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add newLine use rowKey', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <ProForm
         initialValues={{
@@ -874,7 +878,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable support controlled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey={(row) => row.id}
@@ -893,7 +897,7 @@ describe('EditorProTable', () => {
             title: '🐛 [BUG]yarn install命令 antd2.4.5会报错',
             labels: [{ name: 'bug', color: 'error' }],
             time: {
-              created_at: '1590486176000',
+              created_at: 1590486176000,
             },
             state: 'processing',
           },
@@ -927,7 +931,7 @@ describe('EditorProTable', () => {
               title: '🐛 [BUG]无法创建工程npm create umi',
               labels: [{ name: 'bug', color: 'error' }],
               time: {
-                created_at: '1590486176000',
+                created_at: 1590486176000,
               },
               state: 'processing',
             },
@@ -946,7 +950,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable support nested children column without config "childrenColumnName:children" and "position:top"', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -972,7 +976,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -981,7 +985,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -1003,7 +1007,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add new child line when position = top', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1033,7 +1037,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -1042,7 +1046,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -1070,7 +1074,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add new child line when position <> top', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1099,7 +1103,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -1108,7 +1112,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -1136,7 +1140,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable onValuesChange will not trigger when init', async () => {
-    const valuesChangeFn = jest.fn();
+    const valuesChangeFn = vi.fn();
     const wrapper = render(
       <ProForm<{
         table: DataSourceType[];
@@ -1189,7 +1193,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add new child line when position is top and tree level > 1 and parent has children', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1213,7 +1217,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -1222,7 +1226,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
                 children: [
                   {
@@ -1231,7 +1235,7 @@ describe('EditorProTable', () => {
                     labels: [{ name: 'question', color: 'success' }],
                     state: 'closed',
                     time: {
-                      created_at: '1590479665000',
+                      created_at: 1590479665000,
                     },
                   },
                 ],
@@ -1260,7 +1264,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add new child line when position is top and tree level > 1 and parent has no children', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1284,7 +1288,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -1293,7 +1297,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -1320,7 +1324,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add new child line when position <> top and tree level > 1 and parent has children', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1343,7 +1347,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -1352,7 +1356,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
                 children: [
                   {
@@ -1361,7 +1365,7 @@ describe('EditorProTable', () => {
                     labels: [{ name: 'question', color: 'success' }],
                     state: 'closed',
                     time: {
-                      created_at: '1590479665000',
+                      created_at: 1590479665000,
                     },
                   },
                 ],
@@ -1390,7 +1394,7 @@ describe('EditorProTable', () => {
   });
 
   it('📝 EditableProTable add new child line when position <> top and tree level > 1 and parent has no children', async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const wrapper = render(
       <EditableProTable<DataSourceType>
         rowKey="id"
@@ -1413,7 +1417,7 @@ describe('EditorProTable', () => {
             labels: [{ name: 'question', color: 'success' }],
             state: 'open',
             time: {
-              created_at: '1590479665000',
+              created_at: 1590479665000,
             },
             children: [
               {
@@ -1422,7 +1426,7 @@ describe('EditorProTable', () => {
                 labels: [{ name: 'question', color: 'success' }],
                 state: 'closed',
                 time: {
-                  created_at: '1590479665000',
+                  created_at: 1590479665000,
                 },
               },
             ],
@@ -1455,10 +1459,10 @@ describe('EditorProTable', () => {
       labels: [{ name: 'question', color: 'success' }],
       state: 'open',
       time: {
-        created_at: '1590479665000',
+        created_at: 1590479665000,
       },
     };
-    const fn = jest.fn();
+    const fn = vi.fn();
     const testFn = async () => {
       const depth = crypto.randomInt(2, 10);
       const topOrBottom = crypto.randomInt(100) > 50 ? 'top' : 'bottom';

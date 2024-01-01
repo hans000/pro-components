@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`EditorProTable 📝 EditableProTable support recordCreatorProps 1`] = `
+exports[`EditorProTable > 📝 EditableProTable support recordCreatorProps 1`] = `
 <DocumentFragment>
   <div
     class="ant-pro-table"
@@ -273,7 +273,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps 1`] = `
                           <td
                             class="ant-table-cell"
                           >
-                            1594-02-02
+                            2020-05-26
                           </td>
                           <td
                             class="ant-table-cell"
@@ -414,7 +414,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps 1`] = `
                           <td
                             class="ant-table-cell"
                           >
-                            1593-12-13
+                            2020-05-26
                           </td>
                           <td
                             class="ant-table-cell"
@@ -555,7 +555,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps 1`] = `
                           <td
                             class="ant-table-cell"
                           >
-                            1594-02-06
+                            2020-05-26
                           </td>
                           <td
                             class="ant-table-cell"
@@ -601,14 +601,11 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps 1`] = `
                 viewBox="64 64 896 896"
                 width="1em"
               >
-                <defs>
-                  <style />
-                </defs>
                 <path
                   d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
                 />
                 <path
-                  d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z"
+                  d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
                 />
               </svg>
             </span>
@@ -623,7 +620,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps 1`] = `
 </DocumentFragment>
 `;
 
-exports[`EditorProTable 📝 EditableProTable support recordCreatorProps=false 1`] = `
+exports[`EditorProTable > 📝 EditableProTable support recordCreatorProps=false 1`] = `
 <DocumentFragment>
   <div
     class="ant-pro-table"
@@ -896,7 +893,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps=false 1
                           <td
                             class="ant-table-cell"
                           >
-                            1594-02-02
+                            2020-05-26
                           </td>
                           <td
                             class="ant-table-cell"
@@ -1037,7 +1034,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps=false 1
                           <td
                             class="ant-table-cell"
                           >
-                            1593-12-13
+                            2020-05-26
                           </td>
                           <td
                             class="ant-table-cell"
@@ -1178,7 +1175,7 @@ exports[`EditorProTable 📝 EditableProTable support recordCreatorProps=false 1
                           <td
                             class="ant-table-cell"
                           >
-                            1594-02-06
+                            2020-05-26
                           </td>
                           <td
                             class="ant-table-cell"
