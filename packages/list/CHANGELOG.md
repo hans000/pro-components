@@ -2,6 +2,126 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.6.1...@ant-design/pro-list@2.6.2) (2024-11-14)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.6.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.6.0...@ant-design/pro-list@2.6.1) (2024-10-22)
+
+### Bug Fixes
+
+- **package:** 更新 repository URL 格式为 git+ssh 以确保一致性 ([8882d51](https://github.com/ant-design/pro-components/commit/8882d5164d8b14f8971bf9f34a339d282ac766ba))
+
+# [2.6.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.69...@ant-design/pro-list@2.6.0) (2024-10-17)
+
+### Features
+
+- added exports to support ESM environments such as vitest ([#8738](https://github.com/ant-design/pro-components/issues/8738)) ([71c4be9](https://github.com/ant-design/pro-components/commit/71c4be9c9ca5942154e0473e62be608d784d53fc))
+
+## [2.5.69](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.68...@ant-design/pro-list@2.5.69) (2024-09-12)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.68](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.67...@ant-design/pro-list@2.5.68) (2024-09-12)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.67](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.66...@ant-design/pro-list@2.5.67) (2024-09-05)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.66](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.65...@ant-design/pro-list@2.5.66) (2024-08-05)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.65](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.64...@ant-design/pro-list@2.5.65) (2024-07-18)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.64](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.63...@ant-design/pro-list@2.5.64) (2024-07-16)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.63](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.62...@ant-design/pro-list@2.5.63) (2024-07-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.62](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.61...@ant-design/pro-list@2.5.62) (2024-06-21)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.61](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.60...@ant-design/pro-list@2.5.61) (2024-06-08)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.60](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.58...@ant-design/pro-list@2.5.60) (2024-05-20)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.59](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.58...@ant-design/pro-list@2.5.59) (2024-04-21)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.58](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.57...@ant-design/pro-list@2.5.58) (2024-04-21)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.57](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.56...@ant-design/pro-list@2.5.57) (2024-04-20)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.56](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.54...@ant-design/pro-list@2.5.56) (2024-04-20)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.55](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.54...@ant-design/pro-list@2.5.55) (2024-04-19)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.54](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.53...@ant-design/pro-list@2.5.54) (2024-04-19)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.53](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.52...@ant-design/pro-list@2.5.53) (2024-04-17)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.52](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.51...@ant-design/pro-list@2.5.52) (2024-04-17)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.51](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.50...@ant-design/pro-list@2.5.51) (2024-03-27)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.50](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.49...@ant-design/pro-list@2.5.50) (2024-03-20)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.49](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.48...@ant-design/pro-list@2.5.49) (2024-03-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.48](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.47...@ant-design/pro-list@2.5.48) (2024-01-31)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.47](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.46...@ant-design/pro-list@2.5.47) (2024-01-18)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.46](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.45...@ant-design/pro-list@2.5.46) (2024-01-18)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.45](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.44...@ant-design/pro-list@2.5.45) (2024-01-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
+## [2.5.44](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.43...@ant-design/pro-list@2.5.44) (2024-01-15)
+
+**Note:** Version bump only for package @ant-design/pro-list
+
 ## [2.5.43](https://github.com/ant-design/pro-components/compare/@ant-design/pro-list@2.5.42...@ant-design/pro-list@2.5.43) (2023-12-12)
 
 **Note:** Version bump only for package @ant-design/pro-list

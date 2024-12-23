@@ -157,7 +157,7 @@ const FieldLabelFunction: React.ForwardRefRenderFunction<
           {prefix}
           <span style={{ paddingInlineStart: 4, display: 'flex' }}>
             {typeof str === 'string'
-              ? str?.toString()?.substr?.(0, valueMaxLength)
+              ? str?.toString()?.slice?.(0, valueMaxLength)
               : str}
           </span>
           {tail}
@@ -173,7 +173,8 @@ const FieldLabelFunction: React.ForwardRefRenderFunction<
         hashId,
         `${prefixCls}-${props.size ?? size ?? 'middle'}`,
         {
-          [`${prefixCls}-active`]: !!value || value === 0,
+          [`${prefixCls}-active`]:
+            (Array.isArray(value) ? value.length > 0 : !!value) || value === 0,
           [`${prefixCls}-disabled`]: disabled,
           [`${prefixCls}-bordered`]: bordered,
           [`${prefixCls}-allow-clear`]: allowClear,

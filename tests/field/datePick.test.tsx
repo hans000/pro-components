@@ -1,12 +1,7 @@
 import Field from '@ant-design/pro-field';
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  waitFor,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import dayjs from 'dayjs';
+import { act } from 'react';
 
 function closePicker(container: HTMLElement, index = 0) {
   const input = container.querySelectorAll('input')[index];
@@ -15,7 +10,7 @@ function closePicker(container: HTMLElement, index = 0) {
 
 export function openPicker(container: HTMLElement, index = 0) {
   const input = container.querySelectorAll('input')[index];
-  fireEvent.mouseDown(input);
+  fireEvent.click(input);
   fireEvent.focus(input);
 }
 
@@ -62,7 +57,7 @@ describe('DateField', () => {
       });
 
       await waitFor(() => {
-        expect(openChangeFn).toBeCalledWith(true);
+        expect(openChangeFn).toHaveBeenCalledWith(true);
       });
 
       act(() => {
@@ -70,12 +65,11 @@ describe('DateField', () => {
       });
 
       await waitFor(() => {
-        expect(openChangeFn).toBeCalledWith(false);
+        expect(openChangeFn).toHaveBeenCalledWith(false);
       });
       await act(async () => {
-        await fireEvent.mouseDown(
-          container.querySelector('.ant-picker-clear')!,
-        );
+        await fireEvent.click(container.querySelector('.ant-picker-clear')!);
+        await fireEvent.click(container.querySelector('.ant-picker-clear')!);
         await fireEvent.mouseUp(container.querySelector('.ant-picker-clear')!);
       });
 
@@ -125,7 +119,7 @@ describe('DateField', () => {
       });
 
       await waitFor(() => {
-        expect(openChangeFn).toBeCalledWith(true);
+        expect(openChangeFn).toHaveBeenCalledWith(true);
       });
 
       act(() => {
@@ -137,14 +131,12 @@ describe('DateField', () => {
       });
 
       await act(async () => {
-        await fireEvent.mouseDown(
-          container.querySelector('.ant-picker-clear')!,
-        );
+        await fireEvent.click(container.querySelector('.ant-picker-clear')!);
         await fireEvent.mouseUp(container.querySelector('.ant-picker-clear')!);
       });
 
       await waitFor(() => {
-        expect(openChangeFn).toBeCalledWith(false);
+        expect(openChangeFn).toHaveBeenCalledWith(false);
       });
 
       await waitFor(

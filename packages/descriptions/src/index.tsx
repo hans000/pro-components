@@ -269,7 +269,7 @@ export const FieldRender: React.FC<
                       },
                       {
                         isEditable: true,
-                        recordKey: dataIndex,
+                        recordKey: dataIndex as React.Key,
                         record: form.getFieldValue(
                           [dataIndex].flat(1) as (string | number)[],
                         ),
@@ -296,7 +296,7 @@ export const FieldRender: React.FC<
             gap: token.marginXS,
           }}
         >
-          {editableUtils?.actionRender?.(dataIndex || index, {
+          {editableUtils?.actionRender?.((dataIndex as React.Key) || index, {
             cancelText: <CloseOutlined />,
             saveText: <CheckOutlined />,
             deleteText: false,
@@ -373,7 +373,9 @@ const schemaToDescriptionsItem = (
             ) as ProFieldValueType)
           : (restItem.valueType as ProFieldValueType);
 
-      const isEditable = editableUtils?.isEditable(dataIndex || index);
+      const isEditable = editableUtils?.isEditable(
+        (dataIndex as React.Key) || index,
+      );
 
       const fieldMode = mode || isEditable ? 'edit' : 'read';
 
@@ -393,13 +395,10 @@ const schemaToDescriptionsItem = (
           ? ({
               ...restItem,
               key: restItem.key || restItem.label?.toString() || index,
-              label: (title ||
-                restItem.label ||
-                restItem.tooltip ||
-                restItem.tip) && (
+              label: (title || restItem.label || restItem.tooltip) && (
                 <LabelIconTip
                   label={title || restItem.label}
-                  tooltip={restItem.tooltip || restItem.tip}
+                  tooltip={restItem.tooltip}
                   ellipsis={item.ellipsis}
                 />
               ),
@@ -407,6 +406,7 @@ const schemaToDescriptionsItem = (
                 <Component>
                   <FieldRender
                     {...item}
+                    key={item?.key}
                     dataIndex={item.dataIndex || index}
                     mode={fieldMode}
                     text={contentDom}
@@ -420,7 +420,9 @@ const schemaToDescriptionsItem = (
                   {showEditIcon && (
                     <EditOutlined
                       onClick={() => {
-                        editableUtils?.startEditable(dataIndex || index);
+                        editableUtils?.startEditable(
+                          (dataIndex as React.Key) || index,
+                        );
                       }}
                     />
                   )}
@@ -432,13 +434,10 @@ const schemaToDescriptionsItem = (
                 {...restItem}
                 key={restItem.key || restItem.label?.toString() || index}
                 label={
-                  (title ||
-                    restItem.label ||
-                    restItem.tooltip ||
-                    restItem.tip) && (
+                  (title || restItem.label || restItem.tooltip) && (
                     <LabelIconTip
                       label={title || restItem.label}
-                      tooltip={restItem.tooltip || restItem.tip}
+                      tooltip={restItem.tooltip}
                       ellipsis={item.ellipsis}
                     />
                   )
@@ -459,7 +458,9 @@ const schemaToDescriptionsItem = (
                   {showEditIcon && valueType !== 'option' && (
                     <EditOutlined
                       onClick={() => {
-                        editableUtils?.startEditable(dataIndex || index);
+                        editableUtils?.startEditable(
+                          (dataIndex as React.Key) || index,
+                        );
                       }}
                     />
                   )}
@@ -508,6 +509,7 @@ const ProDescriptions = <
     actionRef,
     onRequestError,
     emptyText,
+    contentStyle,
     ...rest
   } = props;
 
@@ -645,6 +647,7 @@ const ProDescriptions = <
           {...rest}
           contentStyle={{
             minWidth: 0,
+            ...(contentStyle || {}),
           }}
           extra={
             rest.extra ? (

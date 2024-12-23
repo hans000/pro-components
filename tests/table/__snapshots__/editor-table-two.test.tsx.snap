@@ -12,7 +12,7 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
     >
       <div
         class="ant-pro-card-body"
-        style="padding-block-start: 0;"
+        style="padding: 0px;"
       >
         <div
           class="ant-table-wrapper"
@@ -24,16 +24,17 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
               class="ant-spin-container"
             >
               <div
-                class="ant-table ant-table-middle ant-table-layout-fixed"
+                class="ant-table ant-table-middle ant-table-layout-fixed ant-table-scroll-horizontal"
               >
                 <div
                   class="ant-table-container"
                 >
                   <div
                     class="ant-table-content"
+                    style="overflow-x: auto; overflow-y: hidden;"
                   >
                     <table
-                      style="table-layout: fixed;"
+                      style="min-width: 100%; table-layout: fixed;"
                     >
                       <colgroup>
                         <col
@@ -68,6 +69,39 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
                         class="ant-table-tbody"
                       >
                         <tr
+                          aria-hidden="true"
+                          class="ant-table-measure-row"
+                          style="height: 0px; font-size: 0px;"
+                        >
+                          <td
+                            style="padding: 0px; border: 0px; height: 0px;"
+                          >
+                            <div
+                              style="height: 0px; overflow: hidden;"
+                            >
+                               
+                            </div>
+                          </td>
+                          <td
+                            style="padding: 0px; border: 0px; height: 0px;"
+                          >
+                            <div
+                              style="height: 0px; overflow: hidden;"
+                            >
+                               
+                            </div>
+                          </td>
+                          <td
+                            style="padding: 0px; border: 0px; height: 0px;"
+                          >
+                            <div
+                              style="height: 0px; overflow: hidden;"
+                            >
+                               
+                            </div>
+                          </td>
+                        </tr>
+                        <tr
                           class="ant-table-row ant-table-row-level-0"
                           data-row-key="624748504"
                         >
@@ -91,7 +125,7 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
                                       class="ant-form-item-control-input-content"
                                     >
                                       <span
-                                        class="ant-input-affix-wrapper"
+                                        class="ant-input-affix-wrapper ant-input-outlined"
                                       >
                                         <input
                                           class="ant-input"
@@ -156,7 +190,7 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
                                       class="ant-form-item-control-input-content"
                                     >
                                       <span
-                                        class="ant-input-affix-wrapper"
+                                        class="ant-input-affix-wrapper ant-input-outlined"
                                       >
                                         <input
                                           class="ant-input"
@@ -221,7 +255,7 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
                                       class="ant-form-item-control-input-content"
                                     >
                                       <span
-                                        class="ant-input-affix-wrapper"
+                                        class="ant-input-affix-wrapper ant-input-outlined"
                                       >
                                         <input
                                           class="ant-input"
@@ -276,7 +310,7 @@ exports[`EditorProTable 2 > 📝 columns initialValue alway work 1`] = `
           </div>
         </div>
         <button
-          class="ant-btn ant-btn-dashed"
+          class="ant-btn ant-btn-dashed ant-btn-color-default ant-btn-variant-dashed"
           style="display: block; margin: 10px 0px; width: 100%;"
           type="button"
         >
@@ -326,7 +360,7 @@ exports[`EditorProTable 2 > 📝 columns support editable test 1`] = `
     >
       <div
         class="ant-pro-card-body"
-        style="padding-block-start: 0;"
+        style="padding: 0px;"
       >
         <div
           class="ant-table-wrapper"
@@ -338,16 +372,17 @@ exports[`EditorProTable 2 > 📝 columns support editable test 1`] = `
               class="ant-spin-container"
             >
               <div
-                class="ant-table ant-table-middle ant-table-layout-fixed"
+                class="ant-table ant-table-middle ant-table-layout-fixed ant-table-scroll-horizontal"
               >
                 <div
                   class="ant-table-container"
                 >
                   <div
                     class="ant-table-content"
+                    style="overflow-x: auto; overflow-y: hidden;"
                   >
                     <table
-                      style="table-layout: fixed;"
+                      style="min-width: 100%; table-layout: fixed;"
                     >
                       <colgroup>
                         <col
@@ -376,6 +411,30 @@ exports[`EditorProTable 2 > 📝 columns support editable test 1`] = `
                       <tbody
                         class="ant-table-tbody"
                       >
+                        <tr
+                          aria-hidden="true"
+                          class="ant-table-measure-row"
+                          style="height: 0px; font-size: 0px;"
+                        >
+                          <td
+                            style="padding: 0px; border: 0px; height: 0px;"
+                          >
+                            <div
+                              style="height: 0px; overflow: hidden;"
+                            >
+                               
+                            </div>
+                          </td>
+                          <td
+                            style="padding: 0px; border: 0px; height: 0px;"
+                          >
+                            <div
+                              style="height: 0px; overflow: hidden;"
+                            >
+                               
+                            </div>
+                          </td>
+                        </tr>
                         <tr
                           class="ant-table-row ant-table-row-level-0"
                           data-row-key="624748504"
@@ -484,7 +543,7 @@ exports[`EditorProTable 2 > 📝 columns support editable test 1`] = `
           </div>
         </div>
         <button
-          class="ant-btn ant-btn-dashed"
+          class="ant-btn ant-btn-dashed ant-btn-color-default ant-btn-variant-dashed"
           style="display: block; margin: 10px 0px; width: 100%;"
           type="button"
         >
@@ -534,7 +593,7 @@ exports[`EditorProTable 2 > 📝 renderFormItem run defaultRender 1`] = `
     >
       <div
         class="ant-pro-card-body"
-        style="padding-block-start: 0;"
+        style="padding: 0px;"
       >
         <div
           class="ant-table-wrapper"
@@ -546,16 +605,17 @@ exports[`EditorProTable 2 > 📝 renderFormItem run defaultRender 1`] = `
               class="ant-spin-container"
             >
               <div
-                class="ant-table ant-table-middle ant-table-layout-fixed"
+                class="ant-table ant-table-middle ant-table-layout-fixed ant-table-scroll-horizontal"
               >
                 <div
                   class="ant-table-container"
                 >
                   <div
                     class="ant-table-content"
+                    style="overflow-x: auto; overflow-y: hidden;"
                   >
                     <table
-                      style="table-layout: fixed;"
+                      style="min-width: 100%; table-layout: fixed;"
                     >
                       <colgroup>
                         <col
@@ -577,6 +637,21 @@ exports[`EditorProTable 2 > 📝 renderFormItem run defaultRender 1`] = `
                       <tbody
                         class="ant-table-tbody"
                       >
+                        <tr
+                          aria-hidden="true"
+                          class="ant-table-measure-row"
+                          style="height: 0px; font-size: 0px;"
+                        >
+                          <td
+                            style="padding: 0px; border: 0px; height: 0px;"
+                          >
+                            <div
+                              style="height: 0px; overflow: hidden;"
+                            >
+                               
+                            </div>
+                          </td>
+                        </tr>
                         <tr
                           class="ant-table-row ant-table-row-level-0"
                           data-row-key="624748504"
@@ -679,7 +754,7 @@ exports[`EditorProTable 2 > 📝 renderFormItem run defaultRender 1`] = `
           </div>
         </div>
         <button
-          class="ant-btn ant-btn-dashed"
+          class="ant-btn ant-btn-dashed ant-btn-color-default ant-btn-variant-dashed"
           style="display: block; margin: 10px 0px; width: 100%;"
           type="button"
         >

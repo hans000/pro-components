@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { WaterMark } from '@ant-design/pro-components';
-import { act, cleanup, render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
+import { act } from 'react';
 
 afterEach(() => {
   cleanup();
@@ -76,5 +77,55 @@ describe('WaterMark', () => {
     expect(spy.mock.calls).toEqual([['当前环境不支持Canvas']]);
     unmount();
     spy.mockRestore();
+  });
+
+  it('renders watermark with multiline text content', () => {
+    const multilineContent = ['蚂蚁集团', '多行文字'];
+    const { container } = render(
+      <WaterMark content={multilineContent}>
+        <div style={{ height: 500 }}>Content</div>
+      </WaterMark>,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders watermark with rotation', () => {
+    const { container } = render(
+      <WaterMark content="Rotated" rotate={45}>
+        <div style={{ height: 500 }}>Content</div>
+      </WaterMark>,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders watermark with custom styles', () => {
+    const { container } = render(
+      <WaterMark
+        content="Custom Style"
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+        markStyle={{ color: 'red' }}
+      >
+        <div style={{ height: 500 }}>Content</div>
+      </WaterMark>,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders without content when content prop is not provided', () => {
+    const { container } = render(
+      <WaterMark>
+        <div style={{ height: 500 }}>Content</div>
+      </WaterMark>,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders without watermark when both image and content props are not provided', () => {
+    const { container } = render(
+      <WaterMark>
+        <div style={{ height: 500 }}>Content</div>
+      </WaterMark>,
+    );
+    expect(container).toMatchSnapshot();
   });
 });

@@ -132,7 +132,7 @@ export type BaseQueryFilterProps = Omit<
    * span={6}
    *
    * @example 配置一行3个
-   * span={6}
+   * span={8}
    *
    * @example 根据屏幕宽度配置
    * span={xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 6}
@@ -200,21 +200,12 @@ export type BaseQueryFilterProps = Omit<
 const flatMapItems = (
   items: React.ReactNode[],
   ignoreRules?: boolean,
-  form?: FormInstance,
 ): React.ReactNode[] => {
   return items?.flatMap((item: any) => {
-    if (item?.type.displayName === 'ProForm-Group' && !item.props?.title) {
+    if (item?.type?.displayName === 'ProForm-Group' && !item.props?.title) {
       return item.props.children;
     }
-    if (item?.type.displayName === 'ProFormDependency' && !item.props?.title) {
-      const values = item.props.name.reduce((current: any, next: any) => {
-        return {
-          ...current,
-          [next]: form?.getFieldValue(next),
-        };
-      }, {});
-      return item.props.children(values);
-    }
+
     if (ignoreRules && React.isValidElement(item)) {
       return React.cloneElement(item, {
         ...(item.props as any),
@@ -290,7 +281,6 @@ const QueryFilterContent: React.FC<{
     showLength,
     searchGutter,
     showHiddenNum,
-    form,
   } = props;
 
   const submitter = useMemo(() => {
@@ -330,7 +320,7 @@ const QueryFilterContent: React.FC<{
   let currentSpan = 0;
 
   // 处理过，包含是否需要隐藏的 数组
-  const processedList = flatMapItems(items, props.ignoreRules, form).map(
+  const processedList = flatMapItems(items, props.ignoreRules).map(
     (
       item,
       index,

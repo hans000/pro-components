@@ -253,7 +253,6 @@ export type ProFieldValueTypeWithFieldProps = {
  * @param image 图片设置
  * @param jsonCode Json 的代码块，格式化了一下
  * @param color 颜色选择器
- * @param color 颜色选择器
  */
 export type ProFieldValueType = Extract<
   keyof ProFieldValueTypeWithFieldProps,
@@ -562,7 +561,7 @@ export type ProSchema<
    *
    * @name 与实体映射的key
    */
-  dataIndex?: React.Key | React.Key[];
+  dataIndex?: unknown;
 
   /**
    * 支持 ReactNode 和 方法
@@ -585,9 +584,6 @@ export type ProSchema<
 
   /** @name 展示一个 icon，hover 是展示一些提示信息 */
   tooltip?: LabelTooltipType | string;
-
-  /** @deprecated 你可以使用 tooltip，这个更改是为了与 antd 统一 */
-  tip?: string;
 
   /**
    * 支持 object 和Map，Map 是支持其他基础类型作为 key

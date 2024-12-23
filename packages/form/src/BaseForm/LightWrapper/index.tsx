@@ -69,7 +69,7 @@ const LightWrapper: React.ForwardRefRenderFunction<any, LightWrapperProps> = (
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('pro-field-light-wrapper');
   const { wrapSSR, hashId } = useStyle(prefixCls);
-  const [tempValue, setTempValue] = useState<string | undefined>(
+  const [tempValue, setTempValue] = useState<string | undefined | null>(
     (props as any)[valuePropName!],
   );
   const [open, setOpen] = useMountMergeState<boolean>(false);
@@ -81,7 +81,7 @@ const LightWrapper: React.ForwardRefRenderFunction<any, LightWrapperProps> = (
 
   const labelValue = (props as any)[valuePropName!];
 
-  /** DataRange的转化，dayjs 的 toString 有点不好用 */
+  /** DateRange的转化，dayjs 的 toString 有点不好用 */
   const labelValueText = useMemo(() => {
     if (!labelValue) return labelValue;
     if (
@@ -117,7 +117,7 @@ const LightWrapper: React.ForwardRefRenderFunction<any, LightWrapperProps> = (
           size={size}
           onClear={() => {
             onChange?.();
-            setTempValue('');
+            setTempValue(null);
           }}
           bordered={bordered}
           style={style}
@@ -131,7 +131,7 @@ const LightWrapper: React.ForwardRefRenderFunction<any, LightWrapperProps> = (
         />
       }
       footer={{
-        onClear: () => setTempValue(''),
+        onClear: () => setTempValue(null),
         onConfirm: () => {
           onChange?.(tempValue);
           setOpen(false);

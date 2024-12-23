@@ -6,6 +6,9 @@ exports[`BasicLayout > 🥩 BasicLayout menu support menu.true 1`] = `
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
   >
     <div
+      class="ant-pro-layout-bg-list"
+    />
+    <div
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
     >
@@ -214,6 +217,9 @@ exports[`BasicLayout > 🥩 BasicLayout menu support menu.true 1`] = `
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-top-menu ant-pro-layout-fix-siderbar ant-pro-layout-top"
   >
     <div
+      class="ant-pro-layout-bg-list"
+    />
+    <div
       class="ant-layout"
       style="min-height: 100%; flex-direction: row;"
     >
@@ -406,6 +412,9 @@ exports[`BasicLayout > 🥩 BasicLayout menu support menu.true 1`] = `
   <div
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-mix"
   >
+    <div
+      class="ant-pro-layout-bg-list"
+    />
     <div
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
@@ -634,6 +643,9 @@ exports[`BasicLayout > 🥩 base use 1`] = `
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
   >
     <div
+      class="ant-pro-layout-bg-list"
+    />
+    <div
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
     >
@@ -846,6 +858,9 @@ exports[`BasicLayout > 🥩 compatibleStyle 1`] = `
   <div
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
   >
+    <div
+      class="ant-pro-layout-bg-list"
+    />
     <div
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
@@ -1062,6 +1077,9 @@ exports[`BasicLayout > 🥩 contentStyle should change dom 1`] = `
     class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
   >
     <div
+      class="ant-pro-layout-bg-list"
+    />
+    <div
       class="ant-layout ant-layout-has-sider"
       style="min-height: 100%; flex-direction: row;"
     >
@@ -1277,6 +1295,9 @@ exports[`BasicLayout > 🥩 mix layout hideInMenu render right 1`] = `
       class="ant-design-pro ant-pro-layout screen-md ant-pro-layout-fix-siderbar ant-pro-layout-side"
     >
       <div
+        class="ant-pro-layout-bg-list"
+      />
+      <div
         class="ant-layout ant-layout-has-sider"
         style="min-height: 100%; flex-direction: row;"
       >
@@ -1441,9 +1462,11 @@ exports[`BasicLayout > 🥩 mix layout hideInMenu render right 1`] = `
                   role="none"
                 >
                   <div
+                    aria-controls="rc-menu-uuid-84044-10-/admin-popup"
                     aria-expanded="false"
                     aria-haspopup="true"
                     class="ant-menu-submenu-title"
+                    data-menu-id="rc-menu-uuid-84044-10-/admin"
                     role="menuitem"
                     style="padding-left: 16px;"
                     tabindex="-1"
@@ -1468,6 +1491,7 @@ exports[`BasicLayout > 🥩 mix layout hideInMenu render right 1`] = `
                 </li>
                 <li
                   class="ant-menu-item ant-menu-item-only-child ant-pro-base-menu-inline-menu-item"
+                  data-menu-id="rc-menu-uuid-84044-10-/list"
                   role="menuitem"
                   style="padding-left: 16px;"
                   tabindex="-1"

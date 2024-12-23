@@ -107,9 +107,13 @@ export function useStyle(
 ) {
   let { token = {} as Record<string, any> as ProAliasToken } =
     useContext(ProProvider);
-  const { hashId = '', theme: provideTheme } = useContext(ProProvider);
-  const { token: antdToken } = useToken();
-  const { getPrefixCls } = useContext(AntdConfigProvider.ConfigContext);
+  const { hashed } = useContext(ProProvider);
+
+  const { token: antdToken, hashId } = useToken();
+
+  const { theme: provideTheme } = useContext(ProProvider);
+
+  const { getPrefixCls, csp } = useContext(AntdConfigProvider.ConfigContext);
 
   // 如果不在 ProProvider 里面，就用 antd 的
   if (!token.layout) {
@@ -123,11 +127,15 @@ export function useStyle(
       {
         theme: provideTheme!,
         token,
-        hashId,
         path: [componentName],
+        nonce: csp?.nonce,
+        layer: {
+          name: 'antd-pro',
+          dependencies: ['antd'],
+        },
       },
       () => styleFn(token as ProAliasToken),
     ),
-    hashId,
+    hashId: hashed ? hashId : '',
   };
 }

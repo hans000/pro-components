@@ -64,7 +64,7 @@ export type CommonFormProps<
    * submitter={{resetButtonProps: { type: 'dashed'},submitButtonProps: { style: { display: 'none', }}}}
    *
    * @example 修改提交按钮和重置按钮的顺序
-   * submitter={{ render:(props,dom)=> [...dom.reverse()]}}
+   * submitter={{ render:(props,dom)=> [...dom]}}
    *
    * @example 修改提交和重置按钮文字
    * submitter={{ searchConfig: { submitText: '提交2',resetText: '重置2'}}}
@@ -81,7 +81,7 @@ export type CommonFormProps<
    *
    * @example onFinish={async (values) => { await save(values); return true }}
    */
-  onFinish?: (formData: T) => Promise<boolean | void>;
+  onFinish?: (formData: T) => Promise<boolean | void> | void;
   /**
    * @name 表单按钮的 loading 状态
    */
@@ -99,10 +99,12 @@ export type CommonFormProps<
    *
    * @example 获取 name 的值 formRef.current.getFieldValue("name");
    * @example 获取所有的表单值 formRef.current.getFieldsValue(true);
+   *
+   * - formRef.current.nativeElement => `2.29.1+`
    */
   formRef?:
-    | React.MutableRefObject<ProFormInstance<T> | undefined>
-    | React.RefObject<ProFormInstance<T> | undefined>;
+    | React.MutableRefObject<ProFormRef<T> | undefined>
+    | React.RefObject<ProFormRef<T> | undefined>;
 
   /**
    * @name 同步结果到 url 中
@@ -219,6 +221,7 @@ const genParams = (
 };
 
 type ProFormInstance<T = any> = FormInstance<T> & ProFormInstanceType<T>;
+type ProFormRef<T = any> = ProFormInstanceType<T> & any;
 
 /**
  * It takes a name path and converts it to an array.
@@ -314,7 +317,13 @@ function BaseFormComponents<T = Record<string, any>, U = Record<string, any>>(
         if (!nameList) throw new Error('nameList is require');
         const value = getFormInstance()?.getFieldValue(nameList!);
         const obj = nameList ? set({}, nameList as string[], value) : value;
-        return get(transformKey(obj, omitNil, nameList), nameList as string[]);
+        //transformKey会将keys重新和nameList拼接，所以这里要将nameList的首个元素弹出
+        const newNameList = [...nameList];
+        newNameList.shift();
+        return get(
+          transformKey(obj, omitNil, newNameList),
+          nameList as string[],
+        );
       },
       /**
        * 获取被 ProForm 格式化后的单个数据, 包含他的 name
@@ -526,7 +535,7 @@ function BaseForm<T = Record<string, any>, U = Record<string, any>>(
     loading: propsLoading,
     ...propRest
   } = props;
-  const formRef = useRef<ProFormInstance<any>>({} as any);
+  const formRef = useRef<ProFormRef<any>>({} as any);
   const [loading, setLoading] = useMountMergeState<boolean>(false, {
     onChange: onLoadingChange,
     value: propsLoading,
@@ -641,20 +650,18 @@ function BaseForm<T = Record<string, any>, U = Record<string, any>>(
     setUrlParamsMergeInitialValues({});
   }, [syncToInitialValues]);
 
+  const getGenParams = useRefFunction(() => {
+    return {
+      ...urlSearch,
+      ...extraUrlParams,
+    };
+  });
+
   useEffect(() => {
     if (!syncToUrl) return;
-    setUrlSearch(
-      genParams(
-        syncToUrl,
-        {
-          ...urlSearch,
-          ...extraUrlParams,
-        },
-        'set',
-      ),
-    );
+    setUrlSearch(genParams(syncToUrl, getGenParams(), 'set'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extraUrlParams, syncToUrl]);
+  }, [extraUrlParams, getGenParams, syncToUrl]);
 
   const getPopupContainer = useMemo(() => {
     if (typeof window === 'undefined') return undefined;
@@ -671,10 +678,13 @@ function BaseForm<T = Record<string, any>, U = Record<string, any>>(
     if (!propRest.onFinish) return;
     // 防止重复提交
     if (loading) return;
-    setLoading(true);
     try {
       const finalValues = formRef?.current?.getFieldsFormatValue?.();
-      await propRest.onFinish(finalValues);
+      const response = propRest.onFinish(finalValues);
+      if (response instanceof Promise) {
+        setLoading(true);
+      }
+      await response;
       if (syncToUrl) {
         // 把没有的值设置为未定义可以删掉 url 的参数
         const syncToUrlParams = Object.keys(
@@ -774,9 +784,14 @@ function BaseForm<T = Record<string, any>, U = Record<string, any>>(
               autoComplete="off"
               form={form}
               {...omit(propRest, [
+                'ref',
                 'labelWidth',
                 'autoFocusFirstInput',
               ] as any[])}
+              ref={(instance) => {
+                if (!formRef.current) return;
+                formRef.current.nativeElement = instance?.nativeElement;
+              }}
               // 组合 urlSearch 和 initialValues
               initialValues={
                 syncToUrlAsImportant

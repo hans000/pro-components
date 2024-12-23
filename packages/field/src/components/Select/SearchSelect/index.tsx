@@ -1,4 +1,5 @@
 import type { RequestOptionsType } from '@ant-design/pro-utils';
+import { nanoid } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Select } from 'antd';
 
@@ -88,6 +89,13 @@ export interface SearchSelectProps<T = Record<string, any>>
 
   /** 默认搜索关键词 */
   defaultSearchValue?: string;
+
+  /**
+   * 在选择时保留选项的原始标签文本
+   * 当设置为 true 时，选中后回填的内容将使用选项的原始 label，而不是经过 optionItemRender 处理后的内容
+   * @default false
+   */
+  preserveOriginalLabel?: boolean;
 }
 
 const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
@@ -114,6 +122,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
     showSearch,
     fieldNames,
     defaultSearchValue,
+    preserveOriginalLabel = false,
     ...restProps
   } = props;
 
@@ -162,6 +171,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
         return {
           ...dataItem,
           ...item,
+          label: preserveOriginalLabel ? dataItem.label : item.label,
         };
       });
     }
@@ -188,7 +198,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
           ...resetItem,
           data_title: label,
           title: label,
-          key: value ?? label?.toString(),
+          key: value ?? `${label?.toString()}-${index}-${nanoid()}`, // 防止因key相同导致虚拟滚动出问题
           children: genOptions(itemOptions),
         } as DefaultOptionType;
       }
@@ -198,7 +208,7 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
         ...resetItem,
         data_title: label,
         value: value ?? index,
-        key: value ?? label?.toString(),
+        key: value ?? `${label?.toString()}-${index}-${nanoid()}`,
         'data-item': item,
         className: `${prefixCls}-option ${itemClassName || ''}`.trim(),
         label: optionItemRender?.(item as any) || label,
@@ -283,9 +293,23 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
           const dataItem = optionList && optionList['data-item'];
           // 如果value值为空则是清空时产生的回调,直接传值就可以了
           if (!value || !dataItem) {
-            onChange?.(value, optionList, ...rest);
+            const changedValue = value
+              ? {
+                  ...value,
+                  label: preserveOriginalLabel ? dataItem?.label : value.label,
+                }
+              : value;
+            onChange?.(changedValue, optionList, ...rest);
           } else {
-            onChange?.({ ...value, ...dataItem }, optionList, ...rest);
+            onChange?.(
+              {
+                ...value,
+                ...dataItem,
+                label: preserveOriginalLabel ? dataItem.label : value.label,
+              },
+              optionList,
+              ...rest,
+            );
           }
           return;
         }

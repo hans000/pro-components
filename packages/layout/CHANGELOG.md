@@ -2,6 +2,135 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.21.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.21.1...@ant-design/pro-layout@7.21.2) (2024-11-14)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.21.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.21.0...@ant-design/pro-layout@7.21.1) (2024-10-22)
+
+### Bug Fixes
+
+- **package:** 更新 repository URL 格式为 git+ssh 以确保一致性 ([8882d51](https://github.com/ant-design/pro-components/commit/8882d5164d8b14f8971bf9f34a339d282ac766ba))
+
+# [7.21.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.20.2...@ant-design/pro-layout@7.21.0) (2024-10-17)
+
+### Bug Fixes
+
+- remove clear cache in ProLayout ([#8746](https://github.com/ant-design/pro-components/issues/8746)) ([5f54ed0](https://github.com/ant-design/pro-components/commit/5f54ed0a7988c944244c3d646ba4f503035138db))
+- replace `lodash-es` imports with `lodash` in CJS builds ([#8754](https://github.com/ant-design/pro-components/issues/8754)) ([3ef9283](https://github.com/ant-design/pro-components/commit/3ef9283a4cf52b8106d049af49f41dc37bb448b1))
+
+### Features
+
+- added exports to support ESM environments such as vitest ([#8738](https://github.com/ant-design/pro-components/issues/8738)) ([71c4be9](https://github.com/ant-design/pro-components/commit/71c4be9c9ca5942154e0473e62be608d784d53fc))
+
+## [7.20.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.20.1...@ant-design/pro-layout@7.20.2) (2024-09-18)
+
+### Bug Fixes
+
+- **layout:** downgrade path-to-regexp to version 8.0.0 ([#8732](https://github.com/ant-design/pro-components/issues/8732)) ([fdc555b](https://github.com/ant-design/pro-components/commit/fdc555b0bbc3d5adde5e5fdb0a1973beaf4cae47))
+- **layout:** missing appListRender props ([#8731](https://github.com/ant-design/pro-components/issues/8731)) ([5e04180](https://github.com/ant-design/pro-components/commit/5e041805bcd3decfb34c8d1ee6f7f32694537dc6))
+
+## [7.20.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.20.0...@ant-design/pro-layout@7.20.1) (2024-09-12)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+# [7.20.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.12...@ant-design/pro-layout@7.20.0) (2024-09-05)
+
+### Features
+
+- **layout:** add menuTextRender props ([1d65e22](https://github.com/ant-design/pro-components/commit/1d65e22002c8e863f9bf240f500a7b9779de14ca))
+
+## [7.19.12](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.11...@ant-design/pro-layout@7.19.12) (2024-08-05)
+
+### Performance Improvements
+
+- lodash => lodash-es ([#8606](https://github.com/ant-design/pro-components/issues/8606)) ([455b4f1](https://github.com/ant-design/pro-components/commit/455b4f1bb1edfd896c04d98c37da6f97fb2428cb))
+
+## [7.19.11](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.10...@ant-design/pro-layout@7.19.11) (2024-07-18)
+
+### Bug Fixes
+
+- **layout:** breadcrumbName add warning message ([ce0d4cf](https://github.com/ant-design/pro-components/commit/ce0d4cf2b785f0157521b3d0b7b1e276c308058f))
+- **layout:** defualt use title items ([5d6ad39](https://github.com/ant-design/pro-components/commit/5d6ad39617afe7c6247b373aeeebba64042ed2ef))
+
+## [7.19.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.9...@ant-design/pro-layout@7.19.10) (2024-07-15)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.8...@ant-design/pro-layout@7.19.9) (2024-06-21)
+
+### Bug Fixes
+
+- **layout:** PageHeader style and breadcrumb.routes prop ([#8491](https://github.com/ant-design/pro-components/issues/8491)) ([c11eb83](https://github.com/ant-design/pro-components/commit/c11eb83d3efe4a8fdeb644f613b25e5a3f2ca301))
+
+## [7.19.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.7...@ant-design/pro-layout@7.19.8) (2024-06-08)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.5...@ant-design/pro-layout@7.19.7) (2024-05-20)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.5...@ant-design/pro-layout@7.19.6) (2024-04-21)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.4...@ant-design/pro-layout@7.19.5) (2024-04-21)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.2...@ant-design/pro-layout@7.19.4) (2024-04-20)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.2...@ant-design/pro-layout@7.19.3) (2024-04-19)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.1...@ant-design/pro-layout@7.19.2) (2024-04-17)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [7.19.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.19.0...@ant-design/pro-layout@7.19.1) (2024-04-17)
+
+### Bug Fixes
+
+- **layout:** slove footerRender types error ([#8280](https://github.com/ant-design/pro-components/issues/8280)) ([7e9ebac](https://github.com/ant-design/pro-components/commit/7e9ebaca88bb3b68b5e2925ad9f4fc75ddcfe7f8))
+
+# [7.19.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.18.0...@ant-design/pro-layout@7.19.0) (2024-03-27)
+
+### Bug Fixes
+
+- typo ([#8248](https://github.com/ant-design/pro-components/issues/8248)) ([12e8a83](https://github.com/ant-design/pro-components/commit/12e8a8376b69f85225335e7774e3bc0d2e8aa3d4))
+
+### Features
+
+- **card:** ProCard support colStyle ([bfcf8aa](https://github.com/ant-design/pro-components/commit/bfcf8aa8cd3899337a0a6a085f4afedeab558b96))
+
+# [7.18.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.17.20...@ant-design/pro-layout@7.18.0) (2024-03-22)
+
+### Features
+
+- ActionsContent support one dom ([8558d0e](https://github.com/ant-design/pro-components/commit/8558d0ee280595cf1bb39da383bcd3b10da7103b))
+
+## [7.17.20](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.17.19...@ant-design/pro-layout@7.17.20) (2024-03-15)
+
+### Bug Fixes
+
+- **components:** compatible 5.13.0 border ([ddf0c82](https://github.com/ant-design/pro-components/commit/ddf0c82b5a9e55546c1b864e76972621b501769b))
+
+## [7.17.19](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.17.18...@ant-design/pro-layout@7.17.19) (2024-01-15)
+
+### Bug Fixes
+
+- **layout:** fix bgLayout no work error ([4a21fdf](https://github.com/ant-design/pro-components/commit/4a21fdf5ad56aa09a9c06b20063ea27203267913))
+
+## [7.17.18](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.17.17...@ant-design/pro-layout@7.17.18) (2024-01-15)
+
+### Bug Fixes
+
+- **layout:** if bgImgStyleList is null ,no render bg-list dom ([0b26161](https://github.com/ant-design/pro-components/commit/0b2616145aeae60f0bcb9f4d87b86c75e45fafcf))
+
 ## [7.17.17](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.17.16...@ant-design/pro-layout@7.17.17) (2023-12-12)
 
 ### Bug Fixes
@@ -353,7 +482,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **provide:** unuse process.env.NODE\_ENV === 'TEST' ([0d9cba1](https://github.com/ant-design/pro-components/commit/0d9cba1a7fe74a87c6daf93a36f768801059f42d))
+- **provide:** unuse process.env.NODE_ENV === 'TEST' ([0d9cba1](https://github.com/ant-design/pro-components/commit/0d9cba1a7fe74a87c6daf93a36f768801059f42d))
 
 ## [7.12.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@7.12.0...@ant-design/pro-layout@7.12.1) (2023-04-25)
 

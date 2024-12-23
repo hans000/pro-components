@@ -2,6 +2,77 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.15.1...@ant-design/pro-provider@2.15.2) (2024-11-14)
+
+### Bug Fixes
+
+- **provider:** support antd csp ([#8855](https://github.com/ant-design/pro-components/issues/8855)) ([f64090a](https://github.com/ant-design/pro-components/commit/f64090a41a88092a8223299ef3c9e8c3dce12b05))
+
+## [2.15.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.15.0...@ant-design/pro-provider@2.15.1) (2024-10-22)
+
+### Bug Fixes
+
+- **package:** 更新 repository URL 格式为 git+ssh 以确保一致性 ([8882d51](https://github.com/ant-design/pro-components/commit/8882d5164d8b14f8971bf9f34a339d282ac766ba))
+
+# [2.15.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.9...@ant-design/pro-provider@2.15.0) (2024-10-17)
+
+### Features
+
+- added exports to support ESM environments such as vitest ([#8738](https://github.com/ant-design/pro-components/issues/8738)) ([71c4be9](https://github.com/ant-design/pro-components/commit/71c4be9c9ca5942154e0473e62be608d784d53fc))
+
+## [2.14.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.8...@ant-design/pro-provider@2.14.9) (2024-07-15)
+
+### Bug Fixes
+
+- **provider:** missing EditableProTable translations for English ([#8550](https://github.com/ant-design/pro-components/issues/8550)) ([b50d9bf](https://github.com/ant-design/pro-components/commit/b50d9bf8dee9768b0f449f8992e320747b8fdc54))
+- **provider:** use built-in translation when translation in ProConfigContext is missing ([#8551](https://github.com/ant-design/pro-components/issues/8551)) ([84c0eb8](https://github.com/ant-design/pro-components/commit/84c0eb8ad7d76d9d81404e6af69f26f4ffca0bec))
+
+## [2.14.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.7...@ant-design/pro-provider@2.14.8) (2024-06-21)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [2.14.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.5...@ant-design/pro-provider@2.14.7) (2024-05-20)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [2.14.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.5...@ant-design/pro-provider@2.14.6) (2024-04-21)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [2.14.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.4...@ant-design/pro-provider@2.14.5) (2024-04-21)
+
+### Bug Fixes
+
+- **provide:** alway use antd token hashid ([#8338](https://github.com/ant-design/pro-components/issues/8338)) ([984953f](https://github.com/ant-design/pro-components/commit/984953fa5d9a946b08a2f0e4981f603202383e16))
+
+## [2.14.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.2...@ant-design/pro-provider@2.14.4) (2024-04-20)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [2.14.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.2...@ant-design/pro-provider@2.14.3) (2024-04-19)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [2.14.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.1...@ant-design/pro-provider@2.14.2) (2024-04-17)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [2.14.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.14.0...@ant-design/pro-provider@2.14.1) (2024-03-27)
+
+### Bug Fixes
+
+- **table:** densityLarger 中文简体和繁体国际化，文案问题修改 ([#8241](https://github.com/ant-design/pro-components/issues/8241)) ([058e087](https://github.com/ant-design/pro-components/commit/058e0876fa532dad85405b21a84787ddfa4ec80d))
+
+# [2.14.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.13.5...@ant-design/pro-provider@2.14.0) (2024-03-15)
+
+### Features
+
+- allow custom translations ([#8175](https://github.com/ant-design/pro-components/issues/8175)) ([7971294](https://github.com/ant-design/pro-components/commit/797129468d1813bafd44ecc1924ca1f9a3ca6950))
+
+### Performance Improvements
+
+- 优化 config provider context 频繁触发渲染问题 ([#8196](https://github.com/ant-design/pro-components/issues/8196)) ([7644209](https://github.com/ant-design/pro-components/commit/764420929d21d333bf35bd60e4709237cec1ed52))
+
 ## [2.13.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.13.4...@ant-design/pro-provider@2.13.5) (2023-11-22)
 
 **Note:** Version bump only for package @ant-design/pro-provider
@@ -138,7 +209,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Bug Fixes
 
-- **provide:** unuse process.env.NODE\_ENV === 'TEST' ([0d9cba1](https://github.com/ant-design/pro-components/commit/0d9cba1a7fe74a87c6daf93a36f768801059f42d))
+- **provide:** unuse process.env.NODE_ENV === 'TEST' ([0d9cba1](https://github.com/ant-design/pro-components/commit/0d9cba1a7fe74a87c6daf93a36f768801059f42d))
 
 ## [2.8.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@2.8.0...@ant-design/pro-provider@2.8.1) (2023-04-25)
 
@@ -441,7 +512,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Features
 
-- 国际化基于 en\_US 全量补充 ([#5498](https://github.com/ant-design/pro-components/issues/5498)) ([3fab520](https://github.com/ant-design/pro-components/commit/3fab520c16880aaf4864285faff8d94f7c54e800))
+- 国际化基于 en_US 全量补充 ([#5498](https://github.com/ant-design/pro-components/issues/5498)) ([3fab520](https://github.com/ant-design/pro-components/commit/3fab520c16880aaf4864285faff8d94f7c54e800))
 
 ## [1.8.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.8.0...@ant-design/pro-provider@1.8.1) (2022-07-06)
 
@@ -454,7 +525,7 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### Features
 
-- add mn\_MN locale ([#5372](https://github.com/ant-design/pro-components/issues/5372)) ([e35d38d](https://github.com/ant-design/pro-components/commit/e35d38db2f3e24508769244b84289fc32bb75203))
+- add mn_MN locale ([#5372](https://github.com/ant-design/pro-components/issues/5372)) ([e35d38d](https://github.com/ant-design/pro-components/commit/e35d38db2f3e24508769244b84289fc32bb75203))
 
 ## [1.7.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.7.1...@ant-design/pro-provider@1.7.2) (2022-06-02)
 
